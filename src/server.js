@@ -11,7 +11,7 @@ const app = express();
 
 app.use(
     cors({
-        origin: 'http://localhost:3030',
+        origin: 'http://localhost:3000',
         optionsSuccessStatus: 200
     })
 );
@@ -143,6 +143,6 @@ app.post('/createUser', async (req, res) => {
 
 const PORT = 5001;
 app.listen(PORT, () => {
-    console.log(`Starting server on port: ${PORT}`);
+    console.log(`Node server is running on port: ${PORT}`);
     console.log('Press Ctrl+C to stop server');
 });

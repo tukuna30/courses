@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -85,9 +86,8 @@ const Navbar = ({ hideProfileMenu }) => {
     };
 
     const logout = () => {
-        sessionStorage.removeItem('applozic-token');
+        console.log('logout button clicked');
         handleClose();
-        window.location.href = `${window.location.origin}/login`;
     };
 
     const navigateToHome = () => {

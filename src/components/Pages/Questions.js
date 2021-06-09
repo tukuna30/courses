@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Questions = () => {
     const [questions, setQuestions] = useState([]);
@@ -7,7 +8,7 @@ const Questions = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        fetch(`http://localhost:5001/students`, {
+        fetch(`http://localhost:5001/users`, {
             method: 'GET'
         })
             .then((res) => res.json())
@@ -16,19 +17,21 @@ const Questions = () => {
                 setTimeout(() => {
                     setQuestions(response.users);
                     setIsLoading(false);
-                }, 5000);
+                }, 1000);
             })
             .catch((error) => console.log(error));
     }, []);
 
     return (
         <div>
-            <h1> Questions list </h1>
+            <h1> Tests list </h1>
             {isLoading && <p>Loading data...</p>}
             <ul>
                 {questions.map((question) => (
                     <li key={question}>
-                        {question.first_name} {question.last_name}
+                        <Link to={`/details/${question.id}`}>
+                            {question.firstName} {question.lastName}
+                        </Link>
                     </li>
                 ))}
             </ul>

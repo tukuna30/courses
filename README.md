@@ -33,3 +33,10 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ### `yarn startServer`
 
 Runs the NodeJS server that serves APIs mostly and can serve index.html from React JS front end application.
+
+### `CEAT rule for leaning`
+
+Concepts :- (API documentation)
+Examples :- (Google)
+Apply :- Devise a plan, Apply the above 2
+Test :- Test your skills

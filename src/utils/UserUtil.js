@@ -1,8 +1,9 @@
 /* eslint-disable class-methods-use-this */
 const users = [
     { id: 1, firstName: 'Subhasmita', lastName: 'Khamari', active: true },
-    { id: 2, firstName: 'Akankshya', lastName: 'Bhardwaj', active: true },
-    { id: 3, firstName: 'Suman', lastName: 'Patra', active: true }
+    { id: 2, firstName: 'Akankshya', lastName: 'Behera', active: true },
+    { id: 3, firstName: 'Suman', lastName: 'Patra', active: true },
+    { id: 4, firstName: 'Deepak', lastName: 'Naik', active: true }
 ];
 
 // CRUD

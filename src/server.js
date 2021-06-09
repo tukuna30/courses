@@ -35,6 +35,15 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/courses', (req, res) => {
+    const courses = [
+        { id: 1, name: 'Javascript', description: '' },
+        { id: 2, name: 'CSS', description: '' },
+        { id: 3, name: 'HTML', description: '' }
+    ];
+    return res.json({ courses });
+});
+
 app.get('/users', (req, res) => {
     const users = userUtil.getUsers();
     return res.json({ users });
@@ -120,7 +129,7 @@ app.post('/answerQuestion', async (req, res) => {
     res.json({ status: 'success', result });
 });
 
-app.get('/questions', async (req, res) => {
+app.get('/tests', async (req, res) => {
     const questionsCursor = mongoUtil.client.db('questions').collection('question').find({});
     const questions = [];
     while (await questionsCursor.hasNext()) {

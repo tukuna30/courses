@@ -20,7 +20,8 @@ async function sendMail() {
     const message = {
         // from: 'tukuna.patro@smera.io',
         // Comma separated list of recipients
-        to: 'tukuna.patro@gmail.com',
+        to:
+            'tukuna.patro@gmail.com,akankshya.b0009@gmail.com, khamarisubhasmita9@gmail.com, sumanpatra688@gmail.com, 0001d1001d1001d1000@gmail.com',
         bcc: '',
 
         // Subject of the message

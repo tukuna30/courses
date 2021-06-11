@@ -6,6 +6,7 @@ const express = require('express');
 const { ObjectId } = require('mongodb');
 const mongoUtil = require('./utils/MongoUtil');
 const userUtil = require('./utils/UserUtil');
+const sendMail = require('./utils/Mailer');
 
 const app = express();
 
@@ -54,6 +55,7 @@ app.get('/user/:id', (req, res) => {
         params: { id }
     } = req;
     const user = userUtil.getUser(id);
+    sendMail();
     return res.json({ user });
 });
 

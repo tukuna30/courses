@@ -2,7 +2,7 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config(); // load env configurations
 
-async function sendMail() {
+async function sendMail(email) {
     // Create a SMTP transporter object
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -20,8 +20,7 @@ async function sendMail() {
     const message = {
         // from: 'tukuna.patro@smera.io',
         // Comma separated list of recipients
-        to:
-            'tukuna.patro@gmail.com,akankshya.b0009@gmail.com, khamarisubhasmita9@gmail.com, sumanpatra688@gmail.com, 0001d1001d1001d1000@gmail.com',
+        to: email,
         bcc: '',
 
         // Subject of the message

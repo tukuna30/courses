@@ -1,9 +1,47 @@
 /* eslint-disable class-methods-use-this */
 const users = [
-    { id: 1, firstName: 'Subhasmita', lastName: 'Khamari', active: true },
-    { id: 2, firstName: 'Akankshya', lastName: 'Behera', active: true },
-    { id: 3, firstName: 'Suman', lastName: 'Patra', active: true },
-    { id: 4, firstName: 'Deepak', lastName: 'Naik', active: true }
+    {
+        id: 1,
+        firstName: 'Subhasmita',
+        lastName: 'Khamari',
+        active: true,
+        email: 'khamarisubhasmita9@gmail.com'
+    },
+    {
+        id: 2,
+        firstName: 'Akankshya',
+        lastName: 'Behera',
+        active: true,
+        email: 'akankshya.b0009@gmail.com'
+    },
+    {
+        id: 3,
+        firstName: 'Suman',
+        lastName: 'Patra',
+        active: true,
+        email: 'sumanpatra688@gmail.com'
+    },
+    {
+        id: 4,
+        firstName: 'Deepak',
+        lastName: 'Naik',
+        active: true,
+        email: '0001d1001d1001d1000@gmail.com'
+    },
+    {
+        id: 5,
+        firstName: 'Tukuna',
+        lastName: 'Patro',
+        active: true,
+        email: 'tukuna.patro@gmail.com'
+    },
+    {
+        id: 6,
+        firstName: 'Swati',
+        lastName: 'Sucharita',
+        active: false,
+        email: 'swatisucharita94@gmail.com'
+    }
 ];
 
 // CRUD

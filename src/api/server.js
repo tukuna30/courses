@@ -55,7 +55,7 @@ app.get('/user/:id', (req, res) => {
         params: { id }
     } = req;
     const user = userUtil.getUser(id);
-    sendMail();
+    sendMail(user.email);
     return res.json({ user });
 });
 

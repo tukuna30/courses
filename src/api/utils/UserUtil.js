@@ -74,7 +74,7 @@ class UserUtil {
             return u.id === parseInt(id, 10);
         });
         const oldUser = users[index];
-        users[index] = { oldUser, ...updates };
+        users[index] = { ...oldUser, ...updates };
         return users[index];
     }
 

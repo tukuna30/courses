@@ -55,7 +55,6 @@ app.get('/user/:id', (req, res) => {
         params: { id }
     } = req;
     const user = userUtil.getUser(id);
-    sendMail(user.email);
     return res.json({ user });
 });
 
@@ -70,7 +69,9 @@ app.put('/user/:id', (req, res) => {
         params: { id }
     } = req;
     // Make a call to userUtil and update user
+    console.log('req body', req.body);
     const user = userUtil.updateUser(id, req.body);
+    sendMail(user, 'PROFILE_UPDATE');
     return res.json({ user });
 });
 

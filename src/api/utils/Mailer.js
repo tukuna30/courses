@@ -2,7 +2,14 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config(); // load env configurations
 
-async function sendMail() {
+const getEmailHTMLContent = (user, message) => {
+    return `<p>
+    <b>Hello</b> ${user.firstName} ${user.lastName}!</p>
+    <p style="font-size: 20px; font-color: gray; border: 1px solid lightgreen; paddng: 5px">${message}</p>
+    <footer>Proudly built @ <a href='https://smera.io'>smera.io</href></footer>`;
+};
+
+async function sendMail(user, operation) {
     // Create a SMTP transporter object
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -16,25 +23,32 @@ async function sendMail() {
         }
     });
 
+    let title = '';
+    switch (operation) {
+        case 'PROFILE_UPDATE': {
+            title = 'Profile updated!';
+            break;
+        }
+        default: {
+            title = 'Hello there!';
+        }
+    }
+
     // Message object
     const message = {
         // from: 'tukuna.patro@smera.io',
         // Comma separated list of recipients
-        to:
-            'tukuna.patro@gmail.com,akankshya.b0009@gmail.com, khamarisubhasmita9@gmail.com, sumanpatra688@gmail.com, 0001d1001d1001d1000@gmail.com',
+        to: user.email,
         bcc: '',
 
         // Subject of the message
-        subject: 'Howdy?',
+        subject: title,
 
         // plaintext body
         text: 'Test mail !',
 
         // HTML body
-        html: `<p><b>Hello</b> dear!</p>
-        <p style="font-size: 20px; font-color: gray; border: 1px solid lightgreen; paddng: 5px">Email Code is updated. Pull the latest main branch by <b>git pull origin main </b> on <a href='https://github.com/tukuna30/quizzone'>Quizzone repo</a>
-        and run <b>npm install </b> to install nodemailer library. Finally to test email start api server and visit user detail page</p>
-        <footer>Proudly built @ <a href='https://smera.io'>smera.io</href></footer>`,
+        html: getEmailHTMLContent(user, 'Your profile is updated successfully!'),
 
         // An array of attachments
         attachments: [
@@ -65,7 +79,7 @@ async function sendMail() {
     };
 
     const info = await transporter.sendMail(message);
-    console.log('Message sent successfully as %s', info.messageId);
+    console.log('Message sent successfully to,', user.email);
 }
 
 module.exports = sendMail;

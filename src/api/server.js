@@ -2,6 +2,11 @@
 /* eslint-disable no-await-in-loop */
 const cors = require('cors');
 const express = require('express');
+const redis = require('redis');
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
+
+const redisClient = redis.createClient();
 
 const { ObjectId } = require('mongodb');
 const mongoUtil = require('./utils/MongoUtil');
@@ -10,10 +15,34 @@ const sendMail = require('./utils/Mailer');
 
 const app = express();
 
+redisClient.on('error', (err) => {
+    console.log('Could not establish a connection with redis. ');
+});
+
+redisClient.on('connect', (err) => {
+    console.log('Connected to redis successfully');
+});
+
+app.use(
+    session({
+        secret: ['secretpasswordforsession'],
+        name: 'quizzonesessionid',
+        cookie: {
+            httpOnly: true,
+            secure: false,
+            sameSite: false,
+            maxAge: 120000 // Time is in miliseconds
+        },
+        store: new RedisStore({ client: redisClient, host: 'localhost', port: 6379 }),
+        resave: false
+    })
+);
+
 app.use(
     cors({
         origin: 'http://localhost:3000',
-        optionsSuccessStatus: 200
+        optionsSuccessStatus: 200,
+        credentials: true
     })
 );
 
@@ -25,6 +54,7 @@ app.use(
 
 app.use(express.json());
 
+// connect to mongodb on server start
 (async function connectToDB() {
     await mongoUtil.connect();
 })();
@@ -46,6 +76,10 @@ app.get('/courses', (req, res) => {
 });
 
 app.get('/users', (req, res) => {
+    console.log('session in users api', req.session.user);
+    if (!req.session.user) {
+        return res.sendStatus(401);
+    }
     const users = userUtil.getUsers();
     return res.json({ users });
 });
@@ -54,6 +88,11 @@ app.get('/user/:id', (req, res) => {
     const {
         params: { id }
     } = req;
+
+    console.log('request session id', req.session);
+    if (!req.session.user) {
+        return res.sendStatus(401);
+    }
     const user = userUtil.getUser(id);
     return res.json({ user });
 });
@@ -62,6 +101,14 @@ app.post('/user', (req, res) => {
     const data = req.body;
     const user = userUtil.addUser(data);
     return res.json({ user });
+});
+
+app.post('/login', (req, res) => {
+    console.log(req.body);
+    req.session.user = req.body.email;
+
+    const data = req.body;
+    return res.json({ loginStatus: 'success' });
 });
 
 app.put('/user/:id', (req, res) => {

@@ -16,6 +16,12 @@ import theme from './theme';
 const useStyles = makeStyles(() => ({
     footer: {
         justifyContent: 'center'
+    },
+    mainContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column'
     }
 }));
 
@@ -25,12 +31,20 @@ function App() {
         <ThemeProvider theme={theme}>
             <Box width="100%" height="100vh" display="flex" flexDirection="column">
                 <BrandingBar />
-                <Box width="100%" height="100%" flexGrow="1" overflow="auto">
+                <Box
+                    width="100%"
+                    height="100%"
+                    flexGrow="1"
+                    overflow="auto"
+                    className={classes.mainContainer}>
                     <Container maxWidth="xl" />
                     <div>
                         <Router>
                             <Switch>
                                 <Route exact path="/">
+                                    <Login />
+                                </Route>
+                                <Route exact path="/login">
                                     <Login />
                                 </Route>
                                 <Route path="/questions">

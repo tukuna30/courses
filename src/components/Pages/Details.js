@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import Snackbar from '@material-ui/core/Snackbar';
+import TextField from '@material-ui/core/TextField';
 
 const Detail = () => {
     const { id } = useParams();
+    const history = useHistory();
     const [error, setError] = useState('');
     const [user, setUser] = useState({});
     const [toastMessage, setToastMessage] = useState('');
@@ -14,9 +16,20 @@ const Detail = () => {
     useEffect(async () => {
         try {
             const rawRsponse = await fetch(`http://localhost:5001/user/${id}`, {
-                method: 'GET'
+                method: 'GET',
+                credentials: 'include'
             });
             console.log('raw response', rawRsponse);
+
+            if (!rawRsponse.ok) {
+                if (rawRsponse.status === 401);
+                setError('You need to login!');
+                setTimeout(() => {
+                    history.push('/login');
+                }, 1500);
+
+                return;
+            }
             const jsonResponse = await rawRsponse.json();
 
             console.log('json response', jsonResponse, 'user detail');
@@ -49,12 +62,17 @@ const Detail = () => {
                 },
                 body: JSON.stringify(user)
             });
-            const jsonResponse = await rawRsponse.json();
 
-            console.log('json response user save', jsonResponse, 'user detail');
-            setUser(jsonResponse.user);
-            setToastMessage('Your profile is saved');
-            setIsToastOpen(true);
+            if (!rawRsponse.ok) {
+                setError('something not ok', rawRsponse.status);
+            } else {
+                const jsonResponse = await rawRsponse.json();
+
+                console.log('json response user save', jsonResponse, 'user detail');
+                setUser(jsonResponse.user);
+                setToastMessage('Your profile is saved');
+                setIsToastOpen(true);
+            }
         } catch (_error) {
             console.log('error', _error.message);
             setError(_error.message);
@@ -62,7 +80,7 @@ const Detail = () => {
     };
 
     return (
-        <>
+        <div style={{ padding: '20px' }}>
             <div>User Detail page</div>
             {error.length > 0 ? <div>Error fetching the data: {error}</div> : null}
             <div>Details about particular item with id: {id}</div>
@@ -76,39 +94,41 @@ const Detail = () => {
                 message={toastMessage}
                 key="profile_save"
             />
-            (
-            <>
-                <div>User name: {user.firstName}</div>
-                <div>User last name: {user.lastName}</div>
-                <form>
-                    <div>
+            {user.firstName && (
+                <>
+                    <div>User name: {user.firstName}</div>
+                    <div>User last name: {user.lastName}</div>
+                    <form>
+                        <div>
+                            <TextField
+                                required
+                                id="standard-required"
+                                label="First Name"
+                                defaultValue={user.firstName}
+                                onChange={updateUser}
+                                placeholder="First Name"
+                            />
+                        </div>
+                        <div>
+                            <input
+                                type="text"
+                                name="lastName"
+                                value={user.lastName}
+                                onChange={updateUser}
+                                placeholder="Last Name"
+                            />
+                        </div>
                         <input
-                            type="text"
-                            name="firstName"
-                            value={user.firstName}
-                            onChange={updateUser}
-                            placeholder="First Name"
+                            type="submit"
+                            value="Save"
+                            onClick={(e) => {
+                                saveUserDetails(e);
+                            }}
                         />
-                    </div>
-                    <div>
-                        <input
-                            type="text"
-                            name="lastName"
-                            value={user.lastName}
-                            onChange={updateUser}
-                            placeholder="Last Name"
-                        />
-                    </div>
-                    <input
-                        type="submit"
-                        value="Save"
-                        onClick={(e) => {
-                            saveUserDetails(e);
-                        }}
-                    />
-                </form>
-            </>
-        </>
+                    </form>
+                </>
+            )}
+        </div>
     );
 };
 

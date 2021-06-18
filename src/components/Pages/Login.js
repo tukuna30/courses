@@ -27,16 +27,9 @@ const Login = () => {
 
      }; // This is null if the 'email' scope is not present.
      
-  
-
-    const login = async () => {
-        
-    };
-
     return (
         <>
             <div>Login to Quizzone</div>
-            
             <div> 
         <div id="sign-in-button" data-width="450" data-height="100" className="g-signin2" data-onsuccess="onSignIn" />
       </div>

@@ -28,6 +28,34 @@
     color: #61dafb;
 }
 
+ul{
+  padding: 0;
+  margin: 0;
+}
+ul, li{
+  list-style-type: none;
+ /* text-decoration: none;*/
+} 
+
+ li, a {
+  text-decoration: none;
+ }
+li {
+  padding: 4px;
+  background: rgb(211, 245, 207);
+  border: 1px solid rgb(3, 63, 3);
+  margin: 10px;
+ /* border-radius: 10px;*/
+}
+li:hover {
+  cursor: pointer;
+  background-color: rgb(46, 150, 68);
+  font-size: larger;
+}
+li, a:hover{
+  color: white;
+}
+
 @keyframes App-logo-spin {
     from {
         transform: rotate(0deg);

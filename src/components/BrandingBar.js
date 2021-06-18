@@ -85,10 +85,21 @@ const Navbar = ({ hideProfileMenu }) => {
         setAnchorEl(null);
     };
 
+    /*const logout = () => {
+        console.log('logout button clicked');
+        handleClose();
+    };*/
+
     const logout = () => {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+              console.log('User signed out.');
+            });
+          
         console.log('logout button clicked');
         handleClose();
     };
+
 
     const navigateToHome = () => {
         window.location.href = window.location.origin;

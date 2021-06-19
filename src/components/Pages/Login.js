@@ -4,7 +4,23 @@ import { useParams, useHistory } from 'react-router-dom';
 const Login = () => {
     const history = useHistory();
 
+    React.useEffect(() => {
+        console.log('rendering login...');
+        window.gapi.signin2.render('google-login', {
+            scope: 'profile email',
+            width: 240,
+            height: 50,
+            longtitle: true,
+            theme: 'light',
+            onsuccess: window.onSignIn,
+            onfailure: (error) => {
+                console.log('Login with gmail failed', error);
+            }
+        });
+    }, []);
+
     window.onSignIn = async function data(googleUser) {
+        console.log('google login success');
         const profile = googleUser.getBasicProfile();
         console.log(`ID: ${profile.getId()}`); // Do not send to your backend! Use an ID token instead.
         console.log(`Name: ${profile.getName()}`);
@@ -23,20 +39,14 @@ const Login = () => {
         if (rawResponse.ok) {
             history.push('/questions');
         }
+    }; // This is null if the 'email' scope is not present.
 
-
-     }; // This is null if the 'email' scope is not present.
-     
     return (
         <>
             <div>Login to Quizzone</div>
-            <div> 
-        <div id="sign-in-button" data-width="450" data-height="100" className="g-signin2" data-onsuccess="onSignIn" />
-      </div>
+            <div id="google-login" />
         </>
     );
 };
 
 export default Login;
-
-

@@ -26,22 +26,20 @@ const useStyles = makeStyles(() => ({
 }));
 
 function App() {
-
     const classes = useStyles();
     return (
-
         <ThemeProvider theme={theme}>
-            <Box width="100%" height="100vh" display="flex" flexDirection="column">
-                <BrandingBar />
-                <Box
-                    width="100%"
-                    height="100%"
-                    flexGrow="1"
-                    overflow="auto"
-                    className={classes.mainContainer}>
-                    <Container maxWidth="xl" />
-                    <div>
-                        <Router>
+            <Router>
+                <Box width="100%" height="100vh" display="flex" flexDirection="column">
+                    <BrandingBar />
+                    <Box
+                        width="100%"
+                        height="100%"
+                        flexGrow="1"
+                        overflow="auto"
+                        className={classes.mainContainer}>
+                        <Container maxWidth="xl" />
+                        <div>
                             <Switch>
                                 <Route exact path="/">
                                     <Login />
@@ -56,13 +54,13 @@ function App() {
                                     <Details />
                                 </Route>
                             </Switch>
-                        </Router>
-                    </div>
+                        </div>
+                    </Box>
+                    <Grid container className={classes.footer}>
+                        <div>Quizone Test your skills via a quiz</div>
+                    </Grid>
                 </Box>
-                <Grid container className={classes.footer}>
-                    <div>Quizone Test your skills via a quiz</div>
-                </Grid>
-            </Box>
+            </Router>
         </ThemeProvider>
     );
 }

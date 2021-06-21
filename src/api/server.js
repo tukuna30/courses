@@ -31,7 +31,7 @@ app.use(
             httpOnly: true,
             secure: false,
             sameSite: false,
-            maxAge: 120000 // Time is in miliseconds
+            maxAge: 300000 // Time is in miliseconds
         },
         store: new RedisStore({ client: redisClient, host: 'localhost', port: 6379 }),
         resave: false
@@ -109,6 +109,12 @@ app.post('/login', (req, res) => {
 
     const data = req.body;
     return res.json({ loginStatus: 'success' });
+});
+
+app.post('/logout', async (req, res) => {
+    await req.session.destroy();
+    console.log('user session destroyed!');
+    return res.json({ logoutStatus: 'success' });
 });
 
 app.put('/user/:id', (req, res) => {

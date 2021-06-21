@@ -12,6 +12,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { Box } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 // import { NavLink } from 'react-router-dom';
 import logo from '../assets/images/quizone.png';
 // import { useStores } from '../stores/index';
@@ -72,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = ({ hideProfileMenu }) => {
     // const { navStore } = useStores();
+    const history = useHistory();
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -85,21 +87,35 @@ const Navbar = ({ hideProfileMenu }) => {
         setAnchorEl(null);
     };
 
-    /*const logout = () => {
-        console.log('logout button clicked');
-        handleClose();
-    };*/
+    React.useEffect(() => {
+        window.gapi.load('auth2', function () {
+            window.gapi.auth2.init();
+        });
+    });
 
-    const logout = () => {
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut().then(function () {
-              console.log('User signed out.');
-            });
-          
-        console.log('logout button clicked');
+    const logout = async () => {
+        if (window.gapi.auth2) {
+            const auth2 = window.gapi.auth2.getAuthInstance();
+            await auth2.signOut();
+            console.log('user forced to log out of google');
+        }
+
+        const rawResponse = await fetch(`http://localhost:5001/logout`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        });
+
+        if (rawResponse.ok) {
+            console.log('destroyed session in server');
+            history.push('/login');
+        }
+
         handleClose();
     };
-
 
     const navigateToHome = () => {
         window.location.href = window.location.origin;

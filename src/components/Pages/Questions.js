@@ -46,7 +46,6 @@ const Questions = () => {
                     </li>
                 ))}
             </ul>
-    
         </div>
     );
 };

@@ -11,6 +11,7 @@ const redisClient = redis.createClient();
 const { ObjectId } = require('mongodb');
 const mongoUtil = require('./utils/MongoUtil');
 const userUtil = require('./utils/UserUtil');
+const quizUtil = require('./utils/QuizUtil');
 const sendMail = require('./utils/Mailer');
 
 const app = express();
@@ -82,6 +83,29 @@ app.get('/users', (req, res) => {
     }
     const users = userUtil.getUsers();
     return res.json({ users });
+});
+
+app.get('/quizes', (req, res) => {
+    console.log('session in users api', req.session.user);
+    if (!req.session.user) {
+        return res.sendStatus(401);
+    }
+    const quizes = quizUtil.getQuizes();
+    return res.json({ quizes });
+});
+
+app.get('/quiz/:id', (req, res) => {
+    const {
+        params: { id }
+    } = req;
+
+    console.log('request session id', req.session);
+    if (!req.session.user) {
+        return res.sendStatus(401);
+    }
+    const quiz = quizUtil.getQuiz(id);
+    console.log('quzi', quiz);
+    return res.json({ quiz });
 });
 
 app.get('/user/:id', (req, res) => {

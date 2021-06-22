@@ -1,52 +1,82 @@
 /* eslint-disable no-console */
-import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import React, { useEffect, useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import Snackbar from '@material-ui/core/Snackbar';
+import TextField from '@material-ui/core/TextField';
+import './Details.css';
 
 const Questions = () => {
-    const [questions, setQuestions] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const { id } = useParams();
     const history = useHistory();
+    const [error, setError] = useState('');
+    const [quiz, setQuiz] = useState({ questions: [] });
+    const [toastMessage, setToastMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        setIsLoading(true);
-        fetch(`http://localhost:5001/users`, {
-            method: 'GET',
-            credentials: 'include'
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    setTimeout(() => {
-                        history.push('/login');
-                    }, 1000);
-                    return Promise.resolve({});
-                }
-                return res.json();
-            })
-            .then((response) => {
-                console.log('response data', response);
+    const [isToastOpen, setIsToastOpen] = useState(false);
+
+    useEffect(async () => {
+        try {
+            setIsLoading(true);
+            const rawRsponse = await fetch(`http://localhost:5001/quiz/${id}`, {
+                method: 'GET',
+                credentials: 'include'
+            });
+            console.log('raw response', rawRsponse);
+
+            if (!rawRsponse.ok) {
+                if (rawRsponse.status === 401);
+                setError('You need to login!');
                 setTimeout(() => {
-                    setQuestions(response.users);
-                    setIsLoading(false);
-                }, 2000);
-            })
-            .catch((error) => console.log(error));
+                    history.push('/login');
+                }, 1500);
+
+                return;
+            }
+            const jsonResponse = await rawRsponse.json();
+            console.log('quessee', jsonResponse.quiz);
+
+            setQuiz(jsonResponse.quiz); //
+            setIsLoading(false);
+            // {name: '', questions: [{title: , options: ['strings']}]}
+        } catch (_error) {
+            console.log('error', _error.message);
+            setError(_error.message);
+        }
     }, []);
 
+    const renderQuestion = (question, _id) => {
+        return (
+            <div>
+                <h3>{`${_id + 1}) ${question.title}`} </h3>
+                {question.options.map((option) => {
+                    return (
+                        <div key={option}>
+                            <input type="radio" value={option} name={option} />
+                            <span>{option}</span>
+                            <br />
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    };
+
     return (
-        <div>
-            <h1> Quiz list </h1>
-            {isLoading && <CircularProgress />}
-            <ul>
-                {questions.map((question) => (
-                    <li key={question}>
-                        <Link to={`/details/${question.id}`}>
-                            {/*{question.firstName} {question.lastName}*/}
-                            {question.name}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
+        <div style={{ padding: '20px' }}>
+            {error.length > 0 ? <div>Error fetching the data: {error}</div> : null}
+            {isLoading && <div>Loading quiz...</div>}
+            {!isLoading && (
+                <div>
+                    <h1>{quiz.name}</h1>
+                    <form>
+                        {quiz.questions.map((question, _id) => {
+                            return renderQuestion(question, _id);
+                        })}
+                        <input type="submit" value="Submit" />
+                    </form>
+                </div>
+            )}
         </div>
     );
 };

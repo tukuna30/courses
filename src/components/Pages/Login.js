@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
+let googleSignInbuttonClicked = false;
 const Login = () => {
     const history = useHistory();
 
@@ -20,6 +21,9 @@ const Login = () => {
     }, []);
 
     window.onSignIn = async function data(googleUser) {
+        if (googleSignInbuttonClicked === false) {
+            return;
+        }
         console.log('google login success');
         const profile = googleUser.getBasicProfile();
         console.log(`ID: ${profile.getId()}`); // Do not send to your backend! Use an ID token instead.
@@ -37,14 +41,23 @@ const Login = () => {
         });
 
         if (rawResponse.ok) {
-            history.push('/questions');
+            history.push('/quizes');
         }
     }; // This is null if the 'email' scope is not present.
 
     return (
         <>
             <div>Login to Quizzone</div>
-            <div id="google-login" />
+            <div
+                onKeyDown={() => {}}
+                id="google-login"
+                role="button"
+                aria-label="Login"
+                tabIndex={0}
+                onClick={() => {
+                    googleSignInbuttonClicked = true;
+                }}
+            />
         </>
     );
 };

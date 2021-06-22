@@ -88,9 +88,11 @@ const Navbar = ({ hideProfileMenu }) => {
     };
 
     React.useEffect(() => {
-        window.gapi.load('auth2', function () {
-            window.gapi.auth2.init();
-        });
+        if (window.gapi) {
+            window.gapi.load('auth2', function () {
+                window.gapi.auth2.init();
+            });
+        }
     });
 
     const logout = async () => {

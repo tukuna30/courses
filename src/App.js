@@ -8,8 +8,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import BrandingBar from './components/BrandingBar';
 import Login from './components/Pages/Login';
+import Quizes from './components/Pages/Quizes';
 import Questions from './components/Pages/Questions';
-import Details from './components/Pages/Details';
 
 import theme from './theme';
 
@@ -47,11 +47,11 @@ function App() {
                                 <Route exact path="/login">
                                     <Login />
                                 </Route>
-                                <Route path="/questions">
-                                    <Questions />
+                                <Route path="/quizes">
+                                    <Quizes />
                                 </Route>
                                 <Route path="/details/:id">
-                                    <Details />
+                                    <Questions />
                                 </Route>
                             </Switch>
                         </div>

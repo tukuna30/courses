@@ -35,13 +35,14 @@ const Questions = () => {
 
     return (
         <div>
-            <h1> Tests list </h1>
+            <h1> Quiz list </h1>
             {isLoading && <CircularProgress />}
             <ul>
                 {questions.map((question) => (
                     <li key={question}>
                         <Link to={`/details/${question.id}`}>
-                            {question.firstName} {question.lastName}
+                            {/*{question.firstName} {question.lastName}*/}
+                            {question.name}
                         </Link>
                     </li>
                 ))}

@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
 let googleSignInbuttonClicked = false;
-const Login = () => {
+const Login = ({ setUserLoggedIn }) => {
     const history = useHistory();
 
     React.useEffect(() => {
@@ -18,6 +18,9 @@ const Login = () => {
                 console.log('Login with gmail failed', error);
             }
         });
+
+        const isUserLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
+        setUserLoggedIn(isUserLoggedIn);
     }, []);
 
     window.onSignIn = async function data(googleUser) {
@@ -41,6 +44,8 @@ const Login = () => {
         });
 
         if (rawResponse.ok) {
+            localStorage.setItem('isUserLoggedIn', true);
+            setUserLoggedIn(true);
             history.push('/quizes');
         }
     }; // This is null if the 'email' scope is not present.

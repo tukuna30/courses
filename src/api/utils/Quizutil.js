@@ -5,33 +5,64 @@ const quizes = [
         /*firstName: 'Subhasmita',
         lastName: 'Khamari',*/
         name: 'HTML',
+        courses: [
+            {
+                title: 'React JS',
+                description: 'Learn how to use React in modern web apps',
+                topics: [
+                    {
+                        title: 'Why React is popular?',
+                        sections: [
+                            {
+                                sectionTitle: 'Easy to learn',
+                                sectionDescription:
+                                    ' React uses html, css and js in one component js file, so if you know JavaScript and html and CSS, you can start a web app quickly.'
+                            },
+                            {
+                                sectionTitle: 'Blazing Fast',
+                                sectionDescription:
+                                    'React uses dom difference algorithm, which makes only render the changes in a component. '
+                            }
+                        ]
+                    },
+                    {
+                        title: 'React component LifeCycle methods',
+                        title: 'LifeCycle methods in class based components',
+                        sections: [
+                            {
+                                sectionTitle: 'Creation',
+                                sectionDescription: 'It has constructor, render, componentDidMount'
+                            },
+                            {
+                                sectionTitle: 'Updatation',
+                                sectionDescription: 'shouldComponent update'
+                            },
+                            {
+                                sectionTitle: 'Destroy',
+                                sectionDescription: 'componentWillUnmount'
+                            }
+                        ]
+                    },
+                    ,
+                    {}
+                ]
+            }
+        ],
         questions: [
             {
                 title: 'What does HTML stands for?',
+                id: 'html1',
                 options: [
-                    'Hypertext Machine language',
-                    'Hypertext Markup Language.',
-                    'Hightext machine language.',
-                    'Hypertext Markup Language'
+                    'Hyper Text Machine language',
+                    'Hyper Text Manmade Language',
+                    'High Text machine language',
+                    'Hyper Text Markup Language'
                 ]
             },
             {
-                title: 'What does CSS stands for?',
-                options: [
-                    'Hypertext Machine language',
-                    'Hypertext Markup Language.',
-                    'Hightext machine language.',
-                    'Classic style script'
-                ]
-            },
-            {
-                title: 'What does CSS stands for?',
-                options: [
-                    'Hypertext Machine language',
-                    'Hypertext Markup Language.',
-                    'Hightext machine language.',
-                    'Classic style script'
-                ]
+                title: 'Which one of the following is a block element',
+                id: 'html2',
+                options: ['p', 'span', 'img', 'a']
             }
         ],
         active: true,

@@ -15,6 +15,7 @@ import { Box } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 // import { NavLink } from 'react-router-dom';
 import logo from '../assets/images/quizone.png';
+import userEvent from '@testing-library/user-event';
 // import { useStores } from '../stores/index';
 
 const useStyles = makeStyles((theme) => ({
@@ -71,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Navbar = ({ hideProfileMenu }) => {
+const BrandingBar = ({ showProfileMenu }) => {
     // const { navStore } = useStores();
     const history = useHistory();
 
@@ -112,6 +113,7 @@ const Navbar = ({ hideProfileMenu }) => {
         });
 
         if (rawResponse.ok) {
+            localStorage.removeItem('isUserLoggedIn');
             console.log('destroyed session in server');
             history.push('/login');
         }
@@ -139,7 +141,7 @@ const Navbar = ({ hideProfileMenu }) => {
                     <IconButton aria-label="help" color="inherit">
                         <Help />
                     </IconButton>
-                    {!hideProfileMenu ? (
+                    {showProfileMenu ? (
                         <IconButton
                             edge="end"
                             aria-label="account of current user"
@@ -181,11 +183,6 @@ const Navbar = ({ hideProfileMenu }) => {
                                 My Profile
                             </NavLink> */}
                         </MenuItem>
-                        {/* <MenuItem onClick={handleClose}>
-                            <NavLink to="/signup" onClick={navStore.hideAppNavBar}>
-                                Sign up
-                            </NavLink>
-                        </MenuItem> */}
                         <MenuItem onClick={logout}>Log out</MenuItem>
                     </Menu>
                 </div>
@@ -194,4 +191,4 @@ const Navbar = ({ hideProfileMenu }) => {
     );
 };
 
-export default Navbar;
+export default BrandingBar;

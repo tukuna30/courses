@@ -32,7 +32,7 @@ app.use(
             httpOnly: true,
             secure: false,
             sameSite: false,
-            maxAge: 300000 // Time is in miliseconds
+            maxAge: 100000 // Time is in miliseconds
         },
         store: new RedisStore({ client: redisClient, host: 'localhost', port: 6379 }),
         resave: false

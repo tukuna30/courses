@@ -10,6 +10,7 @@ import BrandingBar from './components/BrandingBar';
 import Login from './components/Pages/Login';
 import Quizes from './components/Pages/Quizes';
 import Questions from './components/Pages/Questions';
+import NotFound from './components/NotFound';
 
 import theme from './theme';
 
@@ -27,11 +28,12 @@ const useStyles = makeStyles(() => ({
 
 function App() {
     const classes = useStyles();
+    const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(false);
     return (
         <ThemeProvider theme={theme}>
             <Router>
                 <Box width="100%" height="100vh" display="flex" flexDirection="column">
-                    <BrandingBar />
+                    <BrandingBar showProfileMenu={isUserLoggedIn ? true : false} />
                     <Box
                         width="100%"
                         height="100%"
@@ -45,13 +47,16 @@ function App() {
                                     <Login />
                                 </Route>
                                 <Route exact path="/login">
-                                    <Login />
+                                    <Login setUserLoggedIn={setIsUserLoggedIn} />
                                 </Route>
                                 <Route path="/quizes">
                                     <Quizes />
                                 </Route>
                                 <Route path="/details/:id">
                                     <Questions />
+                                </Route>
+                                <Route path="*">
+                                    <NotFound />
                                 </Route>
                             </Switch>
                         </div>

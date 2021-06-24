@@ -17,6 +17,7 @@ const Quizes = () => {
             .then((res) => {
                 if (!res.ok) {
                     setTimeout(() => {
+                        localStorage.removeItem('isUserLoggedIn');
                         history.push('/login');
                     }, 1000);
                     return Promise.resolve({});

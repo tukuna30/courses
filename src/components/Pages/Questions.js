@@ -3,6 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import Snackbar from '@material-ui/core/Snackbar';
 import TextField from '@material-ui/core/TextField';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+
 import './Details.css';
 
 const Questions = () => {
@@ -13,6 +21,7 @@ const Questions = () => {
     const [toastMessage, setToastMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    const [questionValues, setQuestionValues] = useState({});
     const [isToastOpen, setIsToastOpen] = useState(false);
 
     useEffect(async () => {
@@ -28,6 +37,7 @@ const Questions = () => {
                 if (rawRsponse.status === 401);
                 setError('You need to login!');
                 setTimeout(() => {
+                    localStorage.removeItem('isUserLoggedIn');
                     history.push('/login');
                 }, 1500);
 
@@ -45,36 +55,55 @@ const Questions = () => {
         }
     }, []);
 
+    const handleChange = (event) => {
+        const questionId = event.target.getAttribute('id');
+        setQuestionValues({ ...questionValues, [questionId]: event.target.value });
+    };
+
+    const submitHandler = () => {
+        console.log('users submission', questionValues);
+    };
+
     const renderQuestion = (question, _id) => {
         return (
-            <div>
-                <h3>{`${_id + 1}) ${question.title}`} </h3>
-                {question.options.map((option) => {
-                    return (
-                        <div key={option}>
-                            <input type="radio" value={option} name={option} />
-                            <span>{option}</span>
-                            <br />
-                        </div>
-                    );
-                })}
-            </div>
+            <FormControl component="fieldset">
+                <FormLabel component="legend">{`${_id + 1}) ${question.title}`}</FormLabel>
+                <RadioGroup
+                    aria-label="gender"
+                    name="gender1"
+                    id={question.id}
+                    value={questionValues.id}
+                    onChange={handleChange}>
+                    {question.options.map((option) => {
+                        return (
+                            <FormControlLabel
+                                value={option}
+                                control={<Radio id={question.id} />}
+                                label={option}
+                            />
+                        );
+                    })}
+                </RadioGroup>
+            </FormControl>
         );
     };
 
     return (
         <div style={{ padding: '20px' }}>
-            {error.length > 0 ? <div>Error fetching the data: {error}</div> : null}
             {isLoading && <div>Loading quiz...</div>}
             {!isLoading && (
                 <div>
                     <h1>{quiz.name}</h1>
-                    <form>
-                        {quiz.questions.map((question, _id) => {
-                            return renderQuestion(question, _id);
-                        })}
-                        <input type="submit" value="Submit" />
-                    </form>
+                    <Grid>
+                        <form className="quiz-form">
+                            {quiz.questions.map((question, _id) => {
+                                return renderQuestion(question, _id);
+                            })}
+                            <Button color="primary" variant="contained" onClick={submitHandler}>
+                                Submit quiz
+                            </Button>
+                        </form>
+                    </Grid>
                 </div>
             )}
         </div>

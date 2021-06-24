@@ -44,7 +44,7 @@ function App() {
                         <div>
                             <Switch>
                                 <Route exact path="/">
-                                    <Login />
+                                    <Login setUserLoggedIn={setIsUserLoggedIn} />
                                 </Route>
                                 <Route exact path="/login">
                                     <Login setUserLoggedIn={setIsUserLoggedIn} />

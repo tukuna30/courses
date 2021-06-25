@@ -11,7 +11,7 @@ const redisClient = redis.createClient();
 const { ObjectId } = require('mongodb');
 const mongoUtil = require('./utils/MongoUtil');
 const userUtil = require('./utils/UserUtil');
-const quizUtil = require('./utils/QuizUtil');
+const courseUtil = require('./utils/CourseUtil');
 const sendMail = require('./utils/Mailer');
 
 const app = express();
@@ -85,16 +85,16 @@ app.get('/users', (req, res) => {
     return res.json({ users });
 });
 
-app.get('/quizes', (req, res) => {
+app.get('/courses', (req, res) => {
     console.log('session in users api', req.session.user);
     if (!req.session.user) {
         return res.sendStatus(401);
     }
-    const quizes = quizUtil.getQuizes();
-    return res.json({ quizes });
+    const courses = quizUtil.getCourses();
+    return res.json({ courses });
 });
 
-app.get('/quiz/:id', (req, res) => {
+app.get('/course/:id', (req, res) => {
     const {
         params: { id }
     } = req;
@@ -103,9 +103,9 @@ app.get('/quiz/:id', (req, res) => {
     if (!req.session.user) {
         return res.sendStatus(401);
     }
-    const quiz = quizUtil.getQuiz(id);
-    console.log('quzi', quiz);
-    return res.json({ quiz });
+    const course = courseUtil.course(id);
+    console.log('course', course);
+    return res.json({ course });
 });
 
 app.get('/user/:id', (req, res) => {

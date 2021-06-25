@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const Quizes = () => {
-    const [quizes, setQuizes] = useState([]);
+const Courses = () => {
+    const [courses, setCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
 
     useEffect(() => {
         setIsLoading(true);
-        fetch(`http://localhost:5001/quizes`, {
+        fetch(`http://localhost:5001/courses`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -26,7 +26,7 @@ const Quizes = () => {
             .then((response) => {
                 console.log('response data', response);
                 setTimeout(() => {
-                    setQuizes(response.quizes);
+                    setCourses(response.courses);
                     setIsLoading(false);
                 }, 2000);
             })
@@ -38,9 +38,9 @@ const Quizes = () => {
             <h1> Quiz list </h1>
             {isLoading && <CircularProgress />}
             <ul>
-                {quizes.map((quiz) => (
-                    <li key={quiz.id}>
-                        <Link to={`/details/${quiz.id}`}>{quiz.name}</Link>
+                {courses.map((course) => (
+                    <li key={course.id}>
+                        <Link to={`/details/${course.id}`}>{course.name}</Link>
                     </li>
                 ))}
             </ul>
@@ -48,4 +48,4 @@ const Quizes = () => {
     );
 };
 
-export default Quizes;
+export default courses;

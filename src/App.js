@@ -8,8 +8,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import BrandingBar from './components/BrandingBar';
 import Login from './components/Pages/Login';
-import Quizes from './components/Pages/Quizes';
 import Questions from './components/Pages/Questions';
+import courses from './components/Pages/Courses';
 
 import theme from './theme';
 
@@ -47,8 +47,8 @@ function App() {
                                 <Route exact path="/login">
                                     <Login />
                                 </Route>
-                                <Route path="/quizes">
-                                    <Quizes />
+                                <Route path="/courses">
+                                    <courses />
                                 </Route>
                                 <Route path="/details/:id">
                                     <Questions />
@@ -57,7 +57,7 @@ function App() {
                         </div>
                     </Box>
                     <Grid container className={classes.footer}>
-                        <div>Quizone Test your skills via a quiz</div>
+                        <div>Learn Without Limits</div>
                     </Grid>
                 </Box>
             </Router>

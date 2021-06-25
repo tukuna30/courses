@@ -1,18 +1,25 @@
 /* eslint-disable class-methods-use-this */
-const quizes = [
+const Course = [
     {
         id: 1,
-        /*firstName: 'Subhasmita',
-        lastName: 'Khamari',*/
         name: 'HTML',
-        questions: [
+        courses: [
             {
-                title: 'What does HTML stands for?',
-                options: [
-                    'Hypertext Machine language',
-                    'Hypertext Markup Language.',
-                    'Hightext machine language.',
-                    'Hypertext Markup Language'
+                title: 'HTML',
+                description: 'Learn Basic structure of HTML Page',
+                topics: [
+                    {
+                        title: 'HTML(Hyper Text Markup Language)',
+                        description: 'HTML is a method where ordinary text can be converted inti hypertext. It is the basic tools for  designing a web page.',
+                        sections: [
+                            {
+                                sectionTitle: 'Hyper Text',
+                                sectionDescription: 'A way of creating multimedia documents, also a method for providing links  within the documents ',
+                            }
+                        ]
+
+                    }
+
                 ]
             },
             {
@@ -91,18 +98,18 @@ const quizes = [
 // Delete : DELETE /user/:id
 // Update : PUT/PATCH /user/:id
 
-class QuizUtil {
-    getQuizes() {
-        return quizes;
+class CourseUtil {
+    getCourses() {
+        return courses;
     }
 
-    getQuiz(id) {
-        const quiz = quizes.find((u) => {
+    getCourse(id) {
+        const course = courses.find((u) => {
             return u.id === parseInt(id, 10);
         });
 
-        return quiz || {};
+        return course || {};
     }
 }
 
-module.exports = new QuizUtil();
+module.exports = new CourseUtil();

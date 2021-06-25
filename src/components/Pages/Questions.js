@@ -9,7 +9,7 @@ const Questions = () => {
     const { id } = useParams();
     const history = useHistory();
     const [error, setError] = useState('');
-    const [quiz, setQuiz] = useState({ questions: [] });
+    const [course, setCourse] = useState({ questions: [] });
     const [toastMessage, setToastMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -18,7 +18,7 @@ const Questions = () => {
     useEffect(async () => {
         try {
             setIsLoading(true);
-            const rawRsponse = await fetch(`http://localhost:5001/quiz/${id}`, {
+            const rawRsponse = await fetch(`http://localhost:5001/course/${id}`, {
                 method: 'GET',
                 credentials: 'include'
             });
@@ -34,9 +34,9 @@ const Questions = () => {
                 return;
             }
             const jsonResponse = await rawRsponse.json();
-            console.log('quessee', jsonResponse.quiz);
+            console.log('chapter', jsonResponse.course);
 
-            setQuiz(jsonResponse.quiz); //
+            setQuiz(jsonResponse.course); //
             setIsLoading(false);
             // {name: '', questions: [{title: , options: ['strings']}]}
         } catch (_error) {
@@ -51,12 +51,12 @@ const Questions = () => {
                 <h3>{`${_id + 1}) ${question.title}`} </h3>
                 {question.options.map((option) => {
                     return (
-                        <div key={option}>
+                        {/* <div key={option}>
                             <input type="radio" value={option} name={option} />
                             <span>{option}</span>
                             <br />
                         </div>
-                    );
+   */});
                 })}
             </div>
         );
@@ -68,9 +68,9 @@ const Questions = () => {
             {isLoading && <div>Loading quiz...</div>}
             {!isLoading && (
                 <div>
-                    <h1>{quiz.name}</h1>
+                    <h1>{course.name}</h1>
                     <form>
-                        {quiz.questions.map((question, _id) => {
+                        {course.questions.map((question, _id) => {
                             return renderQuestion(question, _id);
                         })}
                         <input type="submit" value="Submit" />

@@ -11,7 +11,7 @@ import Login from './components/Pages/Login';
 import Quizes from './components/Pages/Quizes';
 import Questions from './components/Pages/Questions';
 import NotFound from './components/NotFound';
-
+import './assets/css/index.scss';
 import theme from './theme';
 
 const useStyles = makeStyles(() => ({
@@ -29,11 +29,19 @@ const useStyles = makeStyles(() => ({
 function App() {
     const classes = useStyles();
     const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(false);
+    const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+
+    console.log('currentUser', currentUser);
     return (
         <ThemeProvider theme={theme}>
             <Router>
                 <Box width="100%" height="100vh" display="flex" flexDirection="column">
-                    <BrandingBar showProfileMenu={isUserLoggedIn ? true : false} />
+                    <BrandingBar
+                        showProfileMenu={
+                            isUserLoggedIn || Object.keys(currentUser).length ? true : false
+                        }
+                        currentUser={currentUser}
+                    />
                     <Box
                         width="100%"
                         height="100%"

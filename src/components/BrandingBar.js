@@ -17,6 +17,7 @@ import { useHistory } from 'react-router-dom';
 import logo from '../assets/images/quizone.png';
 import userEvent from '@testing-library/user-event';
 // import { useStores } from '../stores/index';
+import '../assets/css/index.scss';
 
 const useStyles = makeStyles((theme) => ({
     logo: {
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
         letterSpacing: '0.4px'
     },
     toolBar: {
-        minHeight: '45px',
+        minHeight: '60px',
         display: 'flex',
         justifyContent: 'space-between'
     },
@@ -72,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const BrandingBar = ({ showProfileMenu }) => {
+const BrandingBar = ({ showProfileMenu, currentUser }) => {
     // const { navStore } = useStores();
     const history = useHistory();
 
@@ -114,6 +115,7 @@ const BrandingBar = ({ showProfileMenu }) => {
 
         if (rawResponse.ok) {
             localStorage.removeItem('isUserLoggedIn');
+            localStorage.removeItem('currentUser');
             console.log('destroyed session in server');
             history.push('/login');
         }
@@ -149,7 +151,11 @@ const BrandingBar = ({ showProfileMenu }) => {
                             aria-haspopup="true"
                             color="inherit"
                             onClick={handleMenu}>
-                            <AccountCircle />
+                            {currentUser.imageUrl ? (
+                                <img className="profile-image" src={currentUser.imageUrl} />
+                            ) : (
+                                <AccountCircle />
+                            )}
                         </IconButton>
                     ) : null}
                 </div>

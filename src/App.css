@@ -67,12 +67,3 @@ a:hover {
         transform: rotate(360deg);
     }
 }
-
-.quiz-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.quiz-form fieldset {
-    margin-bottom: 20px;
-}

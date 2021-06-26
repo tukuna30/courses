@@ -63,6 +63,16 @@ const quizes = [
                 title: 'Which one of the following is a block element',
                 id: 'html2',
                 options: ['p', 'span', 'img', 'a']
+            },
+            {
+                title: 'Pick the correct DocType syntax for HTML5',
+                id: 'html3',
+                options: [
+                    '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">',
+                    '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 5.0 Strict//EN " http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
+                    '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" http://www.w3.org/TR/html4/frameset.dtd">',
+                    '<!DOCTYPE html>'
+                ]
             }
         ],
         active: true,

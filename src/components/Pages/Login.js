@@ -34,17 +34,25 @@ const Login = ({ setUserLoggedIn }) => {
         console.log(`Image URL: ${profile.getImageUrl()}`);
         console.log(`Email: ${profile.getEmail()}`);
 
+        const user = {
+            email: profile.getEmail(),
+            thirdPartyLogin: 'Gmail',
+            imageUrl: profile.getImageUrl(),
+            name: profile.getName()
+        };
+
         const rawResponse = await fetch(`http://localhost:5001/login`, {
             method: 'POST',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email: profile.getEmail() })
+            body: JSON.stringify(user)
         });
 
         if (rawResponse.ok) {
             localStorage.setItem('isUserLoggedIn', true);
+            localStorage.setItem('currentUser', JSON.stringify(user));
             setUserLoggedIn(true);
             history.push('/quizes');
         }

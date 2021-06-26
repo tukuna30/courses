@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import Snackbar from '@material-ui/core/Snackbar';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -21,8 +21,9 @@ const Questions = () => {
     const [toastMessage, setToastMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const [questionValues, setQuestionValues] = useState({});
+    const [questionAnswers, setQuestionValues] = useState({});
     const [isToastOpen, setIsToastOpen] = useState(false);
+    const [unAnswered, setUnAnsweredQuestions] = useState([]);
 
     useEffect(async () => {
         try {
@@ -57,22 +58,33 @@ const Questions = () => {
 
     const handleChange = (event) => {
         const questionId = event.target.getAttribute('id');
-        setQuestionValues({ ...questionValues, [questionId]: event.target.value });
+        setQuestionValues({ ...questionAnswers, [questionId]: event.target.value });
     };
 
     const submitHandler = () => {
-        console.log('users submission', questionValues);
+        console.log('users submission', questionAnswers);
+        const answeredQuestionIds = Object.keys(questionAnswers);
+        const allQuestionIds = quiz.questions.map((q) => q.id);
+
+        const unattended = allQuestionIds.filter((qId) => !answeredQuestionIds.includes(qId));
+        setUnAnsweredQuestions(unattended);
+
+        if (unattended.length == 0) {
+            // write code to make api call to store users submission
+        }
     };
 
     const renderQuestion = (question, _id) => {
+        const isUnanswered = unAnswered.includes(question.id);
         return (
-            <FormControl component="fieldset">
-                <FormLabel component="legend">{`${_id + 1}) ${question.title}`}</FormLabel>
+            <FormControl component="fieldset" error={isUnanswered}>
+                {isUnanswered && <FormHelperText>{'Select an answer'}</FormHelperText>}
+                <FormLabel component="legend">{`${_id + 1}* ${question.title}`}</FormLabel>
                 <RadioGroup
                     aria-label="gender"
                     name="gender1"
                     id={question.id}
-                    value={questionValues.id}
+                    value={questionAnswers.id}
                     onChange={handleChange}>
                     {question.options.map((option) => {
                         return (

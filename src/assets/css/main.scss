@@ -1,0 +1,13 @@
+.quiz-form {
+    display: flex;
+    flex-direction: column;
+
+    & fieldset {
+        margin-bottom: 20px;
+    }
+}
+
+.profile-image {
+    width: 36px;
+    border-radius: 50%;
+}

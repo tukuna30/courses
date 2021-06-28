@@ -2,7 +2,12 @@
 <html lang="en">
   <head>
     <script src="https://apis.google.com/js/platform.js"></script>
-    <meta name="google-signin-client_id" content="164302146501-5qio2696gv97ocidl2hn7h8eu9e7aino.apps.googleusercontent.com">
+    
+    <script>
+      console.log('goggle platform loaded', window.gapi.signin2);
+    </script>
+    <!--<meta name="google-signin-client_id" content="164302146501-5qio2696gv97ocidl2hn7h8eu9e7aino.apps.googleusercontent.com">-->
+    <meta name="google-signin-client_id" content="558874401580-16ehbia6008pfhs7fm1cb37cgk6ad7hp.apps.googleusercontent.com">
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -29,13 +34,6 @@
     <title>Quizzone</title>
   </head>
   <body>
-    <script>
-      function onLoad() {
-      gapi.load('auth2', function() {
-        gapi.auth2.init();
-      });
-    }
-      </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

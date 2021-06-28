@@ -11,6 +11,7 @@ const redisClient = redis.createClient();
 const { ObjectId } = require('mongodb');
 const mongoUtil = require('./utils/MongoUtil');
 const userUtil = require('./utils/UserUtil');
+const quizUtil = require('./utils/QuizUtil');
 const sendMail = require('./utils/Mailer');
 
 const app = express();
@@ -31,7 +32,7 @@ app.use(
             httpOnly: true,
             secure: false,
             sameSite: false,
-            maxAge: 300000 // Time is in miliseconds
+            maxAge: 60 * 1000 * 30 // Time is in miliseconds
         },
         store: new RedisStore({ client: redisClient, host: 'localhost', port: 6379 }),
         resave: false
@@ -84,6 +85,29 @@ app.get('/users', (req, res) => {
     return res.json({ users });
 });
 
+app.get('/quizes', (req, res) => {
+    console.log('session in users api', req.session.user);
+    if (!req.session.user) {
+        return res.sendStatus(401);
+    }
+    const quizes = quizUtil.getQuizes();
+    return res.json({ quizes });
+});
+
+app.get('/quiz/:id', (req, res) => {
+    const {
+        params: { id }
+    } = req;
+
+    console.log('request session id', req.session);
+    if (!req.session.user) {
+        return res.sendStatus(401);
+    }
+    const quiz = quizUtil.getQuiz(id);
+    console.log('quzi', quiz);
+    return res.json({ quiz });
+});
+
 app.get('/user/:id', (req, res) => {
     const {
         params: { id }
@@ -103,12 +127,24 @@ app.post('/user', (req, res) => {
     return res.json({ user });
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     console.log(req.body);
     req.session.user = req.body.email;
+    try {
+        await mongoUtil.connect();
 
-    const data = req.body;
-    return res.json({ loginStatus: 'success' });
+        const userCollection = mongoUtil.client.db('users').collection('user');
+        const user = await userCollection.findOneAndUpdate(
+            { email: req.body.email },
+            { $set: { ...req.body } },
+            { upsert: true, returnNewDocument: true }
+        );
+
+        console.log('user in db', user);
+        return res.json({ loginStatus: 'success' });
+    } catch (error) {
+        return res.json({ loginStatus: 'Failed, because of DB connection error!' });
+    }
 });
 
 app.post('/logout', async (req, res) => {
@@ -158,11 +194,16 @@ app.get('/students', async (req, res) => {
     res.json({ users });
 });
 
-app.post('/createUser', async (req, res) => {
+app.post('/findOrcreateUser', async (req, res) => {
     await mongoUtil.connect();
 
     const userCollection = mongoUtil.client.db('users').collection('user');
-    const result = await userCollection.insertOne(req.body);
+    const result = await userCollection.findOneAndUpdate(
+        { name: 'A.B. Abracus' },
+        { $set: { name: 'A.B. Abracus', email: 'ab@cus.com', thirdPartyLogin: 'Gmail' } },
+        { upsert: true, returnNewDocument: true }
+    );
+
     res.json({ status: 'success', result });
 });
 

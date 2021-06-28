@@ -1,7 +1,8 @@
 import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
-const Login = () => {
+let googleSignInbuttonClicked = false;
+const Login = ({ setUserLoggedIn }) => {
     const history = useHistory();
 
     React.useEffect(() => {
@@ -17,9 +18,15 @@ const Login = () => {
                 console.log('Login with gmail failed', error);
             }
         });
+
+        const isUserLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
+        setUserLoggedIn(isUserLoggedIn);
     }, []);
 
     window.onSignIn = async function data(googleUser) {
+        if (googleSignInbuttonClicked === false) {
+            return;
+        }
         console.log('google login success');
         const profile = googleUser.getBasicProfile();
         console.log(`ID: ${profile.getId()}`); // Do not send to your backend! Use an ID token instead.
@@ -27,24 +34,43 @@ const Login = () => {
         console.log(`Image URL: ${profile.getImageUrl()}`);
         console.log(`Email: ${profile.getEmail()}`);
 
+        const user = {
+            email: profile.getEmail(),
+            thirdPartyLogin: 'Gmail',
+            imageUrl: profile.getImageUrl(),
+            name: profile.getName()
+        };
+
         const rawResponse = await fetch(`http://localhost:5001/login`, {
             method: 'POST',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email: profile.getEmail() })
+            body: JSON.stringify(user)
         });
 
         if (rawResponse.ok) {
-            history.push('/questions');
+            localStorage.setItem('isUserLoggedIn', true);
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            setUserLoggedIn(true);
+            history.push('/quizes');
         }
     }; // This is null if the 'email' scope is not present.
 
     return (
         <>
             <div>Login to Quizzone</div>
-            <div id="google-login" />
+            <div
+                onKeyDown={() => {}}
+                id="google-login"
+                role="button"
+                aria-label="Login"
+                tabIndex={0}
+                onClick={() => {
+                    googleSignInbuttonClicked = true;
+                }}
+            />
         </>
     );
 };

@@ -15,7 +15,9 @@ import { Box } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 // import { NavLink } from 'react-router-dom';
 import logo from '../assets/images/quizone.png';
+import userEvent from '@testing-library/user-event';
 // import { useStores } from '../stores/index';
+import '../assets/css/index.scss';
 
 const useStyles = makeStyles((theme) => ({
     logo: {
@@ -46,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
         letterSpacing: '0.4px'
     },
     toolBar: {
-        minHeight: '45px',
+        minHeight: '60px',
         display: 'flex',
         justifyContent: 'space-between'
     },
@@ -71,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Navbar = ({ hideProfileMenu }) => {
+const BrandingBar = ({ showProfileMenu, currentUser }) => {
     // const { navStore } = useStores();
     const history = useHistory();
 
@@ -88,9 +90,11 @@ const Navbar = ({ hideProfileMenu }) => {
     };
 
     React.useEffect(() => {
-        window.gapi.load('auth2', function () {
-            window.gapi.auth2.init();
-        });
+        if (window.gapi) {
+            window.gapi.load('auth2', function () {
+                window.gapi.auth2.init();
+            });
+        }
     });
 
     const logout = async () => {
@@ -110,6 +114,8 @@ const Navbar = ({ hideProfileMenu }) => {
         });
 
         if (rawResponse.ok) {
+            localStorage.removeItem('isUserLoggedIn');
+            localStorage.removeItem('currentUser');
             console.log('destroyed session in server');
             history.push('/login');
         }
@@ -137,7 +143,7 @@ const Navbar = ({ hideProfileMenu }) => {
                     <IconButton aria-label="help" color="inherit">
                         <Help />
                     </IconButton>
-                    {!hideProfileMenu ? (
+                    {showProfileMenu ? (
                         <IconButton
                             edge="end"
                             aria-label="account of current user"
@@ -145,7 +151,11 @@ const Navbar = ({ hideProfileMenu }) => {
                             aria-haspopup="true"
                             color="inherit"
                             onClick={handleMenu}>
-                            <AccountCircle />
+                            {currentUser.imageUrl ? (
+                                <img className="profile-image" src={currentUser.imageUrl} />
+                            ) : (
+                                <AccountCircle />
+                            )}
                         </IconButton>
                     ) : null}
                 </div>
@@ -179,11 +189,6 @@ const Navbar = ({ hideProfileMenu }) => {
                                 My Profile
                             </NavLink> */}
                         </MenuItem>
-                        {/* <MenuItem onClick={handleClose}>
-                            <NavLink to="/signup" onClick={navStore.hideAppNavBar}>
-                                Sign up
-                            </NavLink>
-                        </MenuItem> */}
                         <MenuItem onClick={logout}>Log out</MenuItem>
                     </Menu>
                 </div>
@@ -192,4 +197,4 @@ const Navbar = ({ hideProfileMenu }) => {
     );
 };
 
-export default Navbar;
+export default BrandingBar;

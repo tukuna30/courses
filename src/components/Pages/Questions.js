@@ -10,6 +10,8 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import { getScore } from '../../uiHelper';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import './Details.css';
 
@@ -24,6 +26,7 @@ const Questions = () => {
     const [questionAnswers, setQuestionValues] = useState({});
     const [isToastOpen, setIsToastOpen] = useState(false);
     const [unAnswered, setUnAnsweredQuestions] = useState([]);
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
     useEffect(async () => {
         try {
@@ -71,6 +74,11 @@ const Questions = () => {
 
         if (unattended.length == 0) {
             // write code to make api call to store users submission
+
+            const score = getScore(quiz.answer, questionAnswers);
+            setToastMessage(`Your score is ${score}`);
+            setIsToastOpen(true);
+            setIsSubmitDisabled(true);
         }
     };
 
@@ -111,13 +119,28 @@ const Questions = () => {
                             {quiz.questions.map((question, _id) => {
                                 return renderQuestion(question, _id);
                             })}
-                            <Button color="primary" variant="contained" onClick={submitHandler}>
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                onClick={submitHandler}
+                                disabled={isSubmitDisabled}>
                                 Submit quiz
                             </Button>
+                            {isSubmitDisabled && <div>*You can submit a quiz only once</div>}
                         </form>
                     </Grid>
                 </div>
             )}
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                autoHideDuration={10000}
+                open={isToastOpen}
+                onClose={() => {
+                    setIsToastOpen(false);
+                }}
+                message={toastMessage}
+                key={'success toast'}
+            />
         </div>
     );
 };

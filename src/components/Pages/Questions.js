@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { getScore } from '../../uiHelper';
 import Snackbar from '@material-ui/core/Snackbar';
-
+import MuiAlert from '@material-ui/lab/Alert';
 import './Details.css';
 
 const Questions = () => {
@@ -27,6 +27,11 @@ const Questions = () => {
     const [isToastOpen, setIsToastOpen] = useState(false);
     const [unAnswered, setUnAnsweredQuestions] = useState([]);
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+    let [alertType, setAlertType] = useState('error');
+
+    const Alert = (props) => {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+    };
 
     useEffect(async () => {
         try {
@@ -64,6 +69,10 @@ const Questions = () => {
         setQuestionValues({ ...questionAnswers, [questionId]: event.target.value });
     };
 
+    const handleClose = () => {
+        setIsToastOpen(false);
+    };
+
     const submitHandler = () => {
         console.log('users submission', questionAnswers);
         const answeredQuestionIds = Object.keys(questionAnswers);
@@ -76,6 +85,14 @@ const Questions = () => {
             // write code to make api call to store users submission
 
             const score = getScore(quiz.answer, questionAnswers);
+
+            if (score >= 40 && score < 70) {
+                alertType = 'warning';
+            } else if (score >= 70) {
+                alertType = 'success';
+            }
+
+            setAlertType(alertType);
             setToastMessage(`Your score is ${score}`);
             setIsToastOpen(true);
             setIsSubmitDisabled(true);
@@ -133,14 +150,14 @@ const Questions = () => {
             )}
             <Snackbar
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                autoHideDuration={10000}
+                autoHideDuration={12000}
                 open={isToastOpen}
-                onClose={() => {
-                    setIsToastOpen(false);
-                }}
-                message={toastMessage}
-                key={'success toast'}
-            />
+                onClose={handleClose}
+                key={'success toast'}>
+                <Alert onClose={handleClose} severity={alertType}>
+                    {toastMessage}
+                </Alert>
+            </Snackbar>
         </div>
     );
 };

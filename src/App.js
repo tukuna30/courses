@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import BrandingBar from './components/BrandingBar';
 import Login from './components/Pages/Login';
 import Questions from './components/Pages/Questions';
-import courses from './components/Pages/Courses';
+import Courses from './components/Pages/Courses';
 
 import theme from './theme';
 
@@ -48,7 +48,7 @@ function App() {
                                     <Login />
                                 </Route>
                                 <Route path="/courses">
-                                    <courses />
+                                    <Courses />
                                 </Route>
                                 <Route path="/details/:id">
                                     <Questions />

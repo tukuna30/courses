@@ -67,14 +67,14 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/courses', (req, res) => {
-    const courses = [
-        { id: 1, name: 'Javascript', description: '' },
-        { id: 2, name: 'CSS', description: '' },
-        { id: 3, name: 'HTML', description: '' }
-    ];
-    return res.json({ courses });
-});
+// app.get('/courses', (req, res) => {
+//     const courses = [
+//         { id: 1, name: 'Javascript', description: '' },
+//         { id: 2, name: 'CSS', description: '' },
+//         { id: 3, name: 'HTML', description: '' }
+//     ];
+//     return res.json({ courses });
+// });
 
 app.get('/users', (req, res) => {
     console.log('session in users api', req.session.user);
@@ -90,7 +90,7 @@ app.get('/courses', (req, res) => {
     if (!req.session.user) {
         return res.sendStatus(401);
     }
-    const courses = quizUtil.getCourses();
+    const courses = courseUtil.getCourses();
     return res.json({ courses });
 });
 
@@ -103,7 +103,7 @@ app.get('/course/:id', (req, res) => {
     if (!req.session.user) {
         return res.sendStatus(401);
     }
-    const course = courseUtil.course(id);
+    const course = courseUtil.getCourse(id);
     console.log('course', course);
     return res.json({ course });
 });

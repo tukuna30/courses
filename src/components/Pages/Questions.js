@@ -9,7 +9,7 @@ const Questions = () => {
     const { id } = useParams();
     const history = useHistory();
     const [error, setError] = useState('');
-    const [course, setCourse] = useState({ questions: [] });
+    const [course, setCourse] = useState({ topics: [] });
     const [toastMessage, setToastMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -22,7 +22,6 @@ const Questions = () => {
                 method: 'GET',
                 credentials: 'include'
             });
-            console.log('raw response', rawRsponse);
 
             if (!rawRsponse.ok) {
                 if (rawRsponse.status === 401);
@@ -35,8 +34,7 @@ const Questions = () => {
             }
             const jsonResponse = await rawRsponse.json();
             console.log('chapter', jsonResponse.course);
-
-            setQuiz(jsonResponse.course); //
+            setCourse(jsonResponse.course);
             setIsLoading(false);
             // {name: '', questions: [{title: , options: ['strings']}]}
         } catch (_error) {
@@ -50,13 +48,14 @@ const Questions = () => {
             <div>
                 <h3>{`${_id + 1}) ${question.title}`} </h3>
                 {question.options.map((option) => {
-                    return (
-                        {/* <div key={option}>
+                    return {
+                        /* <div key={option}>
                             <input type="radio" value={option} name={option} />
                             <span>{option}</span>
                             <br />
                         </div>
-   */});
+   */
+                    };
                 })}
             </div>
         );
@@ -64,17 +63,17 @@ const Questions = () => {
 
     return (
         <div style={{ padding: '20px' }}>
-            {error.length > 0 ? <div>Error fetching the data: {error}</div> : null}
-            {isLoading && <div>Loading quiz...</div>}
+            {isLoading && <div>Loading courses...</div>}
             {!isLoading && (
                 <div>
                     <h1>{course.name}</h1>
-                    <form>
-                        {course.questions.map((question, _id) => {
+                    <h2>{course.description}</h2>
+                    {/* <form>
+                        {course.topics.map((question, _id) => {
                             return renderQuestion(question, _id);
                         })}
                         <input type="submit" value="Submit" />
-                    </form>
+                    </form> */}
                 </div>
             )}
         </div>

@@ -48,4 +48,4 @@ const Courses = () => {
     );
 };
 
-export default courses;
+export default Courses;

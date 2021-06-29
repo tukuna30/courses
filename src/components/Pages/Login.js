@@ -37,7 +37,7 @@ const Login = () => {
         });
 
         if (rawResponse.ok) {
-            history.push('/questions');
+            history.push('/courses');
         }
     }; // This is null if the 'email' scope is not present.
 

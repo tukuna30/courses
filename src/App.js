@@ -8,9 +8,11 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import BrandingBar from './components/BrandingBar';
 import Login from './components/Pages/Login';
-import Questions from './components/Pages/Questions';
+import CourseDetail from './components/Pages/CourseDetail';
 import Courses from './components/Pages/Courses';
 
+import NotFound from './components/NotFound';
+import './assets/css/index.scss';
 import theme from './theme';
 
 const useStyles = makeStyles(() => ({
@@ -19,7 +21,6 @@ const useStyles = makeStyles(() => ({
     },
     mainContainer: {
         display: 'flex',
-        justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column'
     }
@@ -27,11 +28,20 @@ const useStyles = makeStyles(() => ({
 
 function App() {
     const classes = useStyles();
+    const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(false);
+    const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+
+    console.log('currentUser', currentUser);
     return (
         <ThemeProvider theme={theme}>
             <Router>
                 <Box width="100%" height="100vh" display="flex" flexDirection="column">
-                    <BrandingBar />
+                    <BrandingBar
+                        showProfileMenu={
+                            isUserLoggedIn || Object.keys(currentUser).length ? true : false
+                        }
+                        currentUser={currentUser}
+                    />
                     <Box
                         width="100%"
                         height="100%"
@@ -42,16 +52,19 @@ function App() {
                         <div>
                             <Switch>
                                 <Route exact path="/">
-                                    <Login />
+                                    <Login setUserLoggedIn={setIsUserLoggedIn} />
                                 </Route>
                                 <Route exact path="/login">
-                                    <Login />
+                                    <Login setUserLoggedIn={setIsUserLoggedIn} />
                                 </Route>
                                 <Route path="/courses">
                                     <Courses />
                                 </Route>
                                 <Route path="/details/:id">
-                                    <Questions />
+                                    <CourseDetail />
+                                </Route>
+                                <Route path="*">
+                                    <NotFound />
                                 </Route>
                             </Switch>
                         </div>

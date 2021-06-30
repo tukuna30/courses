@@ -17,6 +17,7 @@ const Courses = () => {
             .then((res) => {
                 if (!res.ok) {
                     setTimeout(() => {
+                        localStorage.removeItem('isUserLoggedIn');
                         history.push('/login');
                     }, 1000);
                     return Promise.resolve({});
@@ -35,7 +36,7 @@ const Courses = () => {
 
     return (
         <div>
-            <h1> Quiz list </h1>
+            <h1> All availalbe courses </h1>
             {isLoading && <CircularProgress />}
             <ul>
                 {courses.map((course) => (

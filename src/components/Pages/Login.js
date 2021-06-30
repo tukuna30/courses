@@ -1,7 +1,8 @@
 import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
-const Login = () => {
+let googleSignInbuttonClicked = false;
+const Login = ({ setUserLoggedIn }) => {
     const history = useHistory();
 
     React.useEffect(() => {
@@ -17,6 +18,9 @@ const Login = () => {
                 console.log('Login with gmail failed', error);
             }
         });
+
+        const isUserLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
+        setUserLoggedIn(isUserLoggedIn);
     }, []);
 
     window.onSignIn = async function data(googleUser) {
@@ -27,16 +31,26 @@ const Login = () => {
         console.log(`Image URL: ${profile.getImageUrl()}`);
         console.log(`Email: ${profile.getEmail()}`);
 
+        const user = {
+            email: profile.getEmail(),
+            thirdPartyLogin: 'Gmail',
+            imageUrl: profile.getImageUrl(),
+            name: profile.getName()
+        };
+
         const rawResponse = await fetch(`http://localhost:5001/login`, {
             method: 'POST',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email: profile.getEmail() })
+            body: JSON.stringify(user)
         });
 
         if (rawResponse.ok) {
+            localStorage.setItem('isUserLoggedIn', true);
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            setUserLoggedIn(true);
             history.push('/courses');
         }
     }; // This is null if the 'email' scope is not present.

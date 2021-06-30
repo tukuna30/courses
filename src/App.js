@@ -8,8 +8,9 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import BrandingBar from './components/BrandingBar';
 import Login from './components/Pages/Login';
-import Quizes from './components/Pages/Quizes';
-import Questions from './components/Pages/Questions';
+import CourseDetail from './components/Pages/CourseDetail';
+import Courses from './components/Pages/Courses';
+
 import NotFound from './components/NotFound';
 import './assets/css/index.scss';
 import theme from './theme';
@@ -20,7 +21,6 @@ const useStyles = makeStyles(() => ({
     },
     mainContainer: {
         display: 'flex',
-        justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column'
     }
@@ -57,11 +57,11 @@ function App() {
                                 <Route exact path="/login">
                                     <Login setUserLoggedIn={setIsUserLoggedIn} />
                                 </Route>
-                                <Route path="/quizes">
-                                    <Quizes />
+                                <Route path="/courses">
+                                    <Courses />
                                 </Route>
                                 <Route path="/details/:id">
-                                    <Questions />
+                                    <CourseDetail />
                                 </Route>
                                 <Route path="*">
                                     <NotFound />
@@ -70,7 +70,7 @@ function App() {
                         </div>
                     </Box>
                     <Grid container className={classes.footer}>
-                        <div>Quizone Test your skills via a quiz</div>
+                        <div>Learn Without Limits</div>
                     </Grid>
                 </Box>
             </Router>

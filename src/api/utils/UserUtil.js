@@ -2,8 +2,8 @@
 const users = [
     {
         id: 1,
-        firstName: 'Subhasmita',
-        lastName: 'Khamari',
+        firstName: 'HTML',
+        lastName: '',
         active: true,
         email: 'khamarisubhasmita9@gmail.com'
     },

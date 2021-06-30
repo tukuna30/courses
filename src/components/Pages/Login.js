@@ -24,9 +24,6 @@ const Login = ({ setUserLoggedIn }) => {
     }, []);
 
     window.onSignIn = async function data(googleUser) {
-        if (googleSignInbuttonClicked === false) {
-            return;
-        }
         console.log('google login success');
         const profile = googleUser.getBasicProfile();
         console.log(`ID: ${profile.getId()}`); // Do not send to your backend! Use an ID token instead.
@@ -54,23 +51,14 @@ const Login = ({ setUserLoggedIn }) => {
             localStorage.setItem('isUserLoggedIn', true);
             localStorage.setItem('currentUser', JSON.stringify(user));
             setUserLoggedIn(true);
-            history.push('/quizes');
+            history.push('/courses');
         }
     }; // This is null if the 'email' scope is not present.
 
     return (
         <>
             <div>Login to Quizzone</div>
-            <div
-                onKeyDown={() => {}}
-                id="google-login"
-                role="button"
-                aria-label="Login"
-                tabIndex={0}
-                onClick={() => {
-                    googleSignInbuttonClicked = true;
-                }}
-            />
+            <div id="google-login" />
         </>
     );
 };

@@ -2,55 +2,10 @@
 const quizes = [
     {
         id: 1,
-        /*firstName: 'Subhasmita',
-        lastName: 'Khamari',*/
         name: 'HTML',
-        courses: [
-            {
-                title: 'React JS',
-                description: 'Learn how to use React in modern web apps',
-                topics: [
-                    {
-                        title: 'Why React is popular?',
-                        sections: [
-                            {
-                                sectionTitle: 'Easy to learn',
-                                sectionDescription:
-                                    ' React uses html, css and js in one component js file, so if you know JavaScript and html and CSS, you can start a web app quickly.'
-                            },
-                            {
-                                sectionTitle: 'Blazing Fast',
-                                sectionDescription:
-                                    'React uses dom difference algorithm, which makes only render the changes in a component. '
-                            }
-                        ]
-                    },
-                    {
-                        title: 'React component LifeCycle methods',
-                        title: 'LifeCycle methods in class based components',
-                        sections: [
-                            {
-                                sectionTitle: 'Creation',
-                                sectionDescription: 'It has constructor, render, componentDidMount'
-                            },
-                            {
-                                sectionTitle: 'Updatation',
-                                sectionDescription: 'shouldComponent update'
-                            },
-                            {
-                                sectionTitle: 'Destroy',
-                                sectionDescription: 'componentWillUnmount'
-                            }
-                        ]
-                    },
-                    ,
-                    {}
-                ]
-            }
-        ],
         questions: [
             {
-                title: 'What does HTML stands for?',
+                title: 'What does HTML stand for?',
                 id: 'html1',
                 options: [
                     'Hyper Text Machine language',
@@ -60,7 +15,7 @@ const quizes = [
                 ]
             },
             {
-                title: 'Which one of the following is a block element',
+                title: 'Which one of the following is an inline element',
                 id: 'html2',
                 options: ['p', 'span', 'img', 'a']
             },
@@ -73,17 +28,70 @@ const quizes = [
                     '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" http://www.w3.org/TR/html4/frameset.dtd">',
                     '<!DOCTYPE html>'
                 ]
+            },
+            {
+                id: 'html4',
+                title: 'Which one of the followings is used to render a sidebar?',
+                options: ['article', 'aside', 'sidebar', 'section']
+            },
+            {
+                id: 'html5',
+                title: 'To make a div draggable which attribute is used',
+                options: ['draggable', 'drag', 'drop', 'droppable']
             }
         ],
+        answer: {
+            html1: 'Hyper Text Markup Language',
+            html2: 'span',
+            html3: '<!DOCTYPE html>',
+            html4: 'aside',
+            html5: 'draggable'
+        },
         active: true,
         description: 'A quiz about HTML'
     },
     {
         id: 2,
-        /*firstName: 'Akankshya',
-        lastName: 'Behera',*/
         name: 'CSS',
-        questions: [],
+        questions: [
+            {
+                id: 'css1',
+                title: 'Display flex CSS property is used for?',
+                options: ['Flexible margin', 'Positioning', 'Layout', 'Floating']
+            },
+            {
+                id: 'css2',
+                title: 'Which value is not valid for positioning?',
+                options: ['absolute', 'relative', 'dynamic', 'static']
+            },
+            {
+                id: 'css3',
+                title: 'Which one of the following rules is not valid?',
+                options: [
+                    'position: absolute;',
+                    'margin: 20px !important;',
+                    'border-bottom: 20%;',
+                    'padding-center: 20px;'
+                ]
+            },
+            {
+                id: 'css4',
+                title: 'Which property is used to set z-order of positioned elements?',
+                options: ['z-index', 'order', 'position', 'display']
+            },
+            {
+                id: 'css5',
+                title: 'Select the valid pseudo element',
+                options: ['::placeholder', ':checked', ':active', ':first-of-type']
+            }
+        ],
+        answer: {
+            css1: 'Layout',
+            css2: 'dynamic',
+            css3: 'padding-center: 20px;',
+            css4: 'z-index',
+            css5: '::placeholder'
+        },
         active: true,
         description: 'akankshya.b0009@gmail.com'
     },

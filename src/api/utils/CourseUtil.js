@@ -21,37 +21,37 @@ const courses = [
     },
 
     {
-        id: 3,
+        id: 2,
         /*firstName: 'Suman',
         lastName: 'Patra',*/
-        name: 'JAVASCRIPT',
+        name: 'CSS',
         questions: [],
         active: true,
         description: 'sumanpatra688@gmail.com'
     },
     {
-        id: 4,
+        id: 3,
         /*firstName: 'Deepak',
         lastName: 'Naik',*/
-        name: 'REACTJS',
+        name: 'BOOTSTARP',
         questions: [],
         active: true,
         description: '0001d1001d1001d1000@gmail.com'
     },
     {
-        id: 5,
+        id: 4,
         /* firstName: 'Tukuna',
         lastName: 'Patro',*/
-        name: 'NODEJS',
+        name: 'JAVASCRIPT',
         questions: [],
         active: true,
         description: 'tukuna.patro@gmail.com'
     },
     {
-        id: 6,
+        id: 5,
         /*firstName: 'Swati',
         lastName: 'Sucharita',*/
-        name: 'MONGODB',
+        name: 'REACTJS',
         questions: [],
         active: false,
         description: 'swatisucharita94@gmail.com'

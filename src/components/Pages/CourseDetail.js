@@ -128,7 +128,8 @@ const Questions = () => {
                 <div>
                     <h1>{course.name}</h1>
                     <h2>{course.description}</h2>
-                    <Grid container direction="row" justify="center" alignItems="center">
+                    <Grid container direction="row" justify="right" alignItems="right">
+
                         <Tabs
                             orientation="vertical"
                             variant="scrollable"
@@ -136,18 +137,27 @@ const Questions = () => {
                             onChange={handleChange}
                             aria-label="Vertical tabs example"
                             className={classes.tabs}>
-                            <Tab label="Chapter One" {...a11yProps(0)} />
-                            <Tab label="Chapter Two" {...a11yProps(1)} />
-                            <Tab label="Chapter Three" {...a11yProps(2)} />
-                            <Tab label="Chapter Four" {...a11yProps(3)} />
-                            <Tab label="Chapter Five" {...a11yProps(4)} />
-                            <Tab label="Chapter Six" {...a11yProps(5)} />
-                            <Tab label="Chapter Seven" {...a11yProps(6)} />
+                            <Tab label="Basic" {...a11yProps(0)} />
+                            <Tab label=" Elements & attribute" {...a11yProps(1)} />
+                            <Tab label="classes" {...a11yProps(2)} />
+                            <Tab label="HTML tag" {...a11yProps(3)} />
+                            <Tab label="HTML list" {...a11yProps(4)} />
+                            <Tab label="APIs" {...a11yProps(5)} />
+                            <Tab label="HTML vs. XHTML" {...a11yProps(6)} />
+                            <Tab label="Graphics" {...a11yProps(7)} />
+                            <Tab label="canvas " {...a11yProps(8)} />
+                            <Tab label="Audio/Video " {...a11yProps(9)} />
+                            <Tab label="HTML links " {...a11yProps(10)} />
+
                         </Tabs>
 
-                        <div>
+                        <div className="tabpanel">
                             <TabPanel value={tabValue} index={0}>
-                                Chapter One content
+                                HTML is an acronym which stands for Hyper Text Markup Language which is used for creating web pages and web applications. Let's see what is meant by Hypertext Markup Language, and Web page.
+                                Hyper Text: HyperText simply means "Text within Text." A text has a link within it, is a hypertext. Whenever you click on a link which brings you to a new webpage, you have clicked on a hypertext. HyperText is a way to link two or more web pages (HTML documents) with each other.
+                                Markup language: A markup language is a computer language that is used to apply layout and formatting conventions to a text document. Markup language makes text more interactive and dynamic. It can turn text into images, tables, links, etc.
+
+
                             </TabPanel>
                             <TabPanel value={tabValue} index={1}>
                                 Chapter Two content

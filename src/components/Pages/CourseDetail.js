@@ -55,7 +55,8 @@ const useStyles = makeStyles((theme) => ({
         height: 224
     },
     tabs: {
-        borderRight: `1px solid ${theme.palette.divider}`
+        borderRight: `1px solid ${theme.palette.divider}`,
+        minWidth: '200px'
     },
     content: {
         color: 'red',
@@ -63,13 +64,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Questions = () => {
+const CourseDetail = () => {
     const classes = useStyles();
 
     const { id } = useParams();
     const history = useHistory();
     const [error, setError] = useState('');
-    const [course, setCourse] = useState({ topics: [] });
+    const [course, setCourse] = useState({ chapters: [] });
     const [toastMessage, setToastMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -107,7 +108,7 @@ const Questions = () => {
                 return;
             }
             const jsonResponse = await rawRsponse.json();
-            console.log('chapter', jsonResponse.course);
+            console.log('course', jsonResponse.course);
             setCourse(jsonResponse.course);
             setIsLoading(false);
             // {name: '', questions: [{title: , options: ['strings']}]}
@@ -121,14 +122,45 @@ const Questions = () => {
         setIsToastOpen(false);
     };
 
+    const renderTabs = (chapters) => {
+        return chapters.map((chapter, index) => {
+            return <Tab label={chapter.title} {...a11yProps(index)} />;
+        });
+    };
+
+    const renderTabPanels = (chapters) => {
+        return chapters.map((chapter, index) => {
+            return (
+                <TabPanel value={tabValue} index={index}>
+                    <div>{chapter.description}</div>
+
+                    <div>Topics:- </div>
+                    {chapter.topics.map((topic, index) => {
+                        return (
+                            <div key={index}>
+                                <div>{topic.title}</div>
+                                <div>{topic.topicDescription}</div>
+                            </div>
+                        );
+                    })}
+                </TabPanel>
+            );
+        });
+    };
+
     return (
         <div style={{ padding: '20px' }}>
-            {isLoading && <div>Loading courses...</div>}
+            {isLoading && <div>Loading specific course...</div>}
             {!isLoading && (
                 <div>
                     <h1>{course.name}</h1>
                     <h2>{course.description}</h2>
-                    <Grid container direction="row" justify="center" alignItems="center">
+                    <Grid
+                        container
+                        direction="row"
+                        justify="center"
+                        alignItems="flex-start"
+                        wrap="nowrap">
                         <Tabs
                             orientation="vertical"
                             variant="scrollable"
@@ -136,38 +168,9 @@ const Questions = () => {
                             onChange={handleChange}
                             aria-label="Vertical tabs example"
                             className={classes.tabs}>
-                            <Tab label="Chapter One" {...a11yProps(0)} />
-                            <Tab label="Chapter Two" {...a11yProps(1)} />
-                            <Tab label="Chapter Three" {...a11yProps(2)} />
-                            <Tab label="Chapter Four" {...a11yProps(3)} />
-                            <Tab label="Chapter Five" {...a11yProps(4)} />
-                            <Tab label="Chapter Six" {...a11yProps(5)} />
-                            <Tab label="Chapter Seven" {...a11yProps(6)} />
+                            {renderTabs(course.chapters)}
                         </Tabs>
-
-                        <div>
-                            <TabPanel value={tabValue} index={0}>
-                                Chapter One content
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={1}>
-                                Chapter Two content
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={2}>
-                                Chapter Three content
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={3}>
-                                Chapter Four content
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={4}>
-                                Chapter Five content
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={5}>
-                                Chapter Six content
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={6}>
-                                Chapter Seven content
-                            </TabPanel>
-                        </div>
+                        <div>{renderTabPanels(course.chapters)}</div>
                     </Grid>
                 </div>
             )}
@@ -185,4 +188,4 @@ const Questions = () => {
     );
 };
 
-export default Questions;
+export default CourseDetail;

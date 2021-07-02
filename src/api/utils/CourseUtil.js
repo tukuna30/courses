@@ -4,15 +4,95 @@ const courses = [
         id: 1,
         name: 'HTML',
         description: 'Learn Basic structure of HTML Page',
-        topics: [
+        chapters: [
             {
-                title: 'HTML(Hyper Text Markup Language)',
-                description:
-                    'HTML is a method where ordinary text can be converted inti hypertext. It is the basic tools for  designing a web page.',
-                sections: [
+                title: 'Basic',
+                description: 'HTML is an acronym which stands for Hyper Text Markup Language which is used for creating web pages and web applications',
+
+                topics: [
                     {
-                        sectionTitle: 'Hyper Text',
-                        sectionDescription:
+
+                        title: ' Why html is needed ',
+                        topicDescription: 'Html is used to structure a web page.'
+                    },
+                    {
+                        sectionTitle: 'Basic structure of a HTML file',
+                        topicDescription:
+                            'A way of creating multimedia documents, also a method for providing links  within the documents '
+                    }
+                ]
+            },
+            {
+                title: 'Chapter 2',
+                description: 'Chapter 2 description: Tags in HTML',
+                topics: [
+                    {
+                        title: 'Why html is needed',
+                        topicDescription: 'Html is used to structure a web page.'
+                    },
+                    {
+                        sectionTitle: 'Basic structure of a HTML file',
+                        topicDescription:
+                            'A way of creating multimedia documents, also a method for providing links  within the documents '
+                    }
+                ]
+            },
+            {
+                title: 'Chapter 3',
+                description: 'Chapter 3 description: Details of various Tags in HTML',
+                topics: [
+                    {
+                        title: 'Why html is needed',
+                        topicDescription: 'Html is used to structure a web page.'
+                    },
+                    {
+                        sectionTitle: 'Basic structure of a HTML file',
+                        topicDescription:
+                            'A way of creating multimedia documents, also a method for providing links  within the documents '
+                    }
+                ]
+            },
+            {
+                title: 'Chapter 4',
+                description: 'Chapter 3 description: Details of various Tags in HTML',
+                topics: [
+                    {
+                        title: 'Why html is needed',
+                        topicDescription: 'Html is used to structure a web page.'
+                    },
+                    {
+                        sectionTitle: 'Basic structure of a HTML file',
+                        topicDescription:
+                            'A way of creating multimedia documents, also a method for providing links  within the documents '
+                    }
+                ]
+            },
+            {
+                title: 'Chapter 5',
+                description: 'Chapter 5 description: Details of various Tags in HTML',
+                topics: [
+                    {
+                        title: 'Why html is needed',
+                        topicDescription: 'Html is used to structure a web page.'
+                    },
+                    {
+                        title: 'Basic structure of a HTML file',
+                        topicDescription:
+                            'A way of creating multimedia documents, also a method for providing links  within the documents '
+                    }
+                ]
+            },
+            {
+                title: 'Chapter 6',
+                description: 'Chapter 6 description: Details of various Tags in HTML',
+                topics: [
+                    {
+                        title: 'Why html is needed',
+                        topicDescription: 'Html is used to structure a web page.'
+                    },
+                    {
+                        sectionTitle: 'Basic structure of a HTML file',
+                        topicDescription:
                             'A way of creating multimedia documents, also a method for providing links  within the documents '
                     }
                 ]

@@ -55,7 +55,8 @@ const useStyles = makeStyles((theme) => ({
         height: 224
     },
     tabs: {
-        borderRight: `1px solid ${theme.palette.divider}`
+        borderRight: `1px solid ${theme.palette.divider}`,
+        minWidth: '200px'
     },
     content: {
         color: 'red',
@@ -63,13 +64,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Questions = () => {
+const CourseDetail = () => {
     const classes = useStyles();
 
     const { id } = useParams();
     const history = useHistory();
     const [error, setError] = useState('');
-    const [course, setCourse] = useState({ topics: [] });
+    const [course, setCourse] = useState({ chapters: [] });
     const [toastMessage, setToastMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -107,7 +108,7 @@ const Questions = () => {
                 return;
             }
             const jsonResponse = await rawRsponse.json();
-            console.log('chapter', jsonResponse.course);
+            console.log('course', jsonResponse.course);
             setCourse(jsonResponse.course);
             setIsLoading(false);
             // {name: '', questions: [{title: , options: ['strings']}]}
@@ -121,9 +122,35 @@ const Questions = () => {
         setIsToastOpen(false);
     };
 
+    const renderTabs = (chapters) => {
+        return chapters.map((chapter, index) => {
+            return <Tab label={chapter.title} {...a11yProps(index)} />;
+        });
+    };
+
+    const renderTabPanels = (chapters) => {
+        return chapters.map((chapter, index) => {
+            return (
+                <TabPanel value={tabValue} index={index}>
+                    <div>{chapter.description}</div>
+
+                    <div>Topics:- </div>
+                    {chapter.topics.map((topic, index) => {
+                        return (
+                            <div key={index}>
+                                <div>{topic.title}</div>
+                                <div>{topic.topicDescription}</div>
+                            </div>
+                        );
+                    })}
+                </TabPanel>
+            );
+        });
+    };
+
     return (
         <div style={{ padding: '20px' }}>
-            {isLoading && <div>Loading courses...</div>}
+            {isLoading && <div>Loading specific course...</div>}
             {!isLoading && (
                 <div>
                     <h1>{course.name}</h1>
@@ -137,47 +164,9 @@ const Questions = () => {
                             onChange={handleChange}
                             aria-label="Vertical tabs example"
                             className={classes.tabs}>
-                            <Tab label="Basic" {...a11yProps(0)} />
-                            <Tab label=" Elements & attribute" {...a11yProps(1)} />
-                            <Tab label="classes" {...a11yProps(2)} />
-                            <Tab label="HTML tag" {...a11yProps(3)} />
-                            <Tab label="HTML list" {...a11yProps(4)} />
-                            <Tab label="APIs" {...a11yProps(5)} />
-                            <Tab label="HTML vs. XHTML" {...a11yProps(6)} />
-                            <Tab label="Graphics" {...a11yProps(7)} />
-                            <Tab label="canvas " {...a11yProps(8)} />
-                            <Tab label="Audio/Video " {...a11yProps(9)} />
-                            <Tab label="HTML links " {...a11yProps(10)} />
-
+                            {renderTabs(course.chapters)}
                         </Tabs>
-
-                        <div className="tabpanel">
-                            <TabPanel value={tabValue} index={0}>
-                                HTML is an acronym which stands for Hyper Text Markup Language which is used for creating web pages and web applications. Let's see what is meant by Hypertext Markup Language, and Web page.
-                                Hyper Text: HyperText simply means "Text within Text." A text has a link within it, is a hypertext. Whenever you click on a link which brings you to a new webpage, you have clicked on a hypertext. HyperText is a way to link two or more web pages (HTML documents) with each other.
-                                Markup language: A markup language is a computer language that is used to apply layout and formatting conventions to a text document. Markup language makes text more interactive and dynamic. It can turn text into images, tables, links, etc.
-
-
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={1}>
-                                Chapter Two content
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={2}>
-                                Chapter Three content
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={3}>
-                                Chapter Four content
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={4}>
-                                Chapter Five content
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={5}>
-                                Chapter Six content
-                            </TabPanel>
-                            <TabPanel value={tabValue} index={6}>
-                                Chapter Seven content
-                            </TabPanel>
-                        </div>
+                        <div>{renderTabPanels(course.chapters)}</div>
                     </Grid>
                 </div>
             )}
@@ -195,4 +184,4 @@ const Questions = () => {
     );
 };
 
-export default Questions;
+export default CourseDetail;

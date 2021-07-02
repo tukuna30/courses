@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
     },
     mainContainer: {
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         flexDirection: 'column'
     }
 }));
@@ -48,7 +48,6 @@ function App() {
                         flexGrow="1"
                         overflow="auto"
                         className={classes.mainContainer}>
-                        <Container maxWidth="xl" />
                         <div>
                             <Switch>
                                 <Route exact path="/">

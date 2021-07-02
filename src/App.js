@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import BrandingBar from './components/BrandingBar';
 import Login from './components/Pages/Login';
 import CourseDetail from './components/Pages/CourseDetail';
+import AddCourse from './components/Pages/AddCourse';
 import Courses from './components/Pages/Courses';
 
 import NotFound from './components/NotFound';
@@ -58,6 +59,9 @@ function App() {
                                 </Route>
                                 <Route path="/courses">
                                     <Courses />
+                                </Route>
+                                <Route path="/addCourse">
+                                    <AddCourse />
                                 </Route>
                                 <Route path="/details/:id">
                                     <CourseDetail />

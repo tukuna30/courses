@@ -1,16 +1,13 @@
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import TextField from '@material-ui/core/TextField';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Button from '@material-ui/core/Button';
+import Header from '@editorjs/header';
+import List from '@editorjs/list';
+import InlineCode from '@editorjs/inline-code';
+import Code from '@editorjs/code';
+import EditorJS from '@editorjs/editorjs';
+import SimpleImage from '@editorjs/simple-image';
 import Grid from '@material-ui/core/Grid';
-import { getScore } from '../../uiHelper';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Tabs from '@material-ui/core/Tabs';
@@ -64,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+let editor;
 const CourseDetail = () => {
     const classes = useStyles();
 
@@ -83,6 +81,11 @@ const CourseDetail = () => {
 
     const handleChange = (event, newValue) => {
         setTabValue(newValue);
+        try {
+            editor.render(course.chapters[newValue].content);
+        } catch (e) {
+            console.log('err while feeding data to editor', e);
+        }
     };
 
     const Alert = (props) => {
@@ -111,11 +114,33 @@ const CourseDetail = () => {
             console.log('course', jsonResponse.course);
             setCourse(jsonResponse.course);
             setIsLoading(false);
-            // {name: '', questions: [{title: , options: ['strings']}]}
+            setTimeout(() => {
+                editor.render(jsonResponse.course.chapters[0].content);
+            }, 1000);
         } catch (_error) {
             console.log('error', _error.message);
             setError(_error.message);
         }
+
+        editor = new EditorJS({
+            holder: 'editor',
+            readOnly: true,
+            tools: {
+                header: Header,
+                list: List,
+                inlineCode: InlineCode,
+                image: SimpleImage,
+                code: Code
+            }
+        });
+
+        editor.isReady
+            .then(() => {
+                // editor.render();
+            })
+            .catch((reason) => {
+                console.log(`Editor.js initialization failed because of ${reason}`);
+            });
     }, []);
 
     const handleClose = () => {
@@ -128,25 +153,25 @@ const CourseDetail = () => {
         });
     };
 
-    const renderTabPanels = (chapters) => {
-        return chapters.map((chapter, index) => {
-            return (
-                <TabPanel value={tabValue} index={index}>
-                    <div>{chapter.description}</div>
+    // const renderTabPanels = (chapters) => {
+    //     return chapters.map((chapter, index) => {
+    //         return (
+    //             <TabPanel value={tabValue} index={index}>
+    //                 <div>{chapter.description}</div>
 
-                    <div>Topics:- </div>
-                    {chapter.topics.map((topic, index) => {
-                        return (
-                            <div key={index}>
-                                <div>{topic.title}</div>
-                                <div>{topic.topicDescription}</div>
-                            </div>
-                        );
-                    })}
-                </TabPanel>
-            );
-        });
-    };
+    //                 <div>Topics:- </div>
+    //                 {chapter.topics.map((topic, index) => {
+    //                     return (
+    //                         <div key={index}>
+    //                             <div>{topic.title}</div>
+    //                             <div>{topic.topicDescription}</div>
+    //                         </div>
+    //                     );
+    //                 })}
+    //             </TabPanel>
+    //         );
+    //     });
+    // };
 
     return (
         <div style={{ padding: '20px' }}>
@@ -170,7 +195,9 @@ const CourseDetail = () => {
                             className={classes.tabs}>
                             {renderTabs(course.chapters)}
                         </Tabs>
-                        <div>{renderTabPanels(course.chapters)}</div>
+                        <div id="editor"></div>
+
+                        {/* <div>{renderTabPanels(course.chapters)}</div> */}
                     </Grid>
                 </div>
             )}

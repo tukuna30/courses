@@ -5,14 +5,16 @@ import InlineCode from '@editorjs/inline-code';
 import Code from '@editorjs/code';
 import EditorJS from '@editorjs/editorjs';
 import SimpleImage from '@editorjs/simple-image';
+import Grid from '@material-ui/core/Grid';
 window.onerror = (error) => {
     console.log('error', error);
     return true;
 };
 
+let editor;
+let previewEditor;
 export default function AddCourse() {
-    let editor;
-    let previewEditor;
+    const [editorContent, setEditorContent] = React.useState('');
     React.useEffect(() => {
         try {
             editor = new EditorJS({
@@ -25,17 +27,8 @@ export default function AddCourse() {
                     code: Code
                 }
             });
-            editor.caret.focus(true);
-
-            previewEditor = new EditorJS({
-                holder: 'preview',
-                tools: {
-                    header: Header,
-                    list: List,
-                    inlineCode: InlineCode,
-                    image: SimpleImage,
-                    code: Code
-                }
+            editor.isReady.then(() => {
+                editor.caret.focus(true);
             });
         } catch (er) {
             console.log(er);
@@ -46,22 +39,35 @@ export default function AddCourse() {
             .save()
             .then((outputData) => {
                 console.log('Article data: ', outputData);
-                previewEditor.render(outputData);
+                setEditorContent(JSON.stringify(outputData));
             })
             .catch((error) => {
                 console.log('Saving failed: ', error);
             });
     };
 
+    const textAreaRef = React.useRef();
+
+    const copyToClipBoard = () => {
+        textAreaRef.current.select();
+        document.execCommand('copy');
+    };
+
     return (
-        <div style={{ paddingLeft: '20px' }}>
-            <h1>Hello Editor!</h1>
-            <button onClick={save}>Save</button>
-            <div id="editorjs">
-                Start adding a course and click on save and see the content in preview mode below
-            </div>
-            <hr />
-            <div id="preview">Preview </div>
-        </div>
+        <Grid container spacing={3} direction="row" style={{ padding: '20px' }}>
+            <Grid item xs={6}>
+                <h1>Write an article!</h1>
+                <button onClick={save}>Save</button>
+
+                <div id="editorjs">
+                    Start writing and click on save and see the content in preview mode
+                </div>
+            </Grid>
+            <Grid item xs={6}>
+                <h1>Copy the article content after saving!</h1>
+                <textarea value={editorContent} ref={textAreaRef} />
+                <button onClick={copyToClipBoard}>Copy </button>
+            </Grid>
+        </Grid>
     );
 }

@@ -8,32 +8,90 @@ const courses = [
             {
                 title: 'Chapter 1',
                 description: 'Chapter 1 description: Introduction to HTML',
-                topics: [
-                    {
-                        title: 'Why html is needed',
-                        topicDescription: 'Html is used to structure a web page.'
-                    },
-                    {
-                        sectionTitle: 'Basic structure of a HTML file',
-                        topicDescription:
-                            'A way of creating multimedia documents, also a method for providing links  within the documents '
-                    }
-                ]
+                content: {
+                    time: 1625282357336,
+                    blocks: [
+                        {
+                            id: 'xj4nRn0T2c',
+                            type: 'header',
+                            data: {
+                                text:
+                                    'HTML (Hypertext Markup Language) is the code that is used to structure a web page and its content. For example, content could be structured within a set of paragraphs, a list of bulleted points, or using images and data tables. As the title suggests, this article will give you a basic understanding of HTML and its functions.',
+                                level: 4
+                            }
+                        },
+                        {
+                            id: '5qVR1P5UgQ',
+                            type: 'code',
+                            data: {
+                                code:
+                                    '<p>My cat is very grumpy</p>\n<div>My cat is very grumpy</div>\n\n\n<a href="externalLink">My cat is very grumpy</div>'
+                            }
+                        },
+                        {
+                            id: '46aFe0PVx8',
+                            type: 'paragraph',
+                            data: { text: 'Structure of html, see below image' }
+                        },
+                        {
+                            id: 'tnrfKb_7qn',
+                            type: 'image',
+                            data: {
+                                url:
+                                    'https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/HTML_basics/grumpy-cat-small.png',
+                                caption: 'Tag structure',
+                                withBorder: false,
+                                withBackground: false,
+                                stretched: false
+                            }
+                        }
+                    ],
+                    version: '2.22.1'
+                }
             },
             {
                 title: 'Chapter 2',
                 description: 'Chapter 2 description: Tags in HTML',
-                topics: [
-                    {
-                        title: 'Why html is needed',
-                        topicDescription: 'Html is used to structure a web page.'
-                    },
-                    {
-                        sectionTitle: 'Basic structure of a HTML file',
-                        topicDescription:
-                            'A way of creating multimedia documents, also a method for providing links  within the documents '
-                    }
-                ]
+                content: {
+                    time: 1625282357336,
+                    blocks: [
+                        {
+                            id: 'xj4nRn0T2c',
+                            type: 'header',
+                            data: {
+                                text:
+                                    'Welcome to chapter 2. Its about audio tags that is used to play music in a web page and its content. For example, content could be structured within a set of paragraphs, a list of bulleted points, or using images and data tables. As the title suggests, this article will give you a basic understanding of HTML and its functions.',
+                                level: 4
+                            }
+                        },
+                        {
+                            id: '5qVR1P5UgQ',
+                            type: 'code',
+                            data: {
+                                code:
+                                    '<p>My cat is very grumpy</p>\n<div>My cat is very grumpy</div>\n\n\n<a href="externalLink">My cat is very grumpy</div>'
+                            }
+                        },
+                        {
+                            id: '46aFe0PVx8',
+                            type: 'paragraph',
+                            data: { text: 'Structure of html, see below image' }
+                        },
+                        {
+                            id: 'tnrfKb_7qn',
+                            type: 'image',
+                            data: {
+                                url:
+                                    'https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/HTML_basics/grumpy-cat-small.png',
+                                caption: 'Tag structure',
+                                withBorder: false,
+                                withBackground: false,
+                                stretched: false
+                            }
+                        }
+                    ],
+                    version: '2.22.1'
+                }
             },
             {
                 title: 'Chapter 3',

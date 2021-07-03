@@ -35,7 +35,7 @@ const Courses = () => {
     }, []);
 
     return (
-        <div>
+        <div className="list">
             <h1> All availalbe courses </h1>
             {isLoading && <CircularProgress />}
             <ul>

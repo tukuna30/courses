@@ -49,28 +49,26 @@ function App() {
                         flexGrow="1"
                         overflow="auto"
                         className={classes.mainContainer}>
-                        <div>
-                            <Switch>
-                                <Route exact path="/">
-                                    <Login setUserLoggedIn={setIsUserLoggedIn} />
-                                </Route>
-                                <Route exact path="/login">
-                                    <Login setUserLoggedIn={setIsUserLoggedIn} />
-                                </Route>
-                                <Route path="/courses">
-                                    <Courses />
-                                </Route>
-                                <Route path="/addCourse">
-                                    <AddCourse />
-                                </Route>
-                                <Route path="/details/:id">
-                                    <CourseDetail />
-                                </Route>
-                                <Route path="*">
-                                    <NotFound />
-                                </Route>
-                            </Switch>
-                        </div>
+                        <Switch>
+                            <Route exact path="/">
+                                <Login setUserLoggedIn={setIsUserLoggedIn} />
+                            </Route>
+                            <Route exact path="/login">
+                                <Login setUserLoggedIn={setIsUserLoggedIn} />
+                            </Route>
+                            <Route path="/courses">
+                                <Courses />
+                            </Route>
+                            <Route path="/addCourse">
+                                <AddCourse />
+                            </Route>
+                            <Route path="/details/:id">
+                                <CourseDetail />
+                            </Route>
+                            <Route path="*">
+                                <NotFound />
+                            </Route>
+                        </Switch>
                     </Box>
                     <Grid container className={classes.footer}>
                         <div>Learn Without Limits</div>

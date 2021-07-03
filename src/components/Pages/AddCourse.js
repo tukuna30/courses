@@ -5,6 +5,17 @@ import InlineCode from '@editorjs/inline-code';
 import Code from '@editorjs/code';
 import EditorJS from '@editorjs/editorjs';
 import SimpleImage from '@editorjs/simple-image';
+//import Embed from '@editorjs/embed';
+/* import Table from '@editorjs/table';
+import Paragraph from '@editorjs/paragraph';
+import Warning from '@editorjs/warning';
+import LinkTool from '@editorjs/link';
+import Image from '@editorjs/image';
+import Raw from '@editorjs/raw';
+import Quote from '@editorjs/quote';
+import CheckList from '@editorjs/checklist';
+ */
+
 window.onerror = (error) => {
     console.log('error', error);
     return true;
@@ -22,7 +33,23 @@ export default function AddCourse() {
                     list: List,
                     inlineCode: InlineCode,
                     image: SimpleImage,
-                    code: Code
+                    code: Code,
+                    /* // embed: Embed,
+                     table: Table,
+                    paragraph: Paragraph,
+                    warning: Warning,
+                   linkTool: LinkTool,
+                   image: Image,
+                   raw: Raw,
+                  quote: Quote,
+                  checklist: CheckList,
+                 simpleImage: SimpleImage
+ */
+
+
+
+
+
                 }
             });
             editor.caret.focus(true);

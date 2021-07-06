@@ -153,36 +153,16 @@ const CourseDetail = () => {
         });
     };
 
-    // const renderTabPanels = (chapters) => {
-    //     return chapters.map((chapter, index) => {
-    //         return (
-    //             <TabPanel value={tabValue} index={index}>
-    //                 <div>{chapter.description}</div>
-
-    //                 <div>Topics:- </div>
-    //                 {chapter.topics.map((topic, index) => {
-    //                     return (
-    //                         <div key={index}>
-    //                             <div>{topic.title}</div>
-    //                             <div>{topic.topicDescription}</div>
-    //                         </div>
-    //                     );
-    //                 })}
-    //             </TabPanel>
-    //         );
-    //     });
-    // };
-
     return (
-        <div style={{ padding: '20px' }}>
+        <div style={{ padding: '20px' }} className="course-detail">
             {isLoading && <div>Loading specific course...</div>}
             {!isLoading && (
                 <div>
                     <h1>{course.name}</h1>
                     <h2>{course.description}</h2>
                     <Grid container direction="row" justify="right" alignItems="right">
-
                         <Tabs
+                            indicatorColor="primary"
                             orientation="vertical"
                             variant="scrollable"
                             value={tabValue}

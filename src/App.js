@@ -22,7 +22,8 @@ const useStyles = makeStyles(() => ({
     },
     mainContainer: {
         display: 'flex',
-        alignItems: 'flex-start',
+        alignItems: 'center',
+        justifyContent: 'center',
         flexDirection: 'column'
     }
 }));

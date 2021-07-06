@@ -18,7 +18,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-     align-items: right;
+    align-items: right;
     justify-content: right;
     font-size: calc(10px + 2vmin);
     color: white;
@@ -49,27 +49,25 @@ ul {
     border: 1px solid rgb(3, 63, 3);
     margin: 10px;
     float: left;
-    
-    
+
     /* border-radius: 10px;*/
 }
 .list li:hover {
     cursor: pointer;
-    /* background-color:rgb(229, 229, 236); */ 
-     font-size: larger; 
+    /* background-color:rgb(229, 229, 236); */
+    font-size: larger;
 }
 .list li,
 .list a:hover {
     color: white;
 }
 
-.tabpanel{
-   text-align: right; 
-   font-size: medium;
-
+.tabpanel {
+    text-align: right;
+    font-size: medium;
 }
 
-.classes.tabs{
+.classes.tabs {
     text-align: right;
 }
 
@@ -80,4 +78,15 @@ ul {
     to {
         transform: rotate(360deg);
     }
+}
+
+.course-detail {
+    top: 50px;
+    bottom: 0;
+    left: 20px;
+    position: absolute;
+}
+
+.MuiTabs-indicator {
+    background-color: sandybrown !important;
 }

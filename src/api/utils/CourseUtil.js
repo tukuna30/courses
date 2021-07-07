@@ -158,39 +158,22 @@ const courses = [
 
     {
         id: 3,
-        /*firstName: 'Suman',
-        lastName: 'Patra',*/
         name: 'JAVASCRIPT',
         questions: [],
         active: true,
-        description: 'sumanpatra688@gmail.com'
+        description: 'JS, the language of web!'
     },
     {
         id: 4,
-        /*firstName: 'Deepak',
-        lastName: 'Naik',*/
         name: 'REACTJS',
-        questions: [],
         active: true,
-        description: '0001d1001d1001d1000@gmail.com'
+        description: 'ReactJS, popular and modern frontend library'
     },
     {
         id: 5,
-        /* firstName: 'Tukuna',
-        lastName: 'Patro',*/
         name: 'NODEJS',
-        questions: [],
         active: true,
-        description: 'tukuna.patro@gmail.com'
-    },
-    {
-        id: 6,
-        /*firstName: 'Swati',
-        lastName: 'Sucharita',*/
-        name: 'MONGODB',
-        questions: [],
-        active: false,
-        description: 'swatisucharita94@gmail.com'
+        description: 'Backend using JS'
     }
 ];
 

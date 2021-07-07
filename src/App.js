@@ -13,7 +13,6 @@ import Courses from './components/Pages/Courses';
 import NotFound from './components/NotFound';
 import './assets/css/index.scss';
 import theme from './theme';
-import Card from './components/Pages/Card';
 
 const useStyles = makeStyles(() => ({
     footer: {
@@ -63,23 +62,19 @@ function App() {
                             </Route>
                             <Route path="/details/:id">
                                 <CourseDetail />
-                                <Route path="/Card">
-                                    <Card />
-                                </Route>
-
-
-                                <Route path="*">
-                                    <NotFound />
-                                </Route>
+                            </Route>
+                            <Route path="*">
+                                <NotFound />
+                            </Route>
                         </Switch>
                     </Box>
-                        <Grid container className={classes.footer}>
-                            <div>Learn Without Limits</div>
-                        </Grid>
-                    </Box>
+                    <Grid container className={classes.footer}>
+                        <div>Learn Without Limits</div>
+                    </Grid>
+                </Box>
             </Router>
         </ThemeProvider>
-            );
+    );
 }
 
-            export default App;
+export default App;

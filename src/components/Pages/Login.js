@@ -1,5 +1,7 @@
 import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import './login.css';
+
 
 let googleSignInbuttonClicked = false;
 const Login = ({ setUserLoggedIn }) => {
@@ -57,10 +59,29 @@ const Login = ({ setUserLoggedIn }) => {
 
     return (
         <>
-            <div>Login to Quizzone</div>
+            <div id="main">Login to courses</div>
+            <div
+                /*class="g-signin2"
+                data-width="200"
+                data-height="60"*/
+
+                onKeyDown={() => { }}
+                id="google-login"
+                role="button"
+                aria-label="Login"
+                tabIndex={0}
+                onClick={() => {
+                    googleSignInbuttonClicked = true;
+                }}
+            />
+        </>
+
+      /*   <>
+
+            <div>Login to courses</div>
             <div id="google-login" />
         </>
-    );
+  */   );
 };
 
 export default Login;

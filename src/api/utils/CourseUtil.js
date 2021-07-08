@@ -24,78 +24,68 @@ const courses = [
             },
             {
                 title: 'Chapter 3',
-                description: 'Chapter 3 description: Details of various Tags in HTML',
+                description: 'Chapter 3 description: Details of various Lists in HTML',
                 content: { "time": 1625716999932, "blocks": [{ "id": "SGytnqD4jA", "type": "header", "data": { "text": "HTML LISTS:", "level": 2 } }, { "id": "ecN3Y0ROZK", "type": "paragraph", "data": { "text": "Lists are used to group together related pieces of information so they are clearly associated with each other and easy to read. In modern web development, lists are workhorse elements, frequently used for navigation as well as general content." } }, { "id": "vKdHRHsGPh", "type": "paragraph", "data": { "text": "Lists are good from a structural point of view as they help create a well-structured, more accessible, easy-to-maintain document.&nbsp;" } }, { "id": "UgTyIfZvmu", "type": "header", "data": { "text": "THE THREE LIST TYPE:", "level": 2 } }, { "id": "hblaabMSDt", "type": "paragraph", "data": { "text": "<b>1.<i>UNORDERED LIST:-</i></b>" } }, { "id": "YoHISkiQZn", "type": "paragraph", "data": { "text": "An unordered list starts with the&nbsp;<code>&lt;ul&gt;</code>&nbsp;tag. Each list item starts with the&nbsp;<code>&lt;li&gt;</code>&nbsp;tag." } }, { "id": "YNGm0R93hI", "type": "paragraph", "data": { "text": "The list items will be marked with bullets&nbsp; by default." } }, { "id": "XccNVVrFHx", "type": "paragraph", "data": { "text": "<b><i>2.ORDERED LIST:-</i></b>" } }, { "id": "OCurh2WGl8", "type": "paragraph", "data": { "text": "An ordered list starts with the&nbsp;<code>&lt;ol&gt;</code>&nbsp;tag. Each list item starts with the&nbsp;<code>&lt;li&gt;</code>&nbsp;tag." } }, { "id": "qNPjXJ1rbz", "type": "paragraph", "data": { "text": "The list items will be marked with numbers by default." } }, { "id": "WRduRM_Dyf", "type": "paragraph", "data": { "text": "<b><i>3.DESCRIPTION LIST:-</i></b>" } }, { "id": "iTOSDCl9VI", "type": "paragraph", "data": { "text": "A description list is a list of terms, with a description of each term." } }, { "id": "RpjEGIQ0wI", "type": "paragraph", "data": { "text": "The&nbsp;<code>&lt;dl&gt;</code>&nbsp;tag defines the description list, the&nbsp;<code>&lt;dt&gt;</code>&nbsp;tag defines the term (name), and the&nbsp;<code>&lt;dd&gt;</code>&nbsp;tag describes each term." } }, { "id": "86oT3lEZwO", "type": "image", "data": { "url": "https://d2h0cx97tjks2p.cloudfront.net/blogs/wp-content/uploads/sites/2/2020/07/html-lists-df.jpg", "caption": "Example&nbsp;", "withBorder": false, "withBackground": false, "stretched": false } }, { "id": "KB3Q5zHgPs", "type": "header", "data": { "text": "Advantages of Lists in HTML:-", "level": 2 } }, { "id": "4YWVlu9UFe", "type": "paragraph", "data": { "text": "1. Proper semantics of an HTML document are maintained using an HTML list. It removes the confusion since words are not jumbled in a single line and can be easily comprehended." } }, { "id": "yM3p-KLAxi", "type": "paragraph", "data": { "text": "2. CSS styles can be easily applied to HTML lists, by accessing the &lt;li&gt; tags." } }, { "id": "3sVfr47uK5", "type": "paragraph", "data": { "text": "3.&nbsp;HTML lists provide flexibility as the order of the lists can be easily changed." } }], "version": "2.22.1" }
 
             },
             {
                 title: 'Chapter 4',
-                description: 'Chapter 3 description: Details of various Tags in HTML',
-                content: {}
+                description: 'Chapter 3 description: Classes & ID',
+                content:
+                    { "time": 1625744517630, "blocks": [{ "id": "uqOBcyc6My", "type": "paragraph", "data": { "text": "<b>CLASSES &amp; ID:-</b>" } }, { "id": "e-Ceqfw5ky", "type": "paragraph", "data": { "text": "·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\nThe class is an attribute which specifies one or more class names for an\nHTML element." } }, { "id": "owres0JM56", "type": "paragraph", "data": { "text": "·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\nThe class attribute can be used on any HTML element." } }, { "id": "MgYSFhNBH3", "type": "paragraph", "data": { "text": "·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\nThe class name can be used by CSS and JavaScript to perform certain\ntasks for elements with the specified class name." } }, { "id": "-X34aQ47W8", "type": "code", "data": { "code": "<!DOCTYPE html>\n<html>\n\n<head>\n\t<style>\n\t\t.country {\n\t\t\tbackground-color: black;\n\t\t\tcolor: white;\n\t\t\tpadding: 8px;\n\t\t}\n\t</style>\n</head>\n\n<body>\n\n\t<h2 class=\"country\">CHINA</h2>\n\t<p>China has the largest population\n\tin the world.</p>\n\n\t<h2 class=\"country\">INDIA</h2>\n\t<p>India has the second largest\n\tpopulation in the world.</p>\n\n\t<h2 class=\"country\">UNITED STATES</h2>\n\t<p>United States has the third largest\n\tpopulation in the world.</p>\n\n</body>\n\n</html>\n" } }, { "id": "MXaZGEG3aY", "type": "paragraph", "data": { "text": "<b><i>OUTPUT</i></b>" } }, { "id": "e8XVOYZUpD", "type": "image", "data": { "url": "https://media.geeksforgeeks.org/wp-content/uploads/Screen-Shot-2017-11-22-at-12.59.20-AM.png", "caption": "", "withBorder": false, "withBackground": false, "stretched": false } }, { "id": "o9fjgsnme7", "type": "paragraph", "data": { "text": "The&nbsp;<b>id attribute</b>&nbsp;is\na unique identifier which is used to specify the document. It is used by CSS\nand JavaScript to perform a certain task for a unique element. In CSS, the id\nattribute is used using # symbol.\n\n\n\n" } }], "version": "2.22.1" }
             },
             {
                 title: 'Chapter 5',
-                description: 'Chapter 5 description: Details of various Tags in HTML',
-                content: {}
+                description: 'Chapter 5 description: Link css',
+                content: { "time": 1625745233889, "blocks": [{ "id": "kWbyqsZBns", "type": "header", "data": { "text": "LINK CSS TO HTML :-", "level": 2 } }, { "id": "owEH8_-y86", "type": "paragraph", "data": { "text": "In HTML, we can easily link the style sheet to the Html document in the following different three methods:" } }, { "id": "geft5D3BA5", "type": "list", "data": { "style": "ordered", "items": ["&nbsp;Inline Style", "Embedded Style or Internal Style", "External style&nbsp;"] } }, { "id": "PJD5oy-Eer", "type": "image", "data": { "url": "https://wholeblogs.com/wp-content/uploads/2021/03/imageof3-1-1.jpg", "caption": "", "withBorder": false, "withBackground": false, "stretched": false } }], "version": "2.22.1" }
             },
             {
                 title: 'Chapter 6',
-                description: 'Chapter 6 description: Details of various Tags in HTML',
-                topics: [
-                    {
-                        title: 'Why html is needed',
-                        topicDescription: 'Html is used to structure a web page.'
-                    },
-                    {
-                        sectionTitle: 'Basic structure of a HTML file',
-                        topicDescription:
-                            'A way of creating multimedia documents, also a method for providing links  within the documents '
-                    }
-                ]
+                description: 'Chapter 6 description: Audio & video',
+                content: { "time": 1625746911587, "blocks": [{ "id": "agXG5VPB_r", "type": "header", "data": { "text": "AUDIO TAG:-", "level": 2 } }, { "id": "w38wAqQIjv", "type": "paragraph", "data": { "text": "HTML <b><i>Audio tag</i></b>&nbsp;is used to play audio files, like&nbsp;mp3,&nbsp;ogg&nbsp;and&nbsp;AAC. All browsers supporting&nbsp;audio tag&nbsp;are having build in player." } }, { "id": "km7w-lYvzC", "type": "paragraph", "data": { "text": "The easiest way to include&nbsp;Audio Tag&nbsp;in a webpage is to use&nbsp;audio tag.&nbsp;<code>src</code>&nbsp;is compulsory attribute in audio tag.&nbsp;<code>controls</code>&nbsp;attribute can show control bar to user. User can play/pause, change time line, mute, and increase volume of audio playing using controls." } }, { "id": "d_LrGS_3sU", "type": "image", "data": { "url": "https://res.cloudinary.com/practicaldev/image/fetch/s--MA5hKls8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/wh2li7815smb450m1c19.png", "caption": "", "withBorder": false, "withBackground": false, "stretched": false } }, { "id": "DRdvuxEdKQ", "type": "header", "data": { "text": "VIDEO&nbsp; TAG:-", "level": 2 } }, { "id": "EK2yNfjmoP", "type": "paragraph", "data": { "text": "HTML <b><i>Video tag&nbsp;</i></b>or&nbsp;&lt;video&gt;&nbsp;is used to add\nvideos on a webpage. Video tag\nsupports&nbsp;mp4,&nbsp;ogg,&nbsp;mov&nbsp;and&nbsp;H.264&nbsp;files." } }, { "id": "6DGurZ0wIh", "type": "paragraph", "data": { "text": "To embed a video, create a video tag.&nbsp;src&nbsp;is compulsory attribute\nfor video tag.&nbsp;controls&nbsp;attribute can add play/pause button, video\ntimeline, mute button, volume controller, full screen." } }], "version": "2.22.1" }
+
+            },
+
+            {
+                id: 2,
+                name: 'CSS',
+                questions: [],
+                active: true,
+                description: 'JS, the language of web!'
+            },
+            {
+                id: 4,
+                name: 'REACTJS',
+                active: true,
+                description: 'ReactJS, popular and modern frontend library'
+            },
+            {
+                id: 5,
+                name: 'NODEJS',
+                active: true,
+                description: 'Backend using JS'
             }
-        ]
-    },
+        ];
 
-    {
-        id: 3,
-        name: 'JAVASCRIPT',
-        questions: [],
-        active: true,
-        description: 'JS, the language of web!'
-    },
-    {
-        id: 4,
-        name: 'REACTJS',
-        active: true,
-        description: 'ReactJS, popular and modern frontend library'
-    },
-    {
-        id: 5,
-        name: 'NODEJS',
-        active: true,
-        description: 'Backend using JS'
-    }
-];
+        // CRUD
+        // View : GET /users
+        // view one user : GET /user/:id
+        // Add : POST /user
+        // Delete : DELETE /user/:id
+        // Update : PUT/PATCH /user/:id
 
-// CRUD
-// View : GET /users
-// view one user : GET /user/:id
-// Add : POST /user
-// Delete : DELETE /user/:id
-// Update : PUT/PATCH /user/:id
-
-class CourseUtil {
-    getCourses() {
-        return courses;
-    }
+        class CourseUtil {
+        getCourses() {
+            return courses;
+        }
 
     getCourse(id) {
-        const course = courses.find((u) => {
-            return u.id === parseInt(id, 10);
-        });
+            const course = courses.find((u) => {
+                return u.id === parseInt(id, 10);
+            });
 
-        return course || {};
+            return course || {};
+        }
     }
-}
 
 module.exports = new CourseUtil();

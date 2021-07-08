@@ -13,7 +13,7 @@ import Courses from './components/Pages/Courses';
 import NotFound from './components/NotFound';
 import './assets/css/index.scss';
 import theme from './theme';
-import Card from './components/Pages/Card';
+
 
 const useStyles = makeStyles(() => ({
     footer: {
@@ -63,9 +63,6 @@ function App() {
                             </Route>
                             <Route path="/details/:id">
                                 <CourseDetail />
-                                <Route path="/Card">
-                                    <Card />
-                                </Route>
 
 
                                 <Route path="*">

@@ -14,7 +14,7 @@
 }
 
 .App-header {
-    background-color: #282c34;
+    background-color: #332834;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -44,19 +44,42 @@ a {
 }
 li {
     padding: 4px;
-    background: rgb(211, 245, 207);
-    border: 1px solid rgb(3, 63, 3);
+    background: rgb(234, 207, 245);
+    border: 1px solid rgb(3, 63, 48);
     margin: 10px;
     /* border-radius: 10px;*/
 }
 li:hover {
     cursor: pointer;
-    background-color: rgb(46, 150, 68);
+    background-color: rgb(46, 112, 150);
     font-size: larger;
 }
 li,
 a:hover {
     color: white;
+}
+
+#parent{
+    text-align: center;
+    display: table;
+    width:100%;
+    top:40%;
+    left:47%;
+    position:absolute;
+    transform: translate(-50%, -50%);
+}
+#google-login{
+    display:table-cell;
+    text-align: center;
+    vertical-align: middle;
+    width:50vw;
+    top:50%;
+    left:80%;
+    position:relative;
+    height: 40vh;
+    margin:-20px -50px;
+    
+
 }
 
 @keyframes App-logo-spin {

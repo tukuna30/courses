@@ -57,7 +57,7 @@ const Login = ({ setUserLoggedIn }) => {
 
     return (
         <>
-            <div>Login to Quizzone</div>
+            <div id="parent">Login to Courses</div>
             <div id="google-login" />
         </>
     );

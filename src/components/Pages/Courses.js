@@ -2,7 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 const Courses = () => {
     const [courses, setCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -38,13 +43,29 @@ const Courses = () => {
         <div className="list">
             <h1> All availalbe courses </h1>
             {isLoading && <CircularProgress />}
-            <ul>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
                 {courses.map((course) => (
-                    <li key={course.id}>
-                        <Link to={`/details/${course.id}`}>{course.name}</Link>
-                    </li>
+                    <Card
+                        key={course.id}
+                        style={{ minWidth: '300px', margin: '10px', padding: '10px' }}>
+                        <CardActionArea>
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="h5">
+                                    {course.name}
+                                </Typography>
+                                <Typography variant="body2" color="textSecondary" component="p">
+                                    {course.description}
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                        <CardActions>
+                            <Button size="small" color="primary">
+                                <Link to={`/details/${course.id}`}>Start course</Link>
+                            </Button>
+                        </CardActions>
+                    </Card>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

@@ -14,7 +14,6 @@ import NotFound from './components/NotFound';
 import './assets/css/index.scss';
 import theme from './theme';
 
-
 const useStyles = makeStyles(() => ({
     footer: {
         justifyContent: 'center'
@@ -63,20 +62,19 @@ function App() {
                             </Route>
                             <Route path="/details/:id">
                                 <CourseDetail />
-
-
-                                <Route path="*">
-                                    <NotFound />
-                                </Route>
+                            </Route>
+                            <Route path="*">
+                                <NotFound />
+                            </Route>
                         </Switch>
                     </Box>
-                        <Grid container className={classes.footer}>
-                            <div>Learn Without Limits</div>
-                        </Grid>
-                    </Box>
+                    <Grid container className={classes.footer}>
+                        <div>Learn Without Limits</div>
+                    </Grid>
+                </Box>
             </Router>
         </ThemeProvider>
-            );
+    );
 }
 
-            export default App;
+export default App;

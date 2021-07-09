@@ -1,0 +1,15 @@
+#main{
+    margin-top: 30vh;
+    font-size: 35px;
+    font-weight: bolder;
+    text-align: center;
+}
+#google-login{
+    margin-top: 10vh;
+    margin-left: 2vw;
+    text-align: center;
+    }
+.body{
+     background-color: cyan;
+}
+

@@ -18,8 +18,8 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+     align-items: right;
+    justify-content: right;
     font-size: calc(10px + 2vmin);
     color: white;
 }
@@ -31,31 +31,35 @@
 ul {
     padding: 0;
     margin: 0;
+    font-size: x-large;
 }
-ul,
-li {
+.list ul,
+.list li {
     list-style-type: none;
     /* text-decoration: none;*/
 }
 
-li,
-a {
+.list li,
+.list a {
     text-decoration: none;
 }
-li {
+.list li {
     padding: 4px;
     background: rgb(234, 207, 245);
     border: 1px solid rgb(3, 63, 48);
     margin: 10px;
+   /* float: left;
+    
+    
     /* border-radius: 10px;*/
 }
-li:hover {
+.list li:hover {
     cursor: pointer;
     background-color: rgb(46, 112, 150);
     font-size: larger;
 }
-li,
-a:hover {
+.list li,
+.list a:hover {
     color: white;
 }
 
@@ -64,7 +68,7 @@ a:hover {
     display: table;
     width:100%;
     top:40%;
-    left:47%;
+    left:50%;
     position:absolute;
     transform: translate(-50%, -50%);
 }
@@ -73,13 +77,14 @@ a:hover {
     text-align: center;
     vertical-align: middle;
     width:50vw;
-    top:50%;
-    left:80%;
+    top:30%;
+    left:40%;
     position:relative;
-    height: 40vh;
+    height: 45vh;
     margin:-20px -50px;
-    
-
+}
+body{
+    background-image: "https://image.shutterstock.com/image-photo/close-view-simple-workspace-laptop-600w-1607845213.jpg";
 }
 
 @keyframes App-logo-spin {

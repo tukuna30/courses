@@ -44,48 +44,49 @@ const courses = [
                 description: 'Chapter 6 description: Audio & video',
                 content: { "time": 1625746911587, "blocks": [{ "id": "agXG5VPB_r", "type": "header", "data": { "text": "AUDIO TAG:-", "level": 2 } }, { "id": "w38wAqQIjv", "type": "paragraph", "data": { "text": "HTML <b><i>Audio tag</i></b>&nbsp;is used to play audio files, like&nbsp;mp3,&nbsp;ogg&nbsp;and&nbsp;AAC. All browsers supporting&nbsp;audio tag&nbsp;are having build in player." } }, { "id": "km7w-lYvzC", "type": "paragraph", "data": { "text": "The easiest way to include&nbsp;Audio Tag&nbsp;in a webpage is to use&nbsp;audio tag.&nbsp;<code>src</code>&nbsp;is compulsory attribute in audio tag.&nbsp;<code>controls</code>&nbsp;attribute can show control bar to user. User can play/pause, change time line, mute, and increase volume of audio playing using controls." } }, { "id": "d_LrGS_3sU", "type": "image", "data": { "url": "https://res.cloudinary.com/practicaldev/image/fetch/s--MA5hKls8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/wh2li7815smb450m1c19.png", "caption": "", "withBorder": false, "withBackground": false, "stretched": false } }, { "id": "DRdvuxEdKQ", "type": "header", "data": { "text": "VIDEO&nbsp; TAG:-", "level": 2 } }, { "id": "EK2yNfjmoP", "type": "paragraph", "data": { "text": "HTML <b><i>Video tag&nbsp;</i></b>or&nbsp;&lt;video&gt;&nbsp;is used to add\nvideos on a webpage. Video tag\nsupports&nbsp;mp4,&nbsp;ogg,&nbsp;mov&nbsp;and&nbsp;H.264&nbsp;files." } }, { "id": "6DGurZ0wIh", "type": "paragraph", "data": { "text": "To embed a video, create a video tag.&nbsp;src&nbsp;is compulsory attribute\nfor video tag.&nbsp;controls&nbsp;attribute can add play/pause button, video\ntimeline, mute button, volume controller, full screen." } }], "version": "2.22.1" }
 
-            },
+        ]
+    }},
 
-            {
-                id: 2,
-                name: 'CSS',
-                questions: [],
+{
+    id: 2,
+        name: 'CSS',
+            questions: [],
                 active: true,
-                description: 'JS, the language of web!'
-            },
-            {
-                id: 4,
-                name: 'REACTJS',
-                active: true,
+                    description: 'JS, the language of web!'
+},
+{
+    id: 4,
+        name: 'REACTJS',
+            active: true,
                 description: 'ReactJS, popular and modern frontend library'
-            },
-            {
-                id: 5,
-                name: 'NODEJS',
-                active: true,
+},
+{
+    id: 5,
+        name: 'NODEJS',
+            active: true,
                 description: 'Backend using JS'
-            }
+}
         ];
 
-        // CRUD
-        // View : GET /users
-        // view one user : GET /user/:id
-        // Add : POST /user
-        // Delete : DELETE /user/:id
-        // Update : PUT/PATCH /user/:id
+// CRUD
+// View : GET /users
+// view one user : GET /user/:id
+// Add : POST /user
+// Delete : DELETE /user/:id
+// Update : PUT/PATCH /user/:id
 
-        class CourseUtil {
-        getCourses() {
-            return courses;
-        }
+class CourseUtil {
+    getCourses() {
+        return courses;
+    }
 
     getCourse(id) {
-            const course = courses.find((u) => {
-                return u.id === parseInt(id, 10);
-            });
+        const course = courses.find((u) => {
+            return u.id === parseInt(id, 10);
+        });
 
-            return course || {};
-        }
+        return course || {};
     }
+}
 
 module.exports = new CourseUtil();

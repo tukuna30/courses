@@ -548,9 +548,54 @@ const courses = [
     {
         id: 4,
         name: 'REACTJS',
-        chapters: [],
+        chapters: [
+            {
+                title: 'Chapter1',
+                description: 'Introduction to React',
+                content: {
+                    time: 1625842564603,
+                    blocks: [
+                        {
+                            id: '_zyeqZu3c9',
+                            type: 'header',
+                            data: { text: 'Learn ReactJS Tutorial', level: 1 }
+                        },
+                        {
+                            id: '60NvSZ8fq_',
+                            type: 'image',
+                            data: {
+                                url:
+                                    'https://static.javatpoint.com/tutorial/reactjs/images/reactjs-tutorial.png',
+                                caption: '',
+                                withBorder: false,
+                                withBackground: false,
+                                stretched: false
+                            }
+                        },
+                        {
+                            id: 'fzea9helF1',
+                            type: 'paragraph',
+                            data: {
+                                text:
+                                    'ReactJS tutorial provides basic and advanced concepts of ReactJS. Currently, ReactJS is one of the most popular JavaScript front-end libraries which has a strong foundation and a large community.'
+                            }
+                        },
+                        {
+                            id: 'tITLDAaXee',
+                            type: 'paragraph',
+                            data: {
+                                text:
+                                    'ReactJS is a&nbsp;declarative,&nbsp;efficient, and flexible&nbsp;JavaScript library&nbsp;for building reusable UI components. It is an open-source, component-based front end library which is responsible only for the view layer of the application. It was initially developed and maintained by Facebook and later used in its products like WhatsApp &amp; Instagram.'
+                            }
+                        }
+                    ],
+                    version: '2.22.1'
+                }
+            }
+        ],
         active: true,
         description: 'ReactJS, popular and modern frontend library',
+
         imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg'
     },
     {

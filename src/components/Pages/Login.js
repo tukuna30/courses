@@ -59,29 +59,10 @@ const Login = ({ setUserLoggedIn }) => {
 
     return (
         <>
-            <div id="main">Login to courses</div>
-            <div
-                /*class="g-signin2"
-                data-width="200"
-                data-height="60"*/
-
-                onKeyDown={() => { }}
-                id="google-login"
-                role="button"
-                aria-label="Login"
-                tabIndex={0}
-                onClick={() => {
-                    googleSignInbuttonClicked = true;
-                }}
-            />
-        </>
-
-      /*   <>
-
-            <div>Login to courses</div>
+            <div id="parent">Login to Courses</div>
             <div id="google-login" />
         </>
-  */   );
+    );
 };
 
 export default Login;

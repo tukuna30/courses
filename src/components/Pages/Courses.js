@@ -56,6 +56,9 @@ const Courses = () => {
                                 <Typography variant="body2" color="textSecondary" component="p">
                                     {course.description}
                                 </Typography>
+                                <img
+                                    style={{ width: '40px', height: 'auto' }}
+                                    src={course.imageUrl}></img>
                             </CardContent>
                         </CardActionArea>
                         <CardActions>

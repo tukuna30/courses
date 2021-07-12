@@ -13,6 +13,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -58,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
     content: {
         color: 'red',
         fontSize: '20px'
+    },
+    editor: {
+        maxHeight: '500px',
+        overflowY: 'auto'
     }
 }));
 
@@ -115,7 +120,8 @@ const CourseDetail = () => {
             setCourse(jsonResponse.course);
             setIsLoading(false);
             setTimeout(() => {
-                editor.render(jsonResponse.course.chapters[0].content);
+                jsonResponse.course.chapters[0] &&
+                    editor.render(jsonResponse.course.chapters[0].content);
             }, 1000);
         } catch (_error) {
             console.log('error', _error.message);
@@ -180,25 +186,25 @@ const CourseDetail = () => {
                 <div>
                     <h1>{course.name}</h1>
                     <h2>{course.description}</h2>
-                    <Grid
-                        container
-                        direction="row"
-                        justify="center"
-                        alignItems="flex-start"
-                        wrap="nowrap">
-                        <Tabs
-                            orientation="vertical"
-                            variant="scrollable"
-                            value={tabValue}
-                            onChange={handleChange}
-                            aria-label="Vertical tabs example"
-                            className={classes.tabs}>
-                            {renderTabs(course.chapters)}
-                        </Tabs>
-                        <div id="editor"></div>
+                    {course.chapters && !course.chapters[0] ? (
+                        <Link to="/addCourse">Add Course Content </Link>
+                    ) : (
+                        <Grid container direction="row" justify="right" alignItems="right">
+                            <Tabs
+                                orientation="vertical"
+                                variant="scrollable"
+                                value={tabValue}
+                                onChange={handleChange}
+                                aria-label="Vertical tabs example"
+                                className={classes.tabs}>
+                                {renderTabs(course.chapters)}
+                                <Link to="/addCourse">Add a Chapter</Link>
+                            </Tabs>
+                            <div id="editor" className={classes.editor}></div>
 
-                        {/* <div>{renderTabPanels(course.chapters)}</div> */}
-                    </Grid>
+                            {/* <div>{renderTabPanels(course.chapters)}</div> */}
+                        </Grid>
+                    )}
                 </div>
             )}
             <Snackbar

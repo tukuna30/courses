@@ -18,7 +18,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-     align-items: right;
+    align-items: right;
     justify-content: right;
     font-size: calc(10px + 2vmin);
     color: white;
@@ -48,28 +48,27 @@ ul {
     background: rgb(211, 245, 207);
     border: 1px solid rgb(3, 63, 3);
     margin: 10px;
-   /* float: left;
+    /* float: left;
     
     
     /* border-radius: 10px;*/
 }
 .list li:hover {
     cursor: pointer;
-    /* background-color:rgb(229, 229, 236); */ 
-     font-size: larger; 
+    /* background-color:rgb(229, 229, 236); */
+    font-size: larger;
 }
 .list li,
 .list a:hover {
     color: white;
 }
 
-.tabpanel{
-   text-align: right; 
-   font-size: medium;
-
+.tabpanel {
+    text-align: right;
+    font-size: medium;
 }
 
-.classes.tabs{
+.classes.tabs {
     text-align: right;
 }
 
@@ -80,4 +79,10 @@ ul {
     to {
         transform: rotate(360deg);
     }
+}
+
+.ce-code__textarea {
+    min-height: unset !important;
+    height: auto;
+    white-space: normal !important;
 }

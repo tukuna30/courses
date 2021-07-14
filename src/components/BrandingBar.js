@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
     appBar: {
         width: '100%',
-        backgroundColor: 'green',
+        backgroundColor: 'lightgray',
         color: 'white',
         top: 0,
         '& img': {

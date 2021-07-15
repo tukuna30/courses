@@ -14,7 +14,7 @@
 }
 
 .App-header {
-    background-color: #5f8ae0;
+    background-color: #332834;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -45,22 +45,43 @@ ul {
 }
 .list li {
     padding: 4px;
-    background: rgb(211, 245, 207);
-    border: 1px solid rgb(3, 63, 3);
+    background: rgb(234, 207, 245);
+    border: 1px solid rgb(3, 63, 48);
     margin: 10px;
     /* float: left;
     
     
     /* border-radius: 10px;*/
 }
-.list li:hover {
-    cursor: pointer;
-    /* background-color:rgb(229, 229, 236); */
-    font-size: larger;
-}
+
 /* .list li,
 .list a:hover {
     color: white;
+}
+
+#parent{
+    text-align: center;
+    display: table;
+    width:100%;
+    top:40%;
+    left:50%;
+    position:absolute;
+    transform: translate(-50%, -50%);
+}
+#google-login{
+    display:table-cell;
+    text-align: center;
+    vertical-align: middle;
+    width:50vw;
+    top:30%;
+    left:40%;
+    position:relative;
+    height: 45vh;
+    margin:-20px -50px;
+}
+body{
+    background-image: "https://image.shutterstock.com/image-photo/close-view-simple-workspace-laptop-600w-1607845213.jpg";
+=======
 } */
 
 .tabpanel {

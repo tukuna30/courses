@@ -56,6 +56,7 @@ const Login = ({ setUserLoggedIn }) => {
     }; // This is null if the 'email' scope is not present.
 
     return (
+
         <div className="flex-container">
             <div id="main">Login to courses</div>
             <div

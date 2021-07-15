@@ -58,10 +58,10 @@ ul {
     /* background-color:rgb(229, 229, 236); */
     font-size: larger;
 }
-.list li,
+/* .list li,
 .list a:hover {
     color: white;
-}
+} */
 
 .tabpanel {
     text-align: right;
@@ -85,4 +85,12 @@ ul {
     min-height: unset !important;
     height: auto;
     white-space: normal !important;
+}
+
+.flex-container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

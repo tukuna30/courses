@@ -2,7 +2,6 @@ import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import './login.css';
 
-
 let googleSignInbuttonClicked = false;
 const Login = ({ setUserLoggedIn }) => {
     const history = useHistory();
@@ -50,22 +49,21 @@ const Login = ({ setUserLoggedIn }) => {
         });
 
         if (rawResponse.ok) {
-            localStorage.setItem('isUserLoggedIn', true);
-            localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem('currentUser', JSON.stringify({ ...user, lastLogIn: Date.now() }));
             setUserLoggedIn(true);
             history.push('/courses');
         }
     }; // This is null if the 'email' scope is not present.
 
     return (
-        <>
+        <div className="flex-container">
             <div id="main">Login to courses</div>
             <div
                 /*class="g-signin2"
                 data-width="200"
                 data-height="60"*/
 
-                onKeyDown={() => { }}
+                onKeyDown={() => {}}
                 id="google-login"
                 role="button"
                 aria-label="Login"
@@ -74,14 +72,15 @@ const Login = ({ setUserLoggedIn }) => {
                     googleSignInbuttonClicked = true;
                 }}
             />
-        </>
+        </div>
 
-      /*   <>
+        /*   <>
 
             <div>Login to courses</div>
             <div id="google-login" />
         </>
-  */   );
+  */
+    );
 };
 
 export default Login;

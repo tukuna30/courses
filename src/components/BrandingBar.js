@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
     appBar: {
         width: '100%',
-        backgroundColor: 'lightgray',
+        backgroundColor: 'lightsalmon',
         color: 'white',
         top: 0,
         '& img': {
@@ -73,9 +73,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const BrandingBar = ({ showProfileMenu, currentUser }) => {
+const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
     // const { navStore } = useStores();
     const history = useHistory();
+
+    const isSessionActive = Date.now() - currentUser.lastLogIn <= 30 * 60 * 1000;
+    setUserLoggedIn(isSessionActive);
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);

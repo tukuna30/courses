@@ -58,14 +58,9 @@ const Courses = () => {
 
     return (
         <div
-            className="list"
+            className="list flex-container"
             style={{
-                padding: '20px',
-                display: 'flex',
-                width: '100%',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center'
+                padding: '20px'
             }}>
             <h1> All availalbe courses </h1>
             {isLoading && <CircularProgress />}

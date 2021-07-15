@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
 function App() {
     const classes = useStyles();
     const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(false);
-    const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+    const currentUser = JSON.parse(localStorage.getItem('currentUser')) || { lastLogIn: undefined };
 
     console.log('currentUser', currentUser);
     return (
@@ -36,10 +36,9 @@ function App() {
             <Router>
                 <Box width="100%" height="100vh" display="flex" flexDirection="column">
                     <BrandingBar
-                        showProfileMenu={
-                            isUserLoggedIn || Object.keys(currentUser).length ? true : false
-                        }
+                        showProfileMenu={isUserLoggedIn ? true : false}
                         currentUser={currentUser}
+                        setUserLoggedIn={setIsUserLoggedIn}
                     />
                     <Box
                         width="100%"

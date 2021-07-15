@@ -62,7 +62,8 @@ const useStyles = makeStyles((theme) => ({
     },
     editor: {
         maxHeight: '500px',
-        overflowY: 'auto'
+        overflowY: 'auto',
+        padding: '0 20px'
     }
 }));
 

@@ -18,7 +18,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-     align-items: right;
+    align-items: right;
     justify-content: right;
     font-size: calc(10px + 2vmin);
     color: white;
@@ -48,17 +48,13 @@ ul {
     background: rgb(234, 207, 245);
     border: 1px solid rgb(3, 63, 48);
     margin: 10px;
-   /* float: left;
+    /* float: left;
     
     
     /* border-radius: 10px;*/
 }
-.list li:hover {
-    cursor: pointer;
-    background-color: rgb(46, 112, 150);
-    font-size: larger;
-}
-.list li,
+
+/* .list li,
 .list a:hover {
     color: white;
 }
@@ -85,6 +81,16 @@ ul {
 }
 body{
     background-image: "https://image.shutterstock.com/image-photo/close-view-simple-workspace-laptop-600w-1607845213.jpg";
+=======
+} */
+
+.tabpanel {
+    text-align: right;
+    font-size: medium;
+}
+
+.classes.tabs {
+    text-align: right;
 }
 
 @keyframes App-logo-spin {
@@ -94,4 +100,18 @@ body{
     to {
         transform: rotate(360deg);
     }
+}
+
+.ce-code__textarea {
+    min-height: unset !important;
+    height: auto;
+    white-space: normal !important;
+}
+
+.flex-container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

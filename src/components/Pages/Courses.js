@@ -8,6 +8,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { CardMedia } from '@material-ui/core';
 const Courses = () => {
     const [courses, setCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -49,6 +50,19 @@ const Courses = () => {
                         key={course.id}
                         style={{ minWidth: '300px', margin: '10px', padding: '10px' }}>
                         <CardActionArea>
+                            {/*  <CardMedia
+                                component="img"
+                                alt="oops"
+                                height="50"
+                                width="80"
+                                image="https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582748_640.png"
+
+
+
+                            />{course.imageUrl} <CardMedia />
+ */}
+
+
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="h5">
                                     {course.name}
@@ -56,10 +70,13 @@ const Courses = () => {
                                 <Typography variant="body2" color="textSecondary" component="p">
                                     {course.description}
                                 </Typography>
-                                <img
+
+
+
+                                {/*  <img
                                     style={{ width: '40px', height: 'auto' }}
                                     src={course.imageUrl}></img>
-                            </CardContent>
+ */}                            </CardContent>
                         </CardActionArea>
                         <CardActions>
                             <Button size="small" color="primary">

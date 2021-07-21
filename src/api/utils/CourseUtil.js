@@ -4,7 +4,7 @@ const courses = [
         id: 1,
         name: 'HTML',
         description: 'HYPERTEXT MARKUP LANGUAGE',
-        imageUrl: 'https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582748_640.png',
+        // imageUrl: 'https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582748_640.png',
         chapters: [
             {
                 title: 'Chapter 1',

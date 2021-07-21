@@ -26,8 +26,9 @@ const useStyles = makeStyles((theme) => ({
     },
     appBar: {
         width: '100%',
-        backgroundColor: 'lightgray',
+        backgroundColor: 'rgb(204,204,255) ',
         color: 'white',
+        boxShadow: '0 2px 4px 0 rgba(0,0,0,.2);',
         top: 0,
         '& img': {
             cursor: 'pointer'

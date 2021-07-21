@@ -1,3 +1,4 @@
+
 .App {
     text-align: center;
 }
@@ -22,6 +23,15 @@
     justify-content: right;
     font-size: calc(10px + 2vmin);
     color: white;
+}
+body{
+    
+    background-image:url(https://image.freepik.com/free-vector/digital-online-education-concept-blank-space-laptop_255625-422.jpg);
+    background-repeat: no-repeat;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+        
 }
 
 .App-link {

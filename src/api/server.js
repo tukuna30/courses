@@ -247,6 +247,14 @@ app.post('/createUser', async (req, res) => {
     res.json({ status: 'success', result });
 });
 
+app.post('/addCourse', async (req, res) => {
+    console.log(req.body, 'create course data');
+
+    const coursesCollection = mongoUtil.client.db('courses').collection('courses');
+    const result = await coursesCollection.insertOne(req.body);
+    res.json({ status: 'success', result });
+});
+
 const PORT = 5001;
 app.listen(PORT, () => {
     console.log(`Node server is running on port: ${PORT}`);

@@ -25,6 +25,9 @@ const Login = ({ setUserLoggedIn }) => {
     }, []);
 
     window.onSignIn = async function data(googleUser) {
+        if (googleSignInbuttonClicked === false) {
+            return;
+        }
         console.log('google login success');
         const profile = googleUser.getBasicProfile();
         console.log(`ID: ${profile.getId()}`); // Do not send to your backend! Use an ID token instead.
@@ -56,7 +59,6 @@ const Login = ({ setUserLoggedIn }) => {
     }; // This is null if the 'email' scope is not present.
 
     return (
-
         <div className="flex-container">
             <div id="main">Login to courses</div>
             <div

@@ -14,6 +14,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 window.onerror = (error) => {
     console.log('error', error);
@@ -27,6 +28,8 @@ export default function AddCourse() {
     const [open, setOpen] = React.useState(false);
     const [editMode, setEditMode] = React.useState(false);
     const [currentChapter, setCurrentChapter] = React.useState('');
+    const [courseIsSaving, setCourseIsSaving] = React.useState(false);
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -80,8 +83,13 @@ export default function AddCourse() {
 
     const handleCourseSave = async () => {
         console.log('course data', courseData);
-        return;
-        //
+
+        if (courseData.chapters.length === 0 || !courseData.title || !courseData.description) {
+            console.log('Can not add a course with 0 chapters or empty title or empty description');
+            return;
+        }
+
+        setCourseIsSaving(true);
         const rawResponse = await fetch(`http://localhost:5001/addCourse`, {
             method: 'POST',
             credentials: 'include',
@@ -93,6 +101,8 @@ export default function AddCourse() {
 
         if (rawResponse.ok) {
             console.log('adding new course is successful');
+            setOpen(false);
+            setCourseIsSaving(false);
         }
     };
 
@@ -175,24 +185,26 @@ export default function AddCourse() {
                 </Grid>
             </Grid>
 
-            <Grid container spacing={3} direction="column" style={{ padding: '20px' }}>
-                <div>Edit Chapters</div>
-                <ul>
-                    {courseData.chapters.map((chapter, index) => {
-                        return (
-                            <li>
-                                <span>Chapter {index + 1}</span>
-                                <button
-                                    onClick={() => {
-                                        editChapter(index);
-                                    }}>
-                                    Edit
-                                </button>
-                            </li>
-                        );
-                    })}
-                </ul>
-            </Grid>
+            {courseData.chapters.length ? (
+                <Grid container spacing={3} direction="column" style={{ padding: '20px' }}>
+                    <div>Edit Chapters</div>
+                    <ul>
+                        {courseData.chapters.map((chapter, index) => {
+                            return (
+                                <li>
+                                    <span>Chapter {index + 1}</span>
+                                    <button
+                                        onClick={() => {
+                                            editChapter(index);
+                                        }}>
+                                        Edit
+                                    </button>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </Grid>
+            ) : null}
 
             <Dialog
                 open={open}
@@ -204,15 +216,23 @@ export default function AddCourse() {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Make sure all your chapters are ready. Saving the course will keep the
-                        course data along with chapter content in database.
+                        {courseIsSaving ? (
+                            <CircularProgress />
+                        ) : (
+                            `Make sure all your chapters are ready. Saving the course will keep the
+                        course data along with chapter content in database.`
+                        )}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleCourseSave} color="primary" autoFocus>
+                    <Button
+                        disabled={courseIsSaving}
+                        onClick={handleCourseSave}
+                        color="primary"
+                        autoFocus>
                         Save
                     </Button>
                 </DialogActions>

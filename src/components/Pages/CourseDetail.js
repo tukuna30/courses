@@ -156,29 +156,9 @@ const CourseDetail = () => {
 
     const renderTabs = (chapters) => {
         return chapters.map((chapter, index) => {
-            return <Tab label={chapter.title} {...a11yProps(index)} />;
+            return <Tab label={chapter.title || `Chapter ${index + 1}`} {...a11yProps(index)} />;
         });
     };
-
-    // const renderTabPanels = (chapters) => {
-    //     return chapters.map((chapter, index) => {
-    //         return (
-    //             <TabPanel value={tabValue} index={index}>
-    //                 <div>{chapter.description}</div>
-
-    //                 <div>Topics:- </div>
-    //                 {chapter.topics.map((topic, index) => {
-    //                     return (
-    //                         <div key={index}>
-    //                             <div>{topic.title}</div>
-    //                             <div>{topic.topicDescription}</div>
-    //                         </div>
-    //                     );
-    //                 })}
-    //             </TabPanel>
-    //         );
-    //     });
-    // };
 
     return (
         <div style={{ padding: '20px' }}>
@@ -199,7 +179,6 @@ const CourseDetail = () => {
                                 aria-label="Vertical tabs example"
                                 className={classes.tabs}>
                                 {renderTabs(course.chapters)}
-                                <Link to="/addCourse">Add a Chapter</Link>
                             </Tabs>
                             <div id="editor" className={classes.editor}></div>
 

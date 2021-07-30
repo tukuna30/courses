@@ -13,14 +13,40 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DeleteIcon from '@material-ui/icons/Delete';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
 const Courses = () => {
     const [courses, setCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
     const [open, setOpen] = React.useState(false);
 
+    const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+    const [currentCourse, setCurrentCurse] = React.useState(null);
+    const [deleteIsInProgress, setDeleteIsInProgress] = useState(false);
+    const [isDeleteToastOpen, setIsDeleteToastOpen] = useState(false);
+
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const closeDeleteModal = () => {
+        setOpenDeleteModal(false);
+    };
+
+    const startDeleteCourse = (_course) => {
+        setOpenDeleteModal(true);
+        setCurrentCurse(_course);
+    };
+
+    const Alert = (props) => {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+    };
+    const hideDeleteToast = () => {
+        setIsDeleteToastOpen(false);
     };
 
     useEffect(() => {
@@ -56,6 +82,31 @@ const Courses = () => {
             isPaid: true
         }
     ];
+
+    const deleteCourse = () => {
+        setDeleteIsInProgress(true);
+        fetch(`http://localhost:5001/deleteCourse?id=${currentCourse._id}`, {
+            method: 'POST',
+            credentials: 'include'
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    setTimeout(() => {
+                        localStorage.removeItem('isUserLoggedIn');
+                        history.push('/login');
+                    }, 1000);
+                    return Promise.resolve({});
+                }
+                return res.json();
+            })
+            .then(() => {
+                setDeleteIsInProgress(false);
+                setOpenDeleteModal(false);
+                setIsDeleteToastOpen(true);
+                window.location.reload(); // TODO: update state by removing the quiz and remove this page reload
+            })
+            .catch((error) => console.log(error));
+    };
 
     return (
         <div
@@ -116,9 +167,13 @@ const Courses = () => {
                                               </span>
                                           </>
                                       ) : (
-                                          <Link to={`/details/${course.id}`}>Start course</Link>
+                                          <Link to={`/details/${course._id}`}>Start course</Link>
                                       )}
                                   </Button>
+                                  <DeleteIcon
+                                      onClick={() => startDeleteCourse(course)}
+                                      style={{ cursor: 'pointer' }}
+                                  />
                               </CardActions>
                           </Card>
                       ))
@@ -147,6 +202,51 @@ const Courses = () => {
                             </Button>
                         </DialogActions>
                     </Dialog>
+
+                    <Dialog
+                        open={openDeleteModal}
+                        onClose={closeDeleteModal}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description">
+                        <DialogTitle id="alert-dialog-title">
+                            {deleteIsInProgress
+                                ? 'Delete is in progress'
+                                : 'Do you want to delete this course permanently?'}
+                        </DialogTitle>
+                        <DialogContent style={{ display: 'flex', justifyContent: 'center' }}>
+                            <DialogContentText id="alert-dialog-description">
+                                {deleteIsInProgress ? (
+                                    <CircularProgress />
+                                ) : (
+                                    `You'll loose this course and it's data.`
+                                )}
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={closeDeleteModal} color="primary">
+                                Cancel
+                            </Button>
+                            <Button
+                                disabled={deleteIsInProgress}
+                                onClick={deleteCourse}
+                                color="primary"
+                                autoFocus>
+                                Delete
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                    <Snackbar
+                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        autoHideDuration={12000}
+                        open={isDeleteToastOpen}
+                        onClose={hideDeleteToast}
+                        key={'delete course toast'}>
+                        <Alert onClose={hideDeleteToast} severity={'success'}>
+                            {`Successfully deleted course with title: ${
+                                currentCourse && currentCourse.title
+                            }`}
+                        </Alert>
+                    </Snackbar>
                 </>
             </div>
         </div>

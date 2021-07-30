@@ -32,7 +32,7 @@ app.use(
             httpOnly: true,
             secure: false,
             sameSite: false,
-            maxAge: 60 * 1000 * 30 // Time is in miliseconds
+            maxAge: 60 * 1000 * 60 * 24 // Time is in miliseconds
         },
         store: new RedisStore({ client: redisClient, host: 'localhost', port: 6379 }),
         resave: false
@@ -60,52 +60,19 @@ app.use(express.json());
     await mongoUtil.connect();
 })();
 
+const processUserLogin = (req, res, next) => {
+    if (!req.session.user) {
+        return res.sendStatus(401);
+    } else {
+        next();
+    }
+};
+
 app.get('/', (req, res) => {
     // console.log('build react frontend code and use index.html from build folder');
     return res.json({
         message: 'build react frontend code and use index.html from build folder'
     });
-});
-
-// app.get('/courses', (req, res) => {
-//     const courses = [
-//         { id: 1, name: 'Javascript', description: '' },
-//         { id: 2, name: 'CSS', description: '' },
-//         { id: 3, name: 'HTML', description: '' }
-//     ];
-//     return res.json({ courses });
-// });
-
-app.get('/users', (req, res) => {
-    console.log('session in users api', req.session.user);
-    if (!req.session.user) {
-        return res.sendStatus(401);
-    }
-    const users = userUtil.getUsers();
-    return res.json({ users });
-});
-
-app.get('/courses', (req, res) => {
-    console.log('session in users api', req.session.user);
-    if (!req.session.user) {
-        return res.sendStatus(401);
-    }
-    const courses = courseUtil.getCourses();
-    return res.json({ courses });
-});
-
-app.get('/course/:id', (req, res) => {
-    const {
-        params: { id }
-    } = req;
-
-    console.log('request session id', req.session);
-    if (!req.session.user) {
-        return res.sendStatus(401);
-    }
-    const course = courseUtil.getCourse(id);
-    console.log('course', course);
-    return res.json({ course });
 });
 
 app.get('/user/:id', (req, res) => {
@@ -173,70 +140,47 @@ app.delete('/user/:id', (req, res) => {
     return res.json({ success: true });
 });
 
-app.get('/students', async (req, res) => {
-    const usersCursor = mongoUtil.client.db('users').collection('user').find();
-    // function iterateFunc(doc) {
-    //   users.push(doc);
-    //   console.log(JSON.stringify(doc, null, 4));
-    // }
-
-    // function errorFunc(error) {
-    //   console.log(error);
-    // }
-
-    // await usersCursor.forEach(iterateFunc, errorFunc);
-    const users = [];
-    while (await usersCursor.hasNext()) {
-        const doc = await usersCursor.next();
-        users.push(doc);
-    }
-
-    res.json({ users });
-});
-
-app.post('/findOrcreateUser', async (req, res) => {
-    await mongoUtil.connect();
-
-    const userCollection = mongoUtil.client.db('users').collection('user');
-    const result = await userCollection.findOneAndUpdate(
-        { name: 'A.B. Abracus' },
-        { $set: { name: 'A.B. Abracus', email: 'ab@cus.com', thirdPartyLogin: 'Gmail' } },
-        { upsert: true, returnNewDocument: true }
-    );
-
-    res.json({ status: 'success', result });
-});
-
-app.post('/createQuestion', async (req, res) => {
-    console.log(req.body, 'create question');
-
-    const userCollection = mongoUtil.client.db('questions').collection('question');
-    const result = await userCollection.insertOne(req.body);
-    res.json({ status: 'success', result });
-});
-
-app.post('/answerQuestion', async (req, res) => {
-    console.log(req.body, 'update question answer', 'questionid', req.query.id);
-
-    const questionCollection = mongoUtil.client.db('questions').collection('question');
-    const result = await questionCollection.updateOne(
-        { _id: new ObjectId(req.query.id) },
-        { $push: { answers: req.body } }
-    );
-    res.json({ status: 'success', result });
-});
-
-app.get('/tests', async (req, res) => {
-    const questionsCursor = mongoUtil.client.db('questions').collection('question').find({});
-    const questions = [];
-    while (await questionsCursor.hasNext()) {
-        const doc = await questionsCursor.next();
-        questions.push(doc);
+app.get('/courses', processUserLogin, async (req, res) => {
+    const coursesCursor = mongoUtil.client.db('courses').collection('courses').find({});
+    const courses = [];
+    while (await coursesCursor.hasNext()) {
+        const doc = await coursesCursor.next();
+        courses.push(doc);
         console.log(JSON.stringify(doc, null, 4));
-        // process doc here
     }
 
-    res.json({ status: 'success', questions });
+    res.json({ status: 'success', courses });
+});
+
+app.get('/course/:id', processUserLogin, async (req, res) => {
+    const {
+        params: { id }
+    } = req;
+    const query = { _id: new ObjectId(id) };
+
+    const course = await mongoUtil.client.db('courses').collection('courses').findOne(query);
+    console.log('course', course);
+    return res.json({ course });
+});
+
+app.post('/deleteCourse', processUserLogin, async (req, res) => {
+    console.log(req.query.id, 'deleting a course with id');
+
+    const courseCollection = mongoUtil.client.db('courses').collection('courses');
+    const query = { _id: new ObjectId(req.query.id) };
+    const result = await courseCollection.deleteOne(query);
+    res.json({ status: 'success', result });
+});
+
+app.put('/updateCourse', processUserLogin, async (req, res) => {
+    console.log('updating course with data', req.body, 'courseid', req.query.id);
+
+    const courseCollection = mongoUtil.client.db('courses').collection('courses');
+    const result = await courseCollection.updateOne(
+        { _id: new ObjectId(req.query.id) },
+        { $set: { ...req.body, updatedBy: req.body.user } }
+    );
+    res.json({ status: 'success', result });
 });
 
 app.post('/createUser', async (req, res) => {

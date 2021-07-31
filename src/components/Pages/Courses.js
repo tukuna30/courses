@@ -14,6 +14,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -114,7 +115,7 @@ const Courses = () => {
             style={{
                 padding: '20px'
             }}>
-            <h1> All availalbe courses </h1>
+            <h1> All available courses </h1>
             {isLoading && <CircularProgress />}
 
             <div
@@ -174,6 +175,9 @@ const Courses = () => {
                                       onClick={() => startDeleteCourse(course)}
                                       style={{ cursor: 'pointer' }}
                                   />
+                                  <Link to={`/edit/${course._id}`}>
+                                      <EditIcon />
+                                  </Link>
                               </CardActions>
                           </Card>
                       ))

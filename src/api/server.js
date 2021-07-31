@@ -160,7 +160,9 @@ app.get('/course/:id', processUserLogin, async (req, res) => {
 
     const course = await mongoUtil.client.db('courses').collection('courses').findOne(query);
     console.log('course', course);
-    return res.json({ course });
+    const { _id, ...courseWithout_Id } = course;
+
+    return res.json({ course: courseWithout_Id });
 });
 
 app.post('/deleteCourse', processUserLogin, async (req, res) => {
@@ -191,7 +193,7 @@ app.post('/createUser', async (req, res) => {
     res.json({ status: 'success', result });
 });
 
-app.post('/addCourse', async (req, res) => {
+app.post('/addCourse', processUserLogin, async (req, res) => {
     console.log(req.body, 'create course data');
 
     const coursesCollection = mongoUtil.client.db('courses').collection('courses');

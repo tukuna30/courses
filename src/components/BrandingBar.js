@@ -77,7 +77,7 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
     // const { navStore } = useStores();
     const history = useHistory();
 
-    const isSessionActive = Date.now() - currentUser.lastLogIn <= 30 * 60 * 1000;
+    const isSessionActive = Date.now() - currentUser.lastLogIn <= 24 * 60 * 60 * 1000;
     setUserLoggedIn(isSessionActive);
 
     const classes = useStyles();

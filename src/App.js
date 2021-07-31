@@ -9,6 +9,7 @@ import BrandingBar from './components/BrandingBar';
 import Login from './components/Pages/Login';
 import CourseDetail from './components/Pages/CourseDetail';
 import AddCourse from './components/Pages/AddCourse';
+import EditCourse from './components/Pages/EditCourse';
 import Courses from './components/Pages/Courses';
 import NotFound from './components/NotFound';
 import './assets/css/index.scss';
@@ -58,6 +59,9 @@ function App() {
                             </Route>
                             <Route path="/addCourse">
                                 <AddCourse />
+                            </Route>
+                            <Route path="/edit/:id">
+                                <EditCourse />
                             </Route>
                             <Route path="/details/:id">
                                 <CourseDetail />

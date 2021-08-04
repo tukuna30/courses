@@ -30,8 +30,8 @@ export default function EditCourse() {
     const [isLoading, setIsLoading] = useState(false);
 
     const [open, setOpen] = React.useState(false);
-    const [editMode, setEditMode] = React.useState(false);
-    const [currentChapter, setCurrentChapter] = React.useState('');
+    const [addMode, setAddChapterMode] = React.useState(false);
+    const [currentChapter, setCurrentChapter] = React.useState(undefined);
     const [courseIsSaving, setCourseIsSaving] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -71,7 +71,7 @@ export default function EditCourse() {
                 _chapters[chapterId] = { content: outputData };
                 setCourseData({ ...courseData, chapters: [..._chapters] });
 
-                setCurrentChapter('');
+                setCurrentChapter(courseData.chapters.length);
                 editor.blocks.clear();
             })
             .catch((error) => {
@@ -130,6 +130,12 @@ export default function EditCourse() {
             console.log('course', jsonResponse.course);
             setCourseData(jsonResponse.course);
             setIsLoading(false);
+
+            // render the editor with chapter 0 content
+            setTimeout(() => {
+                setCurrentChapter(0);
+                editor.render(jsonResponse.course.chapters[0].content);
+            }, 500);
         } catch (_error) {
             console.log('error', _error.message);
         }
@@ -150,10 +156,21 @@ export default function EditCourse() {
     };
 
     return (
-        <Grid containter direction="row" style={{ display: 'flex' }}>
-            <Grid container spacing={3} direction="row" style={{ padding: '20px' }}>
+        <Grid
+            containter
+            direction="row"
+            style={{ display: 'flex', padding: '20px', width: '100%', boxSizing: 'border-box' }}>
+            <Grid
+                container
+                spacing={3}
+                direction="row"
+                style={{ padding: '20px', display: 'flex', flexDirection: 'column', width: '70%' }}>
+                <div>
+                    <h2>Edit course</h2>
+                    <h4>After edit, save each chapter and finally update the course</h4>
+                </div>
                 <form Validate>
-                    <FormControl style={{ padding: '20px' }}>
+                    <FormControl style={{ marginBottom: '20px' }}>
                         <div>
                             <TextField
                                 error={!courseData.title}
@@ -182,34 +199,46 @@ export default function EditCourse() {
                         </div>
                     </FormControl>
                 </form>
-                <Grid item xs={6}>
-                    <h1 style={{ display: 'inline-block' }}>
-                        {`Edit content for chapter ${currentChapter + 1}`}
-                    </h1>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => saveChapter(currentChapter)}
-                        style={{ maxWidth: '180px', marginTop: '10px' }}>
-                        Save Chapter
-                    </Button>
-                    <div id="editorjs-edit">
+                <div>
+                    <div>
+                        {addMode
+                            ? `Add content for the new chapter ${courseData.chapters.length + 1}`
+                            : `Edit content for chapter ${currentChapter + 1}`}
+                    </div>
+                    <div style={{ display: 'inline-block' }}>
                         Start editing and click on Save to save the chapter content locally
                     </div>
+                </div>
+                <div id="editorjs-edit" style={{ width: '650px' }}></div>
 
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={editCourse}
-                        style={{ maxWidth: '180px', marginTop: '10px' }}>
-                        update Course
-                    </Button>
-                    <div>* Update course will update the course with chapters in database</div>
-                </Grid>
+                {currentChapter !== undefined ? (
+                    <div item xs={6}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => saveChapter(currentChapter)}
+                            style={{ maxWidth: '180px', marginTop: '10px' }}>
+                            {addMode ? 'Save Chapter' : 'Update chapter'}
+                        </Button>
+
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={editCourse}
+                            style={{ maxWidth: '180px', marginTop: '10px' }}>
+                            Update Course
+                        </Button>
+                        <div>* Update course will update the course with chapters in database</div>
+                    </div>
+                ) : null}
             </Grid>
 
             {courseData.chapters.length ? (
-                <Grid container spacing={3} direction="column" style={{ padding: '20px' }}>
+                <Grid
+                    container
+                    spacing={3}
+                    direction="column"
+                    style={{ padding: '20px', width: '30%', background: 'lightgray' }}>
                     <div>Edit Chapters</div>
                     <ul>
                         {courseData.chapters.map((chapter, index) => {
@@ -219,12 +248,23 @@ export default function EditCourse() {
                                     <button
                                         onClick={() => {
                                             editChapter(index);
+                                            setAddChapterMode(false);
                                         }}>
                                         Edit
                                     </button>
                                 </li>
                             );
                         })}
+                        <Button
+                            color="primary"
+                            onClick={async () => {
+                                setAddChapterMode(true);
+                                setCurrentChapter(courseData.chapters.length);
+                                editor.clear();
+                                editor.focus();
+                            }}>
+                            Add Chapter
+                        </Button>
                     </ul>
                 </Grid>
             ) : null}

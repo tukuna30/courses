@@ -133,7 +133,7 @@ const Courses = () => {
                               <CardActionArea>
                                   <CardContent>
                                       <Typography gutterBottom variant="h5" component="h5">
-                                          {course.name}
+                                          {course.title}
                                       </Typography>
                                       <Typography
                                           variant="body2"
@@ -171,10 +171,12 @@ const Courses = () => {
                                           <Link to={`/details/${course._id}`}>Start course</Link>
                                       )}
                                   </Button>
-                                  <DeleteIcon
-                                      onClick={() => startDeleteCourse(course)}
-                                      style={{ cursor: 'pointer' }}
-                                  />
+                                  {course.isPaid ? null : (
+                                      <DeleteIcon
+                                          onClick={() => startDeleteCourse(course)}
+                                          style={{ cursor: 'pointer' }}
+                                      />
+                                  )}
                                   <Link to={`/edit/${course._id}`}>
                                       <EditIcon />
                                   </Link>

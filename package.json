@@ -45,7 +45,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "startServer": "npx nodemon ./src/api/server.js",
+    "apiServer": "npx nodemon ./src/api/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

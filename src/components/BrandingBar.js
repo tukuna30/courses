@@ -13,7 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { Box } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-// import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../assets/images/quizone.png';
 import userEvent from '@testing-library/user-event';
 // import { useStores } from '../stores/index';
@@ -127,7 +127,7 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
     };
 
     const navigateToHome = () => {
-        window.location.href = window.location.origin;
+        history.push(isSessionActive ? '/courses' : '/login');
     };
 
     return (
@@ -142,6 +142,7 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
                         <img src={logo} className={classes.logo} alt="applozic logo" />
                     </span>
                 </Typography>
+                <Link to="/addCourse">Add Course</Link>
                 <div className={classes.sectionDesktop}>
                     <IconButton aria-label="help" color="inherit">
                         <Help />
@@ -185,12 +186,12 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
                         open={open}
                         onClose={handleClose}>
                         <MenuItem onClick={handleClose}>
-                            {/* <NavLink
+                            {/* <Link
                                 to="/profile"
                                 onClick={navStore.hideAppNavBar}
                                 className={classes.navLink}>
                                 My Profile
-                            </NavLink> */}
+                            </Link> */}
                         </MenuItem>
                         <MenuItem onClick={logout}>Log out</MenuItem>
                     </Menu>

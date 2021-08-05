@@ -25,6 +25,7 @@ window.onerror = (error) => {
 let editor;
 export default function EditCourse() {
     const { id } = useParams();
+    const history = useHistory();
 
     const [courseData, setCourseData] = React.useState({ chapters: [] });
     const [isLoading, setIsLoading] = useState(false);

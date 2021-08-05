@@ -83,6 +83,8 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -90,6 +92,7 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
 
     const handleClose = () => {
         setAnchorEl(null);
+        setMobileMoreAnchorEl(null);
     };
 
     React.useEffect(() => {
@@ -99,6 +102,10 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
             });
         }
     });
+
+    const handleMobileMenuOpen = (event) => {
+        setMobileMoreAnchorEl(event.currentTarget);
+    };
 
     const logout = async () => {
         if (window.gapi.auth2) {
@@ -142,7 +149,7 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
                         <img src={logo} className={classes.logo} alt="applozic logo" />
                     </span>
                 </Typography>
-                <Link to="/addCourse">Add Course</Link>
+                {showProfileMenu && <Link to="/addCourse">Add Course</Link>}
                 <div className={classes.sectionDesktop}>
                     <IconButton aria-label="help" color="inherit">
                         <Help />
@@ -168,12 +175,13 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
                         aria-label="show more"
                         aria-controls="mobileMenuId"
                         aria-haspopup="true"
-                        color="inherit">
+                        color="inherit"
+                        onClick={handleMobileMenuOpen}>
                         <MoreIcon />
                     </IconButton>
                     <Menu
                         id="menu-appbar"
-                        anchorEl={anchorEl}
+                        anchorEl={anchorEl || mobileMoreAnchorEl}
                         anchorOrigin={{
                             vertical: 'top',
                             horizontal: 'right'
@@ -183,17 +191,42 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
                             vertical: 'top',
                             horizontal: 'right'
                         }}
-                        open={open}
+                        open={open || isMobileMenuOpen}
                         onClose={handleClose}>
-                        <MenuItem onClick={handleClose}>
-                            {/* <Link
+                        {/* <MenuItem onClick={handleClose}>
+                            <Link
                                 to="/profile"
                                 onClick={navStore.hideAppNavBar}
                                 className={classes.navLink}>
                                 My Profile
-                            </Link> */}
-                        </MenuItem>
-                        <MenuItem onClick={logout}>Log out</MenuItem>
+                            </Link>
+                        </MenuItem> */}
+                        {showProfileMenu && isMobileMenuOpen ? (
+                            <IconButton
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls="menuId"
+                                aria-haspopup="true"
+                                color="inherit"
+                                onClick={handleMenu}>
+                                {currentUser.imageUrl ? (
+                                    <img className="profile-image" src={currentUser.imageUrl} />
+                                ) : (
+                                    <AccountCircle />
+                                )}
+                            </IconButton>
+                        ) : null}
+
+                        {showProfileMenu && <MenuItem onClick={logout}>Log out</MenuItem>}
+                        {!showProfileMenu && (
+                            <MenuItem
+                                onClick={() => {
+                                    history.push('/login');
+                                    handleClose();
+                                }}>
+                                Log In
+                            </MenuItem>
+                        )}
                     </Menu>
                 </div>
             </Toolbar>

@@ -55,7 +55,7 @@ function App() {
                                 <Login setUserLoggedIn={setIsUserLoggedIn} />
                             </Route>
                             <Route path="/courses">
-                                <Courses />
+                                <Courses currentUser={currentUser} />
                             </Route>
                             <Route path="/addCourse">
                                 <AddCourse />

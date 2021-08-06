@@ -19,7 +19,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
-const Courses = () => {
+const Courses = ({ currentUser }) => {
     const [courses, setCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
@@ -171,15 +171,17 @@ const Courses = () => {
                                           <Link to={`/details/${course._id}`}>Start course</Link>
                                       )}
                                   </Button>
-                                  {course.isPaid ? null : (
+                                  {course.isPaid || currentUser.isAdmin !== 'true' ? null : (
                                       <DeleteIcon
                                           onClick={() => startDeleteCourse(course)}
                                           style={{ cursor: 'pointer' }}
                                       />
                                   )}
-                                  <Link to={`/edit/${course._id}`}>
-                                      <EditIcon />
-                                  </Link>
+                                  {currentUser.isAdmin === 'true' ? (
+                                      <Link to={`/edit/${course._id}`}>
+                                          <EditIcon />
+                                      </Link>
+                                  ) : null}
                               </CardActions>
                           </Card>
                       ))

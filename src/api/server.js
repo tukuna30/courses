@@ -96,19 +96,19 @@ app.post('/user', (req, res) => {
 
 app.post('/login', async (req, res) => {
     console.log(req.body);
-    req.session.user = req.body.email;
     try {
         await mongoUtil.connect();
 
         const userCollection = mongoUtil.client.db('users').collection('user');
-        const user = await userCollection.findOneAndUpdate(
+        const result = await userCollection.findOneAndUpdate(
             { email: req.body.email },
             { $set: { ...req.body } },
             { upsert: true, returnNewDocument: true }
         );
 
-        console.log('user in db', user);
-        return res.json({ loginStatus: 'success' });
+        console.log('user in db', result.value);
+        req.session.user = result.value;
+        return res.json({ loginStatus: 'success', user: result.value });
     } catch (error) {
         return res.json({ loginStatus: 'Failed, because of DB connection error!' });
     }
@@ -167,6 +167,9 @@ app.get('/course/:id', processUserLogin, async (req, res) => {
 
 app.post('/deleteCourse', processUserLogin, async (req, res) => {
     console.log(req.query.id, 'deleting a course with id');
+    if (!req.session.user.isAdmin) {
+        return res.sendStatus(403);
+    }
 
     const courseCollection = mongoUtil.client.db('courses').collection('courses');
     const query = { _id: new ObjectId(req.query.id) };
@@ -176,6 +179,11 @@ app.post('/deleteCourse', processUserLogin, async (req, res) => {
 
 app.put('/updateCourse', processUserLogin, async (req, res) => {
     console.log('updating course with data', req.body, 'courseid', req.query.id);
+
+    console.log('current user', req.session.user);
+    if (!req.session.user.isAdmin) {
+        return res.sendStatus(403);
+    }
 
     const courseCollection = mongoUtil.client.db('courses').collection('courses');
     const result = await courseCollection.updateOne(

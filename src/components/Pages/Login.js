@@ -52,7 +52,12 @@ const Login = ({ setUserLoggedIn }) => {
         });
 
         if (rawResponse.ok) {
-            localStorage.setItem('currentUser', JSON.stringify({ ...user, lastLogIn: Date.now() }));
+            const data = await rawResponse.json();
+            console.log('current user from db', data.user);
+            localStorage.setItem(
+                'currentUser',
+                JSON.stringify({ ...data.user, lastLogIn: Date.now() })
+            );
             setUserLoggedIn(true);
             history.push('/courses');
         }

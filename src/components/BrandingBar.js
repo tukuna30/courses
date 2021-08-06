@@ -149,7 +149,7 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
                         <img src={logo} className={classes.logo} alt="applozic logo" />
                     </span>
                 </Typography>
-                {showProfileMenu && <Link to="/addCourse">Add Course</Link>}
+                {showProfileMenu && currentUser.isAdmin && <Link to="/addCourse">Add Course</Link>}
                 <div className={classes.sectionDesktop}>
                     <IconButton aria-label="help" color="inherit">
                         <Help />

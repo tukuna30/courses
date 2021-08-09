@@ -18,6 +18,7 @@ import logo from '../assets/images/quizone.png';
 import userEvent from '@testing-library/user-event';
 // import { useStores } from '../stores/index';
 import '../assets/css/index.scss';
+import { getApiBaseUrl } from '../uiHelper';
 
 const useStyles = makeStyles((theme) => ({
     logo: {
@@ -114,7 +115,9 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
             console.log('user forced to log out of google');
         }
 
-        const rawResponse = await fetch(`http://localhost:5001/logout`, {
+        // in development mode "http://localhost:5001/logout"
+        //in production (in website) "/api/logout" => website domain/logout
+        const rawResponse = await fetch(`${getApiBaseUrl()}logout`, {
             method: 'POST',
             credentials: 'include',
             headers: {

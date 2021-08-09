@@ -14,6 +14,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import { Link } from 'react-router-dom';
+import { getApiBaseUrl } from '../../uiHelper';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -101,7 +102,7 @@ const CourseDetail = () => {
     useEffect(async () => {
         try {
             setIsLoading(true);
-            const rawRsponse = await fetch(`http://localhost:5001/course/${id}`, {
+            const rawRsponse = await fetch(`${getApiBaseUrl()}course/${id}`, {
                 method: 'GET',
                 credentials: 'include'
             });

@@ -16,6 +16,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useParams, useHistory } from 'react-router-dom';
+import EditIcon from '@material-ui/icons/Edit';
+import { getApiBaseUrl } from '../../uiHelper';
 
 window.onerror = (error) => {
     console.log('error', error);
@@ -94,7 +96,7 @@ export default function EditCourse() {
         }
 
         setCourseIsSaving(true);
-        const rawResponse = await fetch(`http://localhost:5001/updateCourse?id=${id}`, {
+        const rawResponse = await fetch(`${getApiBaseUrl()}updateCourse?id=${id}`, {
             method: 'PUT',
             credentials: 'include',
             headers: {
@@ -113,7 +115,7 @@ export default function EditCourse() {
     useEffect(async () => {
         try {
             setIsLoading(true);
-            const rawRsponse = await fetch(`http://localhost:5001/course/${id}`, {
+            const rawRsponse = await fetch(`${getApiBaseUrl()}course/${id}`, {
                 method: 'GET',
                 credentials: 'include'
             });
@@ -210,7 +212,14 @@ export default function EditCourse() {
                         Start editing and click on Save to save the chapter content locally
                     </div>
                 </div>
-                <div id="editorjs-edit" style={{ width: '650px' }}></div>
+                <div
+                    id="editorjs-edit"
+                    style={{
+                        width: '650px',
+                        padding: '10px',
+                        marginTop: '10px',
+                        border: '1px dashed lightgray'
+                    }}></div>
 
                 {currentChapter !== undefined ? (
                     <div item xs={6}>
@@ -240,19 +249,24 @@ export default function EditCourse() {
                     spacing={3}
                     direction="column"
                     style={{ padding: '20px', width: '30%', background: 'lightgray' }}>
-                    <div>Edit Chapters</div>
-                    <ul>
+                    <h2>Edit Chapters</h2>
+                    <ul style={{ listStyle: 'none' }}>
                         {courseData.chapters.map((chapter, index) => {
                             return (
                                 <li>
                                     <span>Chapter {index + 1}</span>
-                                    <button
+
+                                    <EditIcon
+                                        style={{
+                                            cursor: 'pointer',
+                                            padding: '2px',
+                                            height: '20px'
+                                        }}
                                         onClick={() => {
                                             editChapter(index);
                                             setAddChapterMode(false);
-                                        }}>
-                                        Edit
-                                    </button>
+                                        }}
+                                    />
                                 </li>
                             );
                         })}

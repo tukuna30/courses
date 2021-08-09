@@ -18,6 +18,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import { getApiBaseUrl } from '../../uiHelper';
 
 const Courses = ({ currentUser }) => {
     const [courses, setCourses] = useState([]);
@@ -52,7 +53,7 @@ const Courses = ({ currentUser }) => {
 
     useEffect(() => {
         setIsLoading(true);
-        fetch(`http://localhost:5001/courses`, {
+        fetch(`${getApiBaseUrl()}courses`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -86,7 +87,7 @@ const Courses = ({ currentUser }) => {
 
     const deleteCourse = () => {
         setDeleteIsInProgress(true);
-        fetch(`http://localhost:5001/deleteCourse?id=${currentCourse._id}`, {
+        fetch(`${getApiBaseUrl()}deleteCourse?id=${currentCourse._id}`, {
             method: 'POST',
             credentials: 'include'
         })

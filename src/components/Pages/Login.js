@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import './login.css';
+import { getApiBaseUrl } from '../../uiHelper';
 
 let googleSignInbuttonClicked = false;
 const Login = ({ setUserLoggedIn }) => {
@@ -42,7 +43,7 @@ const Login = ({ setUserLoggedIn }) => {
             name: profile.getName()
         };
 
-        const rawResponse = await fetch(`http://localhost:5001/login`, {
+        const rawResponse = await fetch(`${getApiBaseUrl()}login`, {
             method: 'POST',
             credentials: 'include',
             headers: {

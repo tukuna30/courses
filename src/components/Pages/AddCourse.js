@@ -15,6 +15,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import { getApiBaseUrl } from '../../uiHelper';
 
 window.onerror = (error) => {
     console.log('error', error);
@@ -29,6 +32,7 @@ export default function AddCourse() {
     const [editMode, setEditMode] = React.useState(false);
     const [currentChapter, setCurrentChapter] = React.useState('');
     const [courseIsSaving, setCourseIsSaving] = React.useState(false);
+    const [isToastOpen, setIsToastOpen] = React.useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -36,6 +40,14 @@ export default function AddCourse() {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleToastClose = () => {
+        setIsToastOpen(false);
+    };
+
+    const Alert = (props) => {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
     };
 
     React.useEffect(() => {
@@ -78,6 +90,11 @@ export default function AddCourse() {
 
     const addCourse = async () => {
         console.log('course data', courseData);
+        if (courseData.chapters.length === 0 || !courseData.title || !courseData.description) {
+            console.log('Can not add a course with 0 chapters or empty title or empty description');
+            setIsToastOpen(true);
+            return;
+        }
         setOpen(true);
     };
 
@@ -86,11 +103,12 @@ export default function AddCourse() {
 
         if (courseData.chapters.length === 0 || !courseData.title || !courseData.description) {
             console.log('Can not add a course with 0 chapters or empty title or empty description');
+            setIsToastOpen(true);
             return;
         }
 
         setCourseIsSaving(true);
-        const rawResponse = await fetch(`http://localhost:5001/addCourse`, {
+        const rawResponse = await fetch(`${getApiBaseUrl()}addCourse`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -122,121 +140,140 @@ export default function AddCourse() {
     };
 
     return (
-        <Grid containter direction="row" style={{ display: 'flex' }}>
-            <Grid container spacing={3} direction="row" style={{ padding: '20px' }}>
-                <form Validate>
-                    <FormControl style={{ padding: '20px' }}>
-                        <div>
-                            <TextField
-                                error={!courseData.title}
-                                style={{ width: '50vw' }}
-                                value={courseData.title}
-                                id="title"
-                                label="Title"
-                                required
-                                placeholder="Course title"
-                                variant="filled"
-                                onChange={handleTitleChange}
-                            />
+        <>
+            <Grid containter direction="row" style={{ display: 'flex' }}>
+                <Grid container spacing={3} direction="row" style={{ padding: '20px' }}>
+                    <form Validate>
+                        <FormControl style={{ padding: '20px' }}>
+                            <div>
+                                <TextField
+                                    error={!courseData.title}
+                                    style={{ width: '50vw' }}
+                                    value={courseData.title}
+                                    id="title"
+                                    label="Title"
+                                    required
+                                    placeholder="Course title"
+                                    variant="filled"
+                                    onChange={handleTitleChange}
+                                />
+                            </div>
+                            <div>
+                                <TextField
+                                    style={{ width: '50vw' }}
+                                    error={!courseData.description}
+                                    label="Description"
+                                    id="description"
+                                    value={courseData.description}
+                                    placeholder="Course description"
+                                    required
+                                    variant="filled"
+                                    onChange={handleDescriptionChange}
+                                />
+                            </div>
+                        </FormControl>
+                    </form>
+                    <Grid item xs={6}>
+                        <h1 style={{ display: 'inline-block' }}>
+                            {`Write content for chapter ${
+                                editMode ? currentChapter + 1 : courseData.chapters.length + 1
+                            }`}
+                        </h1>
+                        {editMode && <div>Edit mode on</div>}
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() =>
+                                saveChapter(editMode ? currentChapter : courseData.chapters.length)
+                            }
+                            style={{ maxWidth: '180px', marginTop: '10px' }}>
+                            Save Chapter
+                        </Button>
+                        <div
+                            id="editorjs"
+                            style={{
+                                padding: '10px',
+                                border: '1px dashed lightgray',
+                                marginTop: '10px'
+                            }}>
+                            Start writing and click on Save to save the chapter content locally
                         </div>
-                        <div>
-                            <TextField
-                                style={{ width: '50vw' }}
-                                error={!courseData.description}
-                                label="Description"
-                                id="description"
-                                value={courseData.description}
-                                placeholder="Course description"
-                                required
-                                variant="filled"
-                                onChange={handleDescriptionChange}
-                            />
-                        </div>
-                    </FormControl>
-                </form>
-                <Grid item xs={6}>
-                    <h1 style={{ display: 'inline-block' }}>
-                        {`Write content for chapter ${
-                            editMode ? currentChapter + 1 : courseData.chapters.length + 1
-                        }`}
-                    </h1>
-                    {editMode && <div>Edit mode on</div>}
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() =>
-                            saveChapter(editMode ? currentChapter : courseData.chapters.length)
-                        }
-                        style={{ maxWidth: '180px', marginTop: '10px' }}>
-                        Save Chapter
-                    </Button>
-                    <div id="editorjs">
-                        Start writing and click on Save to save the chapter content locally
-                    </div>
 
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={addCourse}
-                        style={{ maxWidth: '180px', marginTop: '10px' }}>
-                        Save Course
-                    </Button>
-                    <div>* Save course will save the course with chapters in database</div>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={addCourse}
+                            style={{ maxWidth: '180px', marginTop: '10px' }}>
+                            Save Course
+                        </Button>
+                        <div>* Save course will save the course with chapters in database</div>
+                    </Grid>
                 </Grid>
-            </Grid>
 
-            {courseData.chapters.length ? (
-                <Grid container spacing={3} direction="column" style={{ padding: '20px' }}>
-                    <div>Edit Chapters</div>
-                    <ul>
-                        {courseData.chapters.map((chapter, index) => {
-                            return (
-                                <li>
-                                    <span>Chapter {index + 1}</span>
-                                    <button
-                                        onClick={() => {
-                                            editChapter(index);
-                                        }}>
-                                        Edit
-                                    </button>
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </Grid>
-            ) : null}
+                {courseData.chapters.length ? (
+                    <Grid container spacing={3} direction="column" style={{ padding: '20px' }}>
+                        <div>Edit Chapters</div>
+                        <ul>
+                            {courseData.chapters.map((chapter, index) => {
+                                return (
+                                    <li>
+                                        <span>Chapter {index + 1}</span>
+                                        <button
+                                            onClick={() => {
+                                                editChapter(index);
+                                            }}>
+                                            Edit
+                                        </button>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </Grid>
+                ) : null}
 
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title">
-                    {'Do you want to save this course permanently?'}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        {courseIsSaving ? (
-                            <CircularProgress />
-                        ) : (
-                            `Make sure all your chapters are ready. Saving the course will keep the
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description">
+                    <DialogTitle id="alert-dialog-title">
+                        {'Do you want to save this course permanently?'}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {courseIsSaving ? (
+                                <CircularProgress />
+                            ) : (
+                                `Make sure all your chapters are ready. Saving the course will keep the
                         course data along with chapter content in database.`
-                        )}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button
-                        disabled={courseIsSaving}
-                        onClick={handleCourseSave}
-                        color="primary"
-                        autoFocus>
-                        Save
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </Grid>
+                            )}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary">
+                            Cancel
+                        </Button>
+                        <Button
+                            disabled={courseIsSaving}
+                            onClick={handleCourseSave}
+                            color="primary"
+                            autoFocus>
+                            Save
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </Grid>
+            <Snackbar
+                style={{ top: '60px' }}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                autoHideDuration={12000}
+                open={isToastOpen}
+                onClose={handleToastClose}
+                key={'success toast'}>
+                <Alert onClose={handleToastClose} severity={'error'}>
+                    {'Can not add a course without chapters or title or descriptions'}
+                </Alert>
+            </Snackbar>
+        </>
     );
 }

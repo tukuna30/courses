@@ -11,8 +11,8 @@ const redisClient = redis.createClient();
 const { ObjectId } = require('mongodb');
 const mongoUtil = require('./utils/MongoUtil');
 const userUtil = require('./utils/UserUtil');
-const courseUtil = require('./utils/CourseUtil');
-const sendMail = require('./utils/Mailer');
+const quizUtil = require('./utils/QuizUtil');
+const { sendMail } = require('./utils/Mailer');
 
 const app = express();
 
@@ -75,25 +75,6 @@ app.get('/', (req, res) => {
     });
 });
 
-app.get('/user/:id', (req, res) => {
-    const {
-        params: { id }
-    } = req;
-
-    console.log('request session id', req.session);
-    if (!req.session.user) {
-        return res.sendStatus(401);
-    }
-    const user = userUtil.getUser(id);
-    return res.json({ user });
-});
-
-app.post('/user', (req, res) => {
-    const data = req.body;
-    const user = userUtil.addUser(data);
-    return res.json({ user });
-});
-
 app.post('/login', async (req, res) => {
     console.log(req.body);
     try {
@@ -118,26 +99,6 @@ app.post('/logout', async (req, res) => {
     await req.session.destroy();
     console.log('user session destroyed!');
     return res.json({ logoutStatus: 'success' });
-});
-
-app.put('/user/:id', (req, res) => {
-    const {
-        params: { id }
-    } = req;
-    // Make a call to userUtil and update user
-    console.log('req body', req.body);
-    const user = userUtil.updateUser(id, req.body);
-    sendMail(user, 'PROFILE_UPDATE');
-    return res.json({ user });
-});
-
-app.delete('/user/:id', (req, res) => {
-    const {
-        params: { id }
-    } = req;
-    // Make a call to userUtil and delete user
-    userUtil.deleteUser(id);
-    return res.json({ success: true });
 });
 
 app.get('/courses', processUserLogin, async (req, res) => {
@@ -207,6 +168,123 @@ app.post('/addCourse', processUserLogin, async (req, res) => {
     const coursesCollection = mongoUtil.client.db('courses').collection('courses');
     const result = await coursesCollection.insertOne(req.body);
     res.json({ status: 'success', result });
+});
+
+app.post('/addQuiz', processUserLogin, async (req, res) => {
+    console.log('adding a quiz with data', req.body);
+
+    const quizCollection = mongoUtil.client.db('quizes').collection('quizes');
+    const result = await quizCollection.insertOne({
+        ...req.body,
+        createdBy: req.session.user,
+        organisation: 'smera'
+    });
+    res.json({ status: 'success', result });
+});
+
+app.post('/deleteQuiz', processUserLogin, async (req, res) => {
+    console.log(req.query.id, 'deleting a quiz with id');
+
+    const quizCollection = mongoUtil.client.db('quizes').collection('quizes');
+    const query = { _id: new ObjectId(req.query.id) };
+    const result = await quizCollection.deleteOne(query);
+    res.json({ status: 'success', result });
+});
+
+app.post('/publishQuiz', processUserLogin, async (req, res) => {
+    console.log(req.body, 'publishing quiz', 'quizId', req.query.id);
+
+    const quizCollection = mongoUtil.client.db('quizes').collection('quizes');
+    const result = await quizCollection.updateOne(
+        { _id: new ObjectId(req.query.id) },
+        { $push: { status: 'published', reviewedBy: req.body.user } }
+    );
+    res.json({ status: 'success', result });
+});
+
+app.post('/updateQuiz', processUserLogin, async (req, res) => {
+    console.log('updating quiz with data', req.body, 'quizId', req.query.id);
+
+    const quizCollection = mongoUtil.client.db('quizes').collection('quizes');
+    const result = await quizCollection.updateOne(
+        { _id: new ObjectId(req.query.id) },
+        { $set: { ...req.body, updatedBy: req.body.user } }
+    );
+    res.json({ status: 'success', result });
+});
+
+app.post('/submitQuiz', processUserLogin, async (req, res) => {
+    const id = req.body.id;
+    console.log(req.body, 'submitting quiz ', id);
+
+    const quizCollection = mongoUtil.client.db('quizes').collection('submissions');
+    await quizCollection.insertOne({
+        ...req.body,
+        submittedBy: req.session.user
+    });
+    const query = { _id: new ObjectId(id) };
+    const quiz = await mongoUtil.client.db('quizes').collection('quizes').findOne(query);
+
+    const quizAnswerObj = quiz.questions.reduce((acc, question) => {
+        const { answer, ...allButAnswers } = question;
+        acc[question.id] = answer;
+        return acc;
+    }, {});
+    console.log(quizAnswerObj);
+    res.json({ status: 'success', result: quizAnswerObj });
+});
+
+app.get('/getAllQuizes', processUserLogin, async (req, res) => {
+    const quizCursor = mongoUtil.client.db('quizes').collection('quizes').find({});
+    const quizes = [];
+    while (await quizCursor.hasNext()) {
+        const doc = await questionsCursor.next();
+        quizes.push(doc);
+        console.log(JSON.stringify(doc, null, 4));
+        // process doc here
+    }
+
+    res.json({ status: 'success', quizes });
+});
+
+app.get('/getPublishedQuizes', processUserLogin, async (req, res) => {
+    const quizCursor = mongoUtil.client.db('quizes').collection('quizes').find({}); //status: 'published'
+    const quizes = [];
+    while (await quizCursor.hasNext()) {
+        const doc = await quizCursor.next();
+        const quizQuestionsWithoutAnswers = doc.questions.map((q) => {
+            return { options: q.options, title: q.title };
+        });
+        quizes.push({ ...doc, questions: quizQuestionsWithoutAnswers });
+    }
+
+    res.json({ status: 'success', quizes });
+});
+
+app.get('/quiz/:id', processUserLogin, async (req, res) => {
+    const {
+        params: { id }
+    } = req;
+    const isEditMode = req.query.edit;
+    console.log('is edit mode', isEditMode);
+    const query = { _id: new ObjectId(id) };
+
+    const quiz = await mongoUtil.client.db('quizes').collection('quizes').findOne(query);
+    console.log('quiz', quiz);
+
+    const { _id, ...quizWithout_Id } = quiz;
+
+    if (isEditMode) {
+        res.json({ status: 'success', quiz: quizWithout_Id });
+        return true;
+    }
+
+    const quizQuestionsWithoutAnswers = quiz.questions.map((question) => {
+        const { answer, ...allButAnswers } = question;
+        return allButAnswers;
+    });
+
+    res.json({ status: 'success', quiz: { ...quiz, questions: quizQuestionsWithoutAnswers } });
 });
 
 const PORT = 5001;

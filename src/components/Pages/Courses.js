@@ -169,7 +169,9 @@ const Courses = ({ currentUser }) => {
                                               </span>
                                           </>
                                       ) : (
-                                          <Link to={`/details/${course._id}`}>Start course</Link>
+                                          <Link to={`/course_details/${course._id}`}>
+                                              Start course
+                                          </Link>
                                       )}
                                   </Button>
                                   {course.isPaid || currentUser.isAdmin !== 'true' ? null : (
@@ -179,7 +181,7 @@ const Courses = ({ currentUser }) => {
                                       />
                                   )}
                                   {currentUser.isAdmin === 'true' ? (
-                                      <Link to={`/edit/${course._id}`}>
+                                      <Link to={`/course_edit/${course._id}`}>
                                           <EditIcon />
                                       </Link>
                                   ) : null}

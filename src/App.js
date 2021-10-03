@@ -14,6 +14,10 @@ import Courses from './components/Pages/Courses';
 import NotFound from './components/NotFound';
 import './assets/css/index.scss';
 import theme from './theme';
+import Quizes from './components/Pages/QuizesList';
+import AddQuiz from './components/Pages/AddQuiz';
+import QuizDetail from './components/Pages/QuizDetail';
+import EditQuiz from './components/Pages/EditQuiz';
 
 const useStyles = makeStyles(() => ({
     footer: {
@@ -54,17 +58,29 @@ function App() {
                             <Route exact path="/login">
                                 <Login setUserLoggedIn={setIsUserLoggedIn} />
                             </Route>
-                            <Route path="/courses">
-                                <Courses currentUser={currentUser} />
-                            </Route>
                             <Route path="/addCourse">
                                 <AddCourse />
                             </Route>
-                            <Route path="/edit/:id">
+                            <Route path="/courses_edit/:id">
                                 <EditCourse />
                             </Route>
-                            <Route path="/details/:id">
+                            <Route path="/course_details/:id">
                                 <CourseDetail />
+                            </Route>
+                            <Route path="/courses">
+                                <Courses currentUser={currentUser} />
+                            </Route>
+                            <Route path="/AddQuiz">
+                                <AddQuiz />
+                            </Route>
+                            <Route path="/quizes">
+                                <Quizes />
+                            </Route>
+                            <Route path="/quiz_details/:id">
+                                <QuizDetail />
+                            </Route>
+                            <Route path="/quiz_edit/:id">
+                                <EditQuiz />
                             </Route>
                             <Route path="*">
                                 <NotFound />

@@ -1,15 +1,32 @@
-#main{
+#main {
     margin-top: 30vh;
     font-size: 35px;
     font-weight: bolder;
     text-align: center;
 }
-#google-login{
-    margin-top: 10vh;
-    margin-left: 2vw;
-    text-align: center;
-    }
-.body{
-     background-color: cyan;
+#google-login {
+    padding: 30px;
+}
+.body {
+    background-color: cyan;
+}
+#heading {
+    font-size: 35px;
+    font-weight: bolder;
 }
 
+.login-container {
+    padding: 20px;
+    background: lightgray;
+    border-radius: 10px;
+    margin: 30px;
+    width: auto;
+}
+
+.small-text {
+    font-size: 12px;
+    padding: 5px;
+}
+.margin-top-10 {
+    margin-top: 10px;
+}

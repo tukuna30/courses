@@ -11,12 +11,13 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import logo from '../assets/images/quizone.png';
-// import { useStores } from '../stores/index';
 import '../assets/css/index.scss';
-import { getApiBaseUrl } from '../uiHelper';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 const useStyles = makeStyles((theme) => ({
     logo: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
     appBar: {
         width: '100%',
-        backgroundColor: 'lightsalmon',
+        backgroundColor: 'green',
         color: 'white',
         top: 0,
         '& img': {
@@ -75,15 +76,14 @@ const useStyles = makeStyles((theme) => ({
 const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
     // const { navStore } = useStores();
     const history = useHistory();
+    const { t } = useTranslation();
 
-    const isSessionActive = Date.now() - currentUser.lastLogIn <= 24 * 60 * 60 * 1000;
+    const isSessionActive = Date.now() - currentUser.lastLogIn <= 60 * 1000 * 60 * 24;
     setUserLoggedIn(isSessionActive);
-
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [languageAnchor, setLanguageAnchor] = React.useState(null);
     const open = Boolean(anchorEl);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -91,7 +91,14 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
 
     const handleClose = () => {
         setAnchorEl(null);
-        setMobileMoreAnchorEl(null);
+    };
+
+    const openLanguageMenu = (event) => {
+        setLanguageAnchor(event.currentTarget);
+    };
+
+    const closeLanguageMenu = (event) => {
+        setLanguageAnchor(null);
     };
 
     React.useEffect(() => {
@@ -101,10 +108,6 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
             });
         }
     });
-
-    const handleMobileMenuOpen = (event) => {
-        setMobileMoreAnchorEl(event.currentTarget);
-    };
 
     const logout = async () => {
         if (window.gapi.auth2) {
@@ -134,7 +137,13 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
     };
 
     const navigateToHome = () => {
-        history.push(isSessionActive ? '/courses' : '/login');
+        history.push('/');
+    };
+
+    const changeLanguageTo = (language) => {
+        return i18next.changeLanguage(language, (err, t) => {
+            if (err) return console.log('something went wrong loading', err);
+        });
     };
 
     return (
@@ -149,8 +158,16 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
                         <img src={logo} className={classes.logo} alt="applozic logo" />
                     </span>
                 </Typography>
-                {showProfileMenu && currentUser.isAdmin && <Link to="/addCourse">Add Course</Link>}
                 <div className={classes.sectionDesktop}>
+                    <Button onClick={openLanguageMenu}>{t('language')}</Button>
+
+                    {showProfileMenu && (
+                        <>
+                            <Link to={'/addQuiz'} style={{ margin: '20px 20px 0', color: 'white' }}>
+                                <span>Add a Quiz</span>
+                            </Link>
+                        </>
+                    )}
                     <IconButton aria-label="help" color="inherit">
                         <Help />
                     </IconButton>
@@ -169,19 +186,41 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
                             )}
                         </IconButton>
                     ) : null}
+                    <Menu
+                        id="language-change"
+                        anchorEl={languageAnchor}
+                        keepMounted
+                        open={Boolean(languageAnchor)}
+                        onClose={closeLanguageMenu}>
+                        <MenuItem
+                            onClick={() => {
+                                changeLanguageTo('or_IN').then(() => {
+                                    closeLanguageMenu();
+                                });
+                            }}>
+                            {t('odia')}
+                        </MenuItem>
+                        <MenuItem
+                            onClick={() => {
+                                changeLanguageTo('en').then(() => {
+                                    closeLanguageMenu();
+                                });
+                            }}>
+                            {t('english')}
+                        </MenuItem>
+                    </Menu>
                 </div>
                 <div className={classes.sectionMobile}>
                     <IconButton
                         aria-label="show more"
                         aria-controls="mobileMenuId"
                         aria-haspopup="true"
-                        color="inherit"
-                        onClick={handleMobileMenuOpen}>
+                        color="inherit">
                         <MoreIcon />
                     </IconButton>
                     <Menu
                         id="menu-appbar"
-                        anchorEl={anchorEl || mobileMoreAnchorEl}
+                        anchorEl={anchorEl}
                         anchorOrigin={{
                             vertical: 'top',
                             horizontal: 'right'
@@ -191,42 +230,17 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
                             vertical: 'top',
                             horizontal: 'right'
                         }}
-                        open={open || isMobileMenuOpen}
+                        open={open}
                         onClose={handleClose}>
-                        {/* <MenuItem onClick={handleClose}>
-                            <Link
+                        <MenuItem onClick={handleClose}>
+                            {/* <NavLink
                                 to="/profile"
                                 onClick={navStore.hideAppNavBar}
                                 className={classes.navLink}>
                                 My Profile
-                            </Link>
-                        </MenuItem> */}
-                        {showProfileMenu && isMobileMenuOpen ? (
-                            <IconButton
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-controls="menuId"
-                                aria-haspopup="true"
-                                color="inherit"
-                                onClick={handleMenu}>
-                                {currentUser.imageUrl ? (
-                                    <img className="profile-image" src={currentUser.imageUrl} />
-                                ) : (
-                                    <AccountCircle />
-                                )}
-                            </IconButton>
-                        ) : null}
-
-                        {showProfileMenu && <MenuItem onClick={logout}>Log out</MenuItem>}
-                        {!showProfileMenu && (
-                            <MenuItem
-                                onClick={() => {
-                                    history.push('/login');
-                                    handleClose();
-                                }}>
-                                Log In
-                            </MenuItem>
-                        )}
+                            </NavLink> */}
+                        </MenuItem>
+                        <MenuItem onClick={logout}>Log out</MenuItem>
                     </Menu>
                 </div>
             </Toolbar>

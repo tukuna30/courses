@@ -1,11 +1,12 @@
 import React from 'react';
-import { useParams, useHistory } from 'react-router-dom';
-import './login.css';
-import { getApiBaseUrl } from '../../uiHelper';
+import { useHistory } from 'react-router-dom';
+import '../../assets/css/login.css';
+import { useTranslation } from 'react-i18next';
 
 let googleSignInbuttonClicked = false;
 const Login = ({ setUserLoggedIn }) => {
     const history = useHistory();
+    const { t } = useTranslation();
 
     React.useEffect(() => {
         console.log('rendering login...');
@@ -47,7 +48,7 @@ const Login = ({ setUserLoggedIn }) => {
             name: profile.getName()
         };
 
-        const rawResponse = await fetch(`${getApiBaseUrl()}login`, {
+        const rawResponse = await fetch(`http://localhost:5001/login`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -57,47 +58,30 @@ const Login = ({ setUserLoggedIn }) => {
         });
 
         if (rawResponse.ok) {
-            const data = await rawResponse.json();
-            console.log('current user from db', data.user);
-            localStorage.setItem(
-                'currentUser',
-                JSON.stringify({ ...data.user, lastLogIn: Date.now() })
-            );
+            localStorage.setItem('currentUser', JSON.stringify({ ...user, lastLogIn: Date.now() }));
             setUserLoggedIn(true);
-            history.push('/courses');
+            history.push('/quizes');
         }
-    }; // This is null if the 'email' scope is not present.
+    };
 
     return (
         <div className="flex-container" style={{ height: '100%' }}>
-            <div className="login-container flex-container">
-                <div id="heading">Login to continue</div>
-                <div
-                    /*class="g-signin2"
-                data-width="200"
-                data-height="60"*/
-
-                    onKeyDown={() => {}}
-                    id="google-login"
-                    role="button"
-                    aria-label="Login"
-                    tabIndex={0}
-                    onClick={() => {
-                        googleSignInbuttonClicked = true;
-                    }}
-                />
-                <div className="small-text margin-top-10">
-                    By Proceeding you agree to the Terms of use and Privacy policy
-                </div>
+            <div id="heading" style={{ margin: '30px' }}>
+                {t('quizzone')}
+                {/* <div style={{ fontSize: '12px' }}>Test your skills</div> */}
             </div>
+            <div style={{ fontSize: '14px', margin: '5px' }}>{t('loginHelp')}</div>
+            <div
+                onKeyDown={() => {}}
+                id="google-login"
+                role="button"
+                aria-label="Login"
+                tabIndex={0}
+                onClick={() => {
+                    googleSignInbuttonClicked = true;
+                }}
+            />
         </div>
-
-        /*   <>
-
-            <div>Login to courses</div>
-            <div id="google-login" />
-        </>
-  */
     );
 };
 

@@ -110,8 +110,16 @@ body{
 
 .flex-container {
     display: flex;
-    width: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+body {
+    background-image: linear-gradient(white, lightsalmon);
 }

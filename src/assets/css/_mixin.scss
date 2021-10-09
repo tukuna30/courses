@@ -1,0 +1,47 @@
+@import './color';
+
+@mixin border-grad($btnStyle, $borderType: border) {
+    position: relative;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-radius: 8px !important; /*1*/
+
+        #{$borderType}: $btnStyle solid transparent !important; /*2*/
+
+        background: linear-gradient(45deg, $danger -12.75%, $success 87.81%, $blue 188.37%)
+            border-box !important ; /*3*/
+        -webkit-mask: /*4*/ linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: destination-out; /*5'*/
+        mask-composite: exclude; /*5*/
+    }
+}
+
+@mixin grad-btn() {
+    font-family: 'Lato', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    padding: 10px 30px !important;
+}
+
+@mixin phone {
+    @media (max-width: 599px) {
+        @content;
+    }
+}
+@mixin tablet {
+    @media (min-width: 766px) {
+        @content;
+    }
+}
+@mixin desktop {
+    @media (min-width: 1200px) {
+        @content;
+    }
+}

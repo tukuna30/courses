@@ -1,0 +1,10 @@
+@import '../../src/assets/css/color';
+@import '../../src/assets/css/mixin';
+
+.terms {
+    color: black;
+
+    & .terms-heading {
+        font-size: 20px;
+    }
+}

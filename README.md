@@ -36,6 +36,10 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### Color palates used
+
+[Pallete](https://colorpalettes.net/color-palette-3983/)
+
 ### `CEAT rule for leaning`
 
 Concepts :- (API documentation)

@@ -7,6 +7,8 @@ import { useHistory } from 'react-router-dom';
 import AddQuestionForm from '../AddQuestionForm';
 import Quiz from '../Quiz';
 import Grid from '@material-ui/core/Grid';
+import { getApiBaseUrl } from '../../uiHelper';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         '& .MuiTextField-root': {
@@ -58,7 +60,7 @@ export default function AddQuiz() {
         } else {
             setInCompleteQuiz(false);
 
-            const rawResponse = await fetch(`http://localhost:5001/addQuiz`, {
+            const rawResponse = await fetch(`${getApiBaseUrl()}addQuiz`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

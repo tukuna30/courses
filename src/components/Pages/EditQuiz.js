@@ -13,6 +13,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { getApiBaseUrl } from '../../uiHelper';
 
 const EditQuiz = () => {
     const { id } = useParams();
@@ -102,7 +103,7 @@ const EditQuiz = () => {
     useEffect(async () => {
         try {
             setIsLoading(true);
-            const rawRsponse = await fetch(`http://localhost:5001/quiz/${id}?edit=true`, {
+            const rawRsponse = await fetch(`${getApiBaseUrl()}quiz/${id}?edit=true`, {
                 method: 'GET',
                 credentials: 'include'
             });
@@ -170,7 +171,7 @@ const EditQuiz = () => {
         if (areAllQuestionsComplete && quizData.title && quizData.description) {
             setInCompleteQuiz(false);
             // write code to make api call to store users submission
-            const rawRsponse = await fetch(`http://localhost:5001/updateQuiz?id=${id}`, {
+            const rawRsponse = await fetch(`${getApiBaseUrl()}updateQuiz?id=${id}`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

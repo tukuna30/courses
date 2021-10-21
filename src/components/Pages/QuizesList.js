@@ -14,6 +14,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import { getApiBaseUrl } from '../../uiHelper';
 
 const Quizes = () => {
     const [quizes, setQuizes] = useState([]);
@@ -39,7 +40,7 @@ const Quizes = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        fetch('http://localhost:5001/getPublishedQuizes', {
+        fetch(`${getApiBaseUrl()}getPublishedQuizes`, {
             method: 'GET',
             credentials: 'include'
         })
@@ -71,7 +72,7 @@ const Quizes = () => {
     const deleteQuiz = () => {
         console.log(currentQuiz);
         setDeleteIsInProgress(true);
-        fetch(`http://localhost:5001/deleteQuiz?id=${currentQuiz._id}`, {
+        fetch(`${getApiBaseUrl()}deleteQuiz?id=${currentQuiz._id}`, {
             method: 'POST',
             credentials: 'include'
         })

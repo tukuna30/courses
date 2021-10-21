@@ -15,6 +15,7 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import { Link } from 'react-router-dom';
 import { getApiBaseUrl } from '../../uiHelper';
+import GuestQuizDetail from './GuestQuizDetail';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -85,9 +86,15 @@ const CourseDetail = () => {
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
     let [alertType, setAlertType] = useState('error');
     const [tabValue, setTabValue] = React.useState(0);
+    const [showQuiz, setShowQuiz] = React.useState(false);
 
     const handleChange = (event, newValue) => {
         setTabValue(newValue);
+        if (newValue == course.chapters.length) {
+            setShowQuiz(true);
+        } else {
+            setShowQuiz(false);
+        }
         try {
             editor.render(course.chapters[newValue].content);
         } catch (e) {
@@ -102,21 +109,11 @@ const CourseDetail = () => {
     useEffect(async () => {
         try {
             setIsLoading(true);
-            const rawRsponse = await fetch(`${getApiBaseUrl()}courses/${id}`, {
+            const rawRsponse = await fetch(`${getApiBaseUrl()}guest_courses/${id}`, {
                 method: 'GET',
                 credentials: 'include'
             });
 
-            if (!rawRsponse.ok) {
-                if (rawRsponse.status === 401);
-                setError('You need to login!');
-                setTimeout(() => {
-                    localStorage.removeItem('isUserLoggedIn');
-                    history.push('/login');
-                }, 1500);
-
-                return;
-            }
             const jsonResponse = await rawRsponse.json();
             console.log('course', jsonResponse.course);
             setCourse(jsonResponse.course);
@@ -155,7 +152,7 @@ const CourseDetail = () => {
         setIsToastOpen(false);
     };
 
-    const renderTabs = (chapters) => {
+    const renderTabs = (chapters, isQuiz) => {
         return chapters.map((chapter, index) => {
             return <Tab label={chapter.title || `Chapter ${index + 1}`} {...a11yProps(index)} />;
         });
@@ -168,28 +165,35 @@ const CourseDetail = () => {
                 <div>
                     <h1>{course.name}</h1>
                     <h2>{course.description}</h2>
-                    {course.chapters && !course.chapters[0] ? (
-                        <Link to="/addCourse">Add Course Content </Link>
-                    ) : (
-                        <Grid
-                            container
-                            direction="row"
-                            justify="flex-start"
-                            alignItems="flex-start">
-                            <Tabs
-                                orientation="vertical"
-                                variant="scrollable"
-                                value={tabValue}
-                                onChange={handleChange}
-                                aria-label="Vertical tabs example"
-                                className={classes.tabs}>
-                                {renderTabs(course.chapters)}
-                            </Tabs>
-                            <div id="editor" className={classes.editor}></div>
 
-                            {/* <div>{renderTabPanels(course.chapters)}</div> */}
-                        </Grid>
-                    )}
+                    <Grid
+                        container
+                        direction="row"
+                        justify="flex-start"
+                        alignItems="flex-start"
+                        style={{ flexWrap: 'nowrap' }}>
+                        <Tabs
+                            orientation="vertical"
+                            variant="scrollable"
+                            value={tabValue}
+                            onChange={handleChange}
+                            aria-label="Vertical tabs example"
+                            className={classes.tabs}>
+                            {renderTabs(course.chapters, course.quiz_id)}
+                            {course.quiz_id && (
+                                <Tab
+                                    label="Ready for a Quiz"
+                                    {...a11yProps(course.chapters.length)}
+                                />
+                            )}
+                        </Tabs>
+                        <div
+                            id="editor"
+                            style={{ display: showQuiz ? 'none' : 'block' }}
+                            className={classes.editor}></div>
+                        {showQuiz && <GuestQuizDetail id={course.quiz_id} />}
+                        {/* <div>{renderTabPanels(course.chapters)}</div> */}
+                    </Grid>
                 </div>
             )}
             <Snackbar

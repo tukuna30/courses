@@ -13,7 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import logo from '../assets/images/quizone.png';
+import logo from '../assets/images/courses.svg';
 // import { useStores } from '../stores/index';
 import '../assets/css/index.scss';
 import { getApiBaseUrl } from '../uiHelper';

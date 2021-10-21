@@ -94,7 +94,7 @@ const Quiz = ({ quizData, submitHandler, previewMode = false }) => {
     };
 
     return (
-        <div>
+        <div className="flex-container">
             <div id="timer">
                 {isQuizStarted && !previewMode && (
                     <>

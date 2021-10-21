@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import './login.css';
 import { getApiBaseUrl } from '../../uiHelper';
+import Button from '@material-ui/core/Button';
 
 let googleSignInbuttonClicked = false;
 const Login = ({ setUserLoggedIn }) => {
@@ -86,8 +87,18 @@ const Login = ({ setUserLoggedIn }) => {
                         googleSignInbuttonClicked = true;
                     }}
                 />
+                <div style={{ margin: '-20px 0 10px 0' }}>Or</div>
+                <div>
+                    <Button
+                        style={{ background: '#eaab7c', borderRadius: '5px' }}
+                        onClick={() => {
+                            history.push('/guest_courses');
+                        }}>
+                        Continue as Guest
+                    </Button>
+                </div>
                 <div className="small-text margin-top-10">
-                    By Proceeding you agree to the Terms of use and Privacy policy
+                    By Proceeding you agree to our Terms of Service and Privacy Policy
                 </div>
             </div>
         </div>

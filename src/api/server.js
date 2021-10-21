@@ -14,6 +14,20 @@ const userUtil = require('./utils/UserUtil');
 const quizUtil = require('./utils/QuizUtil');
 const { sendMail } = require('./utils/Mailer');
 
+const Pusher = require('pusher');
+
+const pusher = new Pusher({
+    appId: '1282488',
+    key: 'de5c865494456c71a085',
+    secret: '1ef4aec80ed6d7c98ee7',
+    cluster: 'ap2',
+    useTLS: true
+});
+
+pusher.trigger('my-channel', 'my-event', {
+    message: 'hello world12 sfesf sfesf'
+});
+
 const app = express();
 
 redisClient.on('error', (err) => {
@@ -41,7 +55,7 @@ app.use(
 
 app.use(
     cors({
-        origin: 'http://localhost:3000',
+        origin: 'http://localhost:3001',
         optionsSuccessStatus: 200,
         credentials: true
     })
@@ -113,7 +127,35 @@ app.get('/courses', processUserLogin, async (req, res) => {
     res.json({ status: 'success', courses });
 });
 
-app.get('/course/:id', processUserLogin, async (req, res) => {
+app.get('/guest_courses', async (req, res) => {
+    const coursesCursor = mongoUtil.client
+        .db('courses')
+        .collection('courses')
+        .find({ guest: true });
+    const courses = [];
+    while (await coursesCursor.hasNext()) {
+        const doc = await coursesCursor.next();
+        courses.push(doc);
+        console.log(JSON.stringify(doc, null, 4));
+    }
+
+    res.json({ status: 'success', courses });
+});
+
+app.get('/guest_courses/:id', async (req, res) => {
+    const {
+        params: { id }
+    } = req;
+    const query = { _id: new ObjectId(id), guest: true };
+
+    const course = await mongoUtil.client.db('courses').collection('courses').findOne(query);
+    console.log('course', course);
+    const { _id, ...courseWithout_Id } = course;
+
+    return res.json({ course: courseWithout_Id });
+});
+
+app.get('/courses/:id', processUserLogin, async (req, res) => {
     const {
         params: { id }
     } = req;
@@ -234,6 +276,28 @@ app.post('/submitQuiz', processUserLogin, async (req, res) => {
     res.json({ status: 'success', result: quizAnswerObj });
 });
 
+app.post('/submitGuestQuiz', async (req, res) => {
+    const id = req.body.id;
+    console.log(req.body, 'submitting quiz ', id);
+
+    const query = { _id: new ObjectId(id), guest: true };
+    let quizAnswerObj = {};
+    try {
+        const quiz = await mongoUtil.client.db('quizes').collection('quizes').findOne(query);
+
+        quizAnswerObj = quiz.questions.reduce((acc, question) => {
+            const { answer, ...allButAnswers } = question;
+            acc[question.id] = answer;
+            return acc;
+        }, {});
+    } catch (error) {
+        console.log('post guest quiz error', error);
+    }
+
+    console.log(quizAnswerObj);
+    res.json({ status: 'success', result: quizAnswerObj });
+});
+
 app.get('/getAllQuizes', processUserLogin, async (req, res) => {
     const quizCursor = mongoUtil.client.db('quizes').collection('quizes').find({});
     const quizes = [];
@@ -259,6 +323,32 @@ app.get('/getPublishedQuizes', processUserLogin, async (req, res) => {
     }
 
     res.json({ status: 'success', quizes });
+});
+
+app.get('/guest_quizes/:id', async (req, res) => {
+    const {
+        params: { id }
+    } = req;
+    const isEditMode = req.query.edit;
+    console.log('is edit mode', isEditMode);
+    const query = { _id: new ObjectId(id), guest: true };
+
+    const quiz = await mongoUtil.client.db('quizes').collection('quizes').findOne(query);
+    console.log('quiz', quiz);
+
+    const { _id, ...quizWithout_Id } = quiz;
+
+    // if (isEditMode) {
+    //     res.json({ status: 'success', quiz: quizWithout_Id });
+    //     return true;
+    // }
+
+    const quizQuestionsWithoutAnswers = quiz.questions.map((question) => {
+        const { answer, ...allButAnswers } = question;
+        return allButAnswers;
+    });
+
+    res.json({ status: 'success', quiz: { ...quiz, questions: quizQuestionsWithoutAnswers } });
 });
 
 app.get('/quiz/:id', processUserLogin, async (req, res) => {

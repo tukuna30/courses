@@ -9,9 +9,11 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import BrandingBar from './components/BrandingBar';
 import Login from './components/Pages/Login';
 import CourseDetail from './components/Pages/CourseDetail';
+import GuestCourseDetail from './components/Pages/GuestCourseDetail';
 import AddCourse from './components/Pages/AddCourse';
 import EditCourse from './components/Pages/EditCourse';
 import Courses from './components/Pages/Courses';
+import GuestCourses from './components/Pages/GuestCourseList';
 import NotFound from './components/NotFound';
 import './assets/css/index.scss';
 import theme from './theme';
@@ -24,6 +26,7 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import Contact from './components/Contact';
 import CookiePolicy from './components/CookiePolicy';
+import { Editor } from './components/Editor';
 
 const useStyles = makeStyles(() => ({
     footer: {
@@ -122,8 +125,14 @@ function App() {
                             <Route path="/course_details/:id">
                                 <CourseDetail />
                             </Route>
+                            <Route path="/guest_course_details/:id">
+                                <GuestCourseDetail />
+                            </Route>
                             <Route path="/courses">
                                 <Courses currentUser={currentUser} />
+                            </Route>
+                            <Route path="/guest_courses">
+                                <GuestCourses />
                             </Route>
                             <Route path="/AddQuiz">
                                 <AddQuiz />
@@ -154,7 +163,7 @@ function App() {
                                     onClick={() => {
                                         setShowTermsDialog(true);
                                     }}>
-                                    Terms of service
+                                    Terms of Service
                                 </a>
                             </span>
                             <span>
@@ -163,7 +172,7 @@ function App() {
                                     onClick={() => {
                                         setShowPrivacyDialog(true);
                                     }}>
-                                    Privacy policy
+                                    Privacy Policy
                                 </a>
                             </span>
                         </Grid>
@@ -226,6 +235,7 @@ function App() {
                         cancelHandler={() => setShowContactDialog(false)}
                         title="Contact Us"></Modal>
                 </Box>
+                {/* <Editor /> */}
             </Router>
         </ThemeProvider>
     );

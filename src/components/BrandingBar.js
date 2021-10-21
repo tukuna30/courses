@@ -113,7 +113,7 @@ const BrandingBar = ({ showProfileMenu, currentUser, setUserLoggedIn }) => {
             console.log('user forced to log out of google');
         }
 
-        const rawResponse = await fetch(`http://localhost:5001/logout`, {
+        const rawResponse = await fetch(`${getApiBaseUrl()}logout`, {
             method: 'POST',
             credentials: 'include',
             headers: {

@@ -53,13 +53,31 @@ app.use(
     })
 );
 
-app.use(
-    cors({
-        origin: 'http://localhost:3001',
-        optionsSuccessStatus: 200,
-        credentials: true
-    })
-);
+const VmIp = '13.232.160.22';
+
+const whitelist = [
+    'http://localhost:3001',
+    'http://localhost:3000',
+    `https://${VmIp}`,
+    'http://learn.smera.io',
+    'https://learn.smera.io',
+    'http://smera.io',
+    'https://smera.io',
+    `http://${VmIp}`
+];
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
+};
+
+app.use(cors(corsOptions));
 
 app.use(
     express.urlencoded({
@@ -338,11 +356,6 @@ app.get('/guest_quizes/:id', async (req, res) => {
 
     const { _id, ...quizWithout_Id } = quiz;
 
-    // if (isEditMode) {
-    //     res.json({ status: 'success', quiz: quizWithout_Id });
-    //     return true;
-    // }
-
     const quizQuestionsWithoutAnswers = quiz.questions.map((question) => {
         const { answer, ...allButAnswers } = question;
         return allButAnswers;
@@ -385,8 +398,15 @@ app.post('/addCourse', async (req, res) => {
     res.json({ status: 'success', result });
 });
 
+// const PORT = 5001;
+// app.listen(PORT, () => {
+//     console.log(`Node server is running on port: ${PORT}`);
+//     console.log('Press Ctrl+C to stop server');
+// });
+
 const PORT = 5001;
-app.listen(PORT, () => {
-    console.log(`Node server is running on port: ${PORT}`);
-    console.log('Press Ctrl+C to stop server');
-});
+
+const allPort = '0.0.0.0';
+app.listen(PORT, allPort);
+console.log(`Node server is running on port: ${PORT}`);
+console.log('Press Ctrl+C to stop server');

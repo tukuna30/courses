@@ -4,7 +4,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Quiz from '../Quiz';
-import { getScore } from '../../uiHelper';
+import { getScore, getApiBaseUrl } from '../../uiHelper';
 
 const Questions = () => {
     const { id } = useParams();
@@ -23,7 +23,7 @@ const Questions = () => {
     useEffect(async () => {
         try {
             setIsLoading(true);
-            const rawRsponse = await fetch(`http://localhost:5001/quiz/${id}`, {
+            const rawRsponse = await fetch(`${getApiBaseUrl()}quiz/${id}`, {
                 method: 'GET',
                 credentials: 'include'
             });
@@ -57,7 +57,7 @@ const Questions = () => {
 
     const submitHandler = async (questionAnswers) => {
         // write code to make api call to store users submission
-        const rawRsponse = await fetch(`http://localhost:5001/submitQuiz`, {
+        const rawRsponse = await fetch(`${getApiBaseUrl()}submitQuiz`, {
             method: 'POST',
             credentials: 'include',
             headers: {

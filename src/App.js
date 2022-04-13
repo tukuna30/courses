@@ -146,6 +146,9 @@ function App() {
                             <Route path="/quiz_edit/:id">
                                 <EditQuiz />
                             </Route>
+                            <Route path="/collab">
+                                <Editor />
+                            </Route>
                             <Route path="*">
                                 <NotFound />
                             </Route>

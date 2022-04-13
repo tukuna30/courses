@@ -1,8 +1,8 @@
 (function colla() {
     // make doc editable and focus
-    const doc = document.getElementById('doc');
-    doc.contentEditable = true;
-    doc.focus();
+    // const doc = document.getElementById('doc');
+    // doc.contentEditable = true;
+    // doc.focus();
 
     // if this is a new doc, generate a unique identifier
     // append it as a query param
@@ -65,10 +65,10 @@
 
     const channel = pusher.subscribe(id);
     channel.bind('my-event', (data) => {
-        const currentCursorPosition = getCaretCharacterOffsetWithin(doc);
+        //  sconst currentCursorPosition = getCaretCharacterOffsetWithin(doc);
         console.log('data,', data);
-        doc.innerHTML = data.message;
+        // doc.innerHTML = data.message;
         // set the previous cursor position
-        setCaretPosition(doc, currentCursorPosition);
+        //  ssetCaretPosition(doc, currentCursorPosition);
     });
 })();

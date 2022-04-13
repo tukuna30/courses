@@ -71,7 +71,7 @@ export const Editor = () => {
                 width="600px"
                 extensions={[javascript({ jsx: true })]}
                 onChange={(value, viewUpdate) => {
-                    //console.log('value:', value, viewUpdate);
+                    console.log('value:', value, viewUpdate);
                     //updateOutput(value);
                     setIframeContent(value);
                 }}

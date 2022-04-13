@@ -7,6 +7,7 @@
     <!-- <meta name="google-signin-client_id" content="558874401580-16ehbia6008pfhs7fm1cb37cgk6ad7hp.apps.googleusercontent.com"> -->
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel=stylesheet href="https://codemirror.net/lib/codemirror.css"  async defer>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -30,6 +31,41 @@
     -->
   <title>Learn</title>
   <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+  <!-- <script type="module" src="./classEditor.js" async></script> -->
+  <style>
+    .remote-caret {
+      position: relative;
+      border-left: 2px solid black;
+      margin-left: -1px;
+      margin-right: -1px;
+      box-sizing: border-box;
+    }
+    .remote-caret > div {
+      position: absolute;
+      top: -1.05em;
+      left: -2px;
+      font-size: .6em;
+      background-color: rgb(250, 129, 0);
+      font-family: serif;
+      font-style: normal;
+      font-weight: normal;
+      line-height: normal;
+      user-select: none;
+      color: white;
+      padding-left: 2px;
+      padding-right: 2px;
+      z-index: 3;
+      transition: opacity .3s ease-in-out;
+    }
+    .remote-caret.hide-name > div {
+      transition-delay: .7s;
+      opacity: 0;
+    }
+    .remote-caret:hover > div {
+      opacity: 1;
+      transition-delay: 0s;
+    }
+    </style>
 </head>
 
   <script>
@@ -49,6 +85,8 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <!-- <script src="./colla.js"></script> -->
+
+    <!-- <button type="button" id="y-connect-btn">Disconnect</button> -->
 </body>
 
 </html>

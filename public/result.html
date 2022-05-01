@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head></head>
+
+<body>
+    <div>
+        <h1>Result</h1>
+        <div id="inputs">
+            <span>Inputs</span>
+            <span id="input-display"></span>
+        </div>
+        <div id="output">
+            <span>Your Output</span>
+            <span id="output-display"></span>
+        </div>
+        <div id="expected">
+            <span>Expected Results</span>
+            <span id="expected-display"></span>
+        </div>
+    </div>
+</body>
+<script>
+    window.addEventListener("message", event => {
+        if (document?.location?.origin !== event.origin) {
+            return;
+        }
+
+        console.log("Message received: ", event);
+        const { code, inputs } = event.data;
+        if (!code) {
+            return;
+        }
+
+        let result = "";
+        try {
+            const executable = new Function(code);
+            result = executable.call(null, inputs ?? []);
+        } catch (error) {
+            result = error;
+        } finally {
+            let output = document.querySelector('#output-display');
+            output.textContent = result;
+        }
+    }, false)
+</script>
+
+</html>
